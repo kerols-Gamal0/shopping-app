@@ -29,12 +29,24 @@ class AppTheme {
     colorScheme: colorScheme,
     primaryColor: AppColors.primary,
     brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.background,//Todo: white Is good for eye
-    appBarTheme: const AppBarTheme(elevation: 0, toolbarHeight: 64, scrolledUnderElevation: 0, backgroundColor: AppColors.background, foregroundColor: AppColors.body, systemOverlayStyle: SystemUiOverlayStyle.dark),
-    textSelectionTheme: TextSelectionThemeData(cursorColor: AppColors.primary, selectionColor: AppColors.primary.withValues(alpha: 0.3), selectionHandleColor: AppColors.primary),
+    scaffoldBackgroundColor:
+        AppColors.backgroundV2, //Todo: white Is good for eye
+    appBarTheme: const AppBarTheme(
+      elevation: 0,
+      toolbarHeight: 64,
+      scrolledUnderElevation: 0,
+      backgroundColor: AppColors.backgroundV2,
+      foregroundColor: AppColors.body,
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: AppColors.primary,
+      selectionColor: AppColors.primary.withValues(alpha: 0.3),
+      selectionHandleColor: AppColors.primary,
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: AppColors.background,
+      fillColor: AppColors.backgroundV2,
       isDense: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       hintStyle: const TextStyle(color: AppColors.bodyLight, fontSize: 12),
@@ -82,12 +94,31 @@ class AppTheme {
       ),
     ),
     textTheme: TextTheme(
-      headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.heading),
-      headlineMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.heading),
+      headlineLarge: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+        color: AppColors.heading,
+      ),
+
+      headlineMedium: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: AppColors.heading,
+      ),
       bodyLarge: TextStyle(fontSize: 16, color: AppColors.body),
       bodyMedium: TextStyle(fontSize: 14, color: AppColors.body),
       bodySmall: TextStyle(fontSize: 12, color: AppColors.body),
       labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      labelMedium: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: AppColors.background,
+      ),
+      labelSmall: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+        color: AppColors.body,
+      ),
     ),
   );
 }
