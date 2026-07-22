@@ -23,45 +23,43 @@ class AppTheme {
     surfaceContainerHighest: AppColors.border,
     onSurfaceVariant: AppColors.body,
   );
-  static final TextTheme appTextTheme = Typography.material2021().black.apply(fontFamily: 'DancingScript');
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     fontFamily: AppStrings.appFontFamily,
     colorScheme: colorScheme,
     primaryColor: AppColors.primary,
     brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.background,
-    appBarTheme: const AppBarTheme(elevation: 0, toolbarHeight: 64, scrolledUnderElevation: 0, backgroundColor: AppColors.primary, foregroundColor: AppColors.surface, systemOverlayStyle: SystemUiOverlayStyle.dark),
-    // textTheme: appTextTheme.apply(bodyColor: AppColors.onPrimary, displayColor: AppColors.onPrimary),
+    scaffoldBackgroundColor: AppColors.background,//Todo: white Is good for eye
+    appBarTheme: const AppBarTheme(elevation: 0, toolbarHeight: 64, scrolledUnderElevation: 0, backgroundColor: AppColors.background, foregroundColor: AppColors.body, systemOverlayStyle: SystemUiOverlayStyle.dark),
     textSelectionTheme: TextSelectionThemeData(cursorColor: AppColors.primary, selectionColor: AppColors.primary.withValues(alpha: 0.3), selectionHandleColor: AppColors.primary),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Colors.white,
+      fillColor: AppColors.background,
       isDense: true,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      hintStyle: const TextStyle(color: AppColors.body, fontSize: 14),
+      hintStyle: const TextStyle(color: AppColors.bodyLight, fontSize: 12),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.border),
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: AppColors.disabled),
       ),
 
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.primary, width: 2),
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: AppColors.primary, width: 1),
       ),
 
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         borderSide: const BorderSide(color: AppColors.error),
       ),
 
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         borderSide: const BorderSide(color: AppColors.error, width: 2),
       ),
 
       disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         borderSide: const BorderSide(color: AppColors.disabled),
       ),
     ),
@@ -83,7 +81,6 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     ),
-    // checkboxTheme: CheckboxThemeData(checkColor: WidgetStateProperty.all(Colors.white), fillColor: WidgetStateProperty.resolveWith((states) => AppColors.primary)),
     textTheme: TextTheme(
       headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.heading),
       headlineMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.heading),
