@@ -9,6 +9,7 @@ abstract class ApiConstants {
   static const String addImage = "/portfoilo/addImage";
   static const String editUserData = "/portfoilo/editUserData";
   static const String searchProduct = "/home/productsFilter";
+  static const String allProducts = "/home/products";
   static const String allCategories = "/home/categories";
   static const String getCart = "/user/getCart";
   static const String addCart = "/user/addCart";
@@ -17,12 +18,8 @@ abstract class ApiConstants {
   static const String addFavorite = "/user/addFavorite";
   static const String deleteFavorite = "/user/deleteFavorite";
 
-  static String allProducts({int skip = 0, int limit = 10}) =>
-      "/home/products?skip=$skip&limit=$limit";
-  static String productByCategory(
-    String categorySlug, {
-    int skip = 0,
-    int limit = 5,
-  }) => "/home/products/category/$categorySlug?skip=$skip&limit=$limit";
+  static String productByCategory(String categorySlug) =>
+      "/home/products/category/$categorySlug";
+
   static String productDetails(String id) => "/home/products/$id";
 }
