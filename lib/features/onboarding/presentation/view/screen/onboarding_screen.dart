@@ -55,6 +55,7 @@ class OnboardingScreen extends StatelessWidget {
                           padding: EdgeInsets.all(AppSpacing.x3),
                           child: Column(
                             mainAxisAlignment: .start,
+
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadiusGeometry.circular(16),
@@ -77,9 +78,16 @@ class OnboardingScreen extends StatelessWidget {
                                 style:
                                     AppTheme.lightTheme.textTheme.headlineLarge,
                               ),
-                              Text(
-                                onboardingList[index].description,
-                                style: AppTheme.lightTheme.textTheme.labelSmall,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                ),
+                                child: Text(
+                                  onboardingList[index].description,
+                                  style:
+                                      AppTheme.lightTheme.textTheme.labelSmall,
+                                  textAlign: .center,
+                                ),
                               ),
                             ],
                           ),
