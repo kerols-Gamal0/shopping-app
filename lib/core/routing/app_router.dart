@@ -4,6 +4,7 @@ import 'package:shopping_app/core/common/widgets/app_btns.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/features/onboarding/presentation/view/screen/onboarding_screen.dart';
+import 'package:shopping_app/test_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -38,7 +39,8 @@ class AppRouter {
         );
       case AppRoutes.onboardingRoute:
         return MaterialPageRoute(builder: (context) => OnboardingScreen());
-
+      case AppRoutes.testRoute:
+        return MaterialPageRoute(builder: (context) => TestScreen());
       default:
         return MaterialPageRoute(builder: (context) => Error404Screen());
     }

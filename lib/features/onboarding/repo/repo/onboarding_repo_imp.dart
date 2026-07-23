@@ -1,22 +1,19 @@
-import 'package:shopping_app/features/onboarding/model/onboarding_dto.dart';
+import 'package:injectable/injectable.dart';
 import 'package:shopping_app/features/onboarding/repo/data_source/onboarding_data_source_interface.dart';
 import 'package:shopping_app/features/onboarding/repo/repo/onboarding_repo_interface.dart';
 
+@Injectable(as: OnboardingRepoInterface)
 class OnboardingRepoImp implements OnboardingRepoInterface {
   final OnboardingDataSourceInterface onboardingDataSourceInterface;
   OnboardingRepoImp({required this.onboardingDataSourceInterface});
+
   @override
-  List<OnboardingDto> getOnboardingList() {
-    return onboardingDataSourceInterface.getOnboardingList();
+  Future<void> saveOnboardingSeen() {
+    return onboardingDataSourceInterface.saveOnboardingSeen();
   }
 
-  //   @override
-  //   Future<void> saveFirstTime() {
-  //  return onboardingDataSourceInterface.saveFirstTime();
-  //   }
-
-  //   @override
-  //   Future<bool> isFirstTime() {
-  //     return onboardingDataSourceInterface.isFirstTime();
-  //   }
+  @override
+  bool isOnboardingSeen() {
+    return onboardingDataSourceInterface.isOnboardingSeen();
+  }
 }
