@@ -12,11 +12,11 @@ class ShoppingApp extends StatelessWidget {
     return MaterialApp(
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
-       theme: AppTheme.lightTheme,
+      theme: AppTheme.lightTheme,
       themeAnimationDuration: Duration.zero,
       themeAnimationCurve: Curves.linear,
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: AppRoutes.homeRoute,
+      initialRoute: AppRoutes.appSection,
     );
   }
 }

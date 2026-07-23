@@ -1,38 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/core/common/screens/error_404_screen.dart';
-import 'package:shopping_app/core/common/widgets/app_btns.dart';
-import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
+import 'package:shopping_app/features/account/presentation/account.dart';
+import 'package:shopping_app/features/app_section/view/app_section_screen.dart';
+import 'package:shopping_app/features/cart/presentation/cart.dart';
+import 'package:shopping_app/features/favourite/presentation/favourite.dart';
+import 'package:shopping_app/features/home/presentation/home.dart';
 
 class AppRouter {
   AppRouter._();
 
-  static Route<dynamic>? onGenerateRoute(RouteSettings setting) {
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     // final arguments = setting.arguments;
-    switch (setting.name) {
-      case AppRoutes.homeRoute: // final args = arguments;
+    switch (settings.name) {
+      case AppRoutes.appSection:
         return MaterialPageRoute(
-          builder: (context) => Scaffold(
-            body: Center(
-              child: Padding(
-                padding: EdgeInsets.all(AppSpacing.x2),
-                child: Column(
-                  spacing: AppSpacing.x1,
-                  mainAxisAlignment: .center,
-                  crossAxisAlignment: .center,
-                  children: [
-                    Text("Home_screen", style: Theme.of(context).textTheme.headlineMedium),
-                    verticalSpace(AppSpacing.x4),
-                    DefaultBtn(onPressed: () {}, child: Text("DefaultBtn")),
-                    PrimaryBtn(onPressed: () {}, child: Text("PrimaryBtn")),
-                    SecondaryBtn(onPressed: () {}, child: Text("SecondaryBtn")),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          builder: (context) => const AppSectionScreen(),
         );
-
+      case AppRoutes.homeScreen: // final args = arguments;
+        return MaterialPageRoute(builder: (context) => const HomeScreen());
+      case AppRoutes.cartScreen:
+        return MaterialPageRoute(builder: (context) => const CartScreen());
+      case AppRoutes.favouriteScreen:
+        return MaterialPageRoute(builder: (context) => const FavouriteScreen());
+      case AppRoutes.accountScreen:
+        return MaterialPageRoute(builder: (context) => const AccountScreen());
       default:
         return MaterialPageRoute(builder: (context) => Error404Screen());
     }
