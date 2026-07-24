@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/common/screens/error_404_screen.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/features/account/presentation/account.dart';
 import 'package:shopping_app/features/app_section/view/app_section_screen.dart';
+import 'package:shopping_app/features/app_section/view_model/app_section_cubit.dart';
 import 'package:shopping_app/features/cart/presentation/cart.dart';
 import 'package:shopping_app/features/favourite/presentation/favourite.dart';
 import 'package:shopping_app/features/home/presentation/home.dart';
@@ -15,7 +17,10 @@ class AppRouter {
     switch (settings.name) {
       case AppRoutes.appSection:
         return MaterialPageRoute(
-          builder: (context) => const AppSectionScreen(),
+          builder: (context) => BlocProvider(
+            create: (context) => AppSectionCubit(),
+            child: AppSectionScreen(),
+          ),
         );
       case AppRoutes.homeScreen: // final args = arguments;
         return MaterialPageRoute(builder: (context) => const HomeScreen());
