@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
+import 'package:shopping_app/core/constants/app_tabs.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
-import 'package:shopping_app/features/account/presentation/account.dart';
 import 'package:shopping_app/features/app_section/view_model/app_section_cubit.dart';
-import 'package:shopping_app/features/cart/presentation/cart.dart';
-import 'package:shopping_app/features/favourite/presentation/favourite.dart';
-import 'package:shopping_app/features/home/presentation/home.dart';
 
 class AppSectionScreen extends StatelessWidget {
-  AppSectionScreen({super.key});
-
-  final List<Widget> tabs = [
-    HomeScreen(),
-    CartScreen(),
-    FavouriteScreen(),
-    AccountScreen(),
-  ];
+  const AppSectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +15,7 @@ class AppSectionScreen extends StatelessWidget {
       child: BlocBuilder<AppSectionCubit, int>(
         builder: (context, selectedIndex) {
           return Scaffold(
-            body: IndexedStack(index: selectedIndex, children: tabs),
+            body: IndexedStack(index: selectedIndex, children: AppTabs.tabs),
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: selectedIndex,
               onTap: (index) =>
