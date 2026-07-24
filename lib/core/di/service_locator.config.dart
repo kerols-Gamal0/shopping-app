@@ -22,6 +22,7 @@ import '../../features/hello/domain/usecases/has_visited_hello_use_case.dart'
 import '../../features/hello/domain/usecases/mark_hello_as_visited_use_case.dart'
     as _i189;
 import '../../features/hello/presentation/view_model/hello_cubit.dart' as _i380;
+import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
 import '../../features/onboarding/repo/data_source/onboarding_data_source_imp.dart'
     as _i260;
 import '../../features/onboarding/repo/data_source/onboarding_data_source_interface.dart'
@@ -37,6 +38,8 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
+    gh.factory<_i827.SharedPref>(() => _i827.SharedPref());
     gh.factory<_i65.OnboardingDataSourceInterface>(
       () => _i260.OnboardingDataSourceImp(),
     );
