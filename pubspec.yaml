@@ -21,6 +21,9 @@ dependencies: # dart fix --apply
   json_annotation: ^4.12.0
   flutter_svg: ^2.3.0
   shimmer: ^3.0.0
+  shared_preferences: ^2.5.5
+  animate_do: ^5.1.0
+  smooth_page_indicator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -35,6 +38,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/fonts/
+    - assets/onboarding/
   fonts:
   - family: Inter
     fonts:

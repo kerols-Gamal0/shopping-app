@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 abstract final class AppColors {
   AppColors._();
-
+  static const oragneLight = Color(0xffFFE0B3);
   static const primary = Color(0xFFFF9900);
   static const primaryLight = Color(0xFFFFB700);
   static const primaryDark = Color(0xFFE67E00);
   static const background = Color(0xFFF7F8FA);
+  static const backgroundV2 = Color(0xFFEBEBEB);
   static const surface = Colors.white;
   static const heading = Color(0xFF1E1B32);
   static const body = Color(0xFF3D3D5C);
@@ -23,4 +24,5 @@ abstract final class AppColors {
 
   static const onPrimary = Colors.white;
   static const onSurface = heading;
+  static const dotColor = Color(0xffAAA198);
 }
