@@ -20,7 +20,6 @@ import '../../features/onboarding/repo/data_source/onboarding_data_source_interf
 import '../../features/onboarding/repo/repo/onboarding_repo_imp.dart' as _i480;
 import '../../features/onboarding/repo/repo/onboarding_repo_interface.dart'
     as _i688;
-import '../storage_helper/shared_pref.dart' as _i827;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -30,7 +29,6 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
-    gh.factory<_i827.SharedPref>(() => _i827.SharedPref());
     gh.factory<_i65.OnboardingDataSourceInterface>(
       () => _i260.OnboardingDataSourceImp(),
     );

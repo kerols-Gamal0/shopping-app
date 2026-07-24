@@ -3,6 +3,7 @@ import 'package:shopping_app/core/common/widgets/app_btns.dart';
 import 'package:shopping_app/core/constants/app_onboarding_image.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
+import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_theme.dart';
 import 'package:shopping_app/features/onboarding/model/onboarding_model.dart';
@@ -37,7 +38,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   await onboardingRepo.saveOnboardingSeen();
 
                   if (!mounted) return;
-                  Navigator.pushNamed(context, TestScreen.routeName);
+                  Navigator.pushNamed(context, AppRoutes.appSection);
                 },
                 child: Text(
                   'Skip',
