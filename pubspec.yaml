@@ -40,6 +40,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/onboarding/
+    - assets/placeholder/
   fonts:
   - family: Inter
     fonts:
