@@ -3,7 +3,7 @@ import 'package:shopping_app/core/common/screens/error_404_screen.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
-import 'package:shopping_app/features/home/presentation/view/screen/home_screen.dart';
+
 import 'package:shopping_app/features/onboarding/presentation/view/screen/onboarding_screen.dart';
 import 'package:shopping_app/test_screen.dart';
 
@@ -42,8 +42,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => OnboardingScreen());
       case AppRoutes.testRoute:
         return MaterialPageRoute(builder: (context) => TestScreen());
-      case AppRoutes.homeRouteV2:
-        return MaterialPageRoute(builder: (context) => HomeScreen());
+
       default:
         return MaterialPageRoute(builder: (context) => Error404Screen());
     }
