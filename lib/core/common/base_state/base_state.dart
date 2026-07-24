@@ -1,6 +1,3 @@
-import 'package:meta/meta.dart';
-
-@immutable
 sealed class BaseState<T> {
   const BaseState();
 }

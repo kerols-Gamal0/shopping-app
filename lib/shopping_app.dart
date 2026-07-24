@@ -21,7 +21,7 @@ class ShoppingApp extends StatelessWidget {
       themeAnimationCurve: Curves.linear,
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: repo.isOnboardingSeen()
-          ? AppRoutes.testRoute
+          ? AppRoutes.homeRouteV2
           : AppRoutes.onboardingRoute,
     );
   }
