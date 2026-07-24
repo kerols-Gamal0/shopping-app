@@ -12,6 +12,7 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
 import '../../features/onboarding/repo/data_source/onboarding_data_source_imp.dart'
     as _i260;
 import '../../features/onboarding/repo/data_source/onboarding_data_source_interface.dart'
@@ -28,6 +29,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
     gh.factory<_i827.SharedPref>(() => _i827.SharedPref());
     gh.factory<_i65.OnboardingDataSourceInterface>(
       () => _i260.OnboardingDataSourceImp(),
