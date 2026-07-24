@@ -29,13 +29,12 @@ class AppTheme {
     colorScheme: colorScheme,
     primaryColor: AppColors.primary,
     brightness: Brightness.light,
-    scaffoldBackgroundColor:
-        AppColors.backgroundV2, //Todo: white Is good for eye
+    scaffoldBackgroundColor:AppColors.background, 
     appBarTheme: const AppBarTheme(
       elevation: 0,
       toolbarHeight: 64,
       scrolledUnderElevation: 0,
-      backgroundColor: AppColors.backgroundV2,
+      backgroundColor: AppColors.background,
       foregroundColor: AppColors.body,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
     ),

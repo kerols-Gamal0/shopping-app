@@ -19,8 +19,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pagecontroller = PageController();
-  final OnboardingRepoInterface onboardingRepo =
-      getIt<OnboardingRepoInterface>();
+  final OnboardingRepoInterface onboardingRepo = serviceLocator<OnboardingRepoInterface>();
   int indx = 0;
   List<OnboardingDataModel> onboardingList = getOnboardingList();
   @override
@@ -35,14 +34,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: TextButton(
                 onPressed: () async {
                   await onboardingRepo.saveOnboardingSeen();
-
                   if (!mounted) return;
                   Navigator.pushNamed(context, TestScreen.routeName);
                 },
-                child: Text(
-                  'Skip',
-                  style: AppTheme.lightTheme.textTheme.bodyMedium,
-                ),
+                child: Text('Skip', style: AppTheme.lightTheme.textTheme.bodyMedium),
               ),
             ),
 
@@ -57,17 +52,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 itemCount: onboardingList.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppSpacing.x3,
-                      vertical: AppSpacing.x2,
-                    ),
-
+                    padding: EdgeInsets.symmetric(horizontal: AppSpacing.x3, vertical: AppSpacing.x2),
                     child: ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(16),
-                      child: Image.asset(
-                        onboardingList[index].image,
-                        fit: BoxFit.cover,
-                      ),
+                      child: Image.asset(onboardingList[index].image, fit: BoxFit.cover),
                     ),
                   );
                 },
@@ -84,10 +72,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             SizedBox(height: 40),
-            Text(
-              onboardingList[indx].title,
-              style: AppTheme.lightTheme.textTheme.headlineLarge,
-            ),
+            Text(onboardingList[indx].title, style: AppTheme.lightTheme.textTheme.headlineLarge),
             Container(
               margin: EdgeInsets.symmetric(horizontal: AppSpacing.x2),
               padding: EdgeInsets.symmetric(horizontal: AppSpacing.x4),
@@ -103,10 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: PrimaryBtn(
                 onPressed: () async {
                   if (indx < onboardingList.length - 1) {
-                    _pagecontroller.nextPage(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
+                    _pagecontroller.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                   } else {
                     await onboardingRepo.saveOnboardingSeen();
 
@@ -116,9 +98,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Navigator.pushNamed(context, TestScreen.routeName);
                   }
                 },
-                child: indx < onboardingList.length - 1
-                    ? Text('Next')
-                    : Text('Get Started'),
+                child: indx < onboardingList.length - 1 ? Text('Next') : Text('Get Started'),
               ),
             ),
             SizedBox(height: 80),
