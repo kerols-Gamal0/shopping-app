@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
-import 'package:shopping_app/core/constants/app_onboarding_image.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_theme.dart';
-import 'package:shopping_app/features/onboarding/model/onboarding_model.dart';
-import 'package:shopping_app/features/onboarding/repo/repo/onboarding_repo_interface.dart';
-import 'package:shopping_app/test_screen.dart';
+import 'package:shopping_app/features/onboarding/data/model/onboarding_data.dart';
+import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart';
+import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_state.dart';
+
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -20,10 +21,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pagecontroller = PageController();
-  final OnboardingRepoInterface onboardingRepo =
-      getIt<OnboardingRepoInterface>();
-  int indx = 0;
-  List<OnboardingDataModel> onboardingList = getOnboardingList();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,55 +61,70 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       vertical: AppSpacing.x2,
                     ),
 
-                    child: ClipRRect(
-                      borderRadius: BorderRadiusGeometry.circular(16),
-                      child: Image.asset(
-                        onboardingList[index].image,
-                        fit: BoxFit.cover,
+                    Expanded(
+                      child: PageView.builder(
+                        onPageChanged: (value) {
+                          context.read<OnboardingCubit>().intent(
+                            IntentOnboardingPageChanged(value),
+                          );
+                        },
+                        controller: _pagecontroller,
+                        itemCount: onboardingList.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppSpacing.x3,
+                              vertical: AppSpacing.x2,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.asset(
+                                onboardingList[index].image,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-            SmoothPageIndicator(
-              controller: _pagecontroller,
-              count: onboardingList.length,
-              effect: SwapEffect(
-                dotWidth: 10,
-                dotHeight: 10,
-                activeDotColor: AppColors.body,
-                dotColor: AppColors.dotColor,
-              ),
-            ),
-            SizedBox(height: 40),
-            Text(
-              onboardingList[indx].title,
-              style: AppTheme.lightTheme.textTheme.headlineLarge,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: AppSpacing.x2),
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.x4),
-              child: Text(
-                onboardingList[indx].description,
-                style: AppTheme.lightTheme.textTheme.labelSmall,
-                textAlign: .center,
-              ),
-            ),
 
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: PrimaryBtn(
-                onPressed: () async {
-                  if (indx < onboardingList.length - 1) {
-                    _pagecontroller.nextPage(
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
-                  } else {
-                    await onboardingRepo.saveOnboardingSeen();
+                    BlocBuilder<OnboardingCubit, OnboardingState>(
+                      builder: (context, state) {
+                        final cubit = context.read<OnboardingCubit>();
+                        final currentIndex = state is OnboardingPageChanged
+                            ? state.index
+                            : cubit.currentIndex;
 
-                    if (!mounted) return;
+                        return Column(
+                          children: [
+                            SmoothPageIndicator(
+                              controller: _pagecontroller,
+                              count: onboardingList.length,
+                              effect: SwapEffect(
+                                dotWidth: 10,
+                                dotHeight: 10,
+                                activeDotColor: AppColors.body,
+                                dotColor: AppColors.dotColor,
+                              ),
+                            ),
+                            SizedBox(height: 40),
+                            Text(
+                              onboardingList[currentIndex].title,
+                              style: AppTheme.lightTheme.textTheme.headlineLarge,
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.x2,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.x4,
+                              ),
+                              child: Text(
+                                onboardingList[currentIndex].description,
+                                style: AppTheme.lightTheme.textTheme.labelSmall,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
 
                     // Navigate to Login/Home
                     Navigator.pushNamed(context, AppRoutes.appSection);
@@ -122,9 +135,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     : Text('Get Started'),
               ),
             ),
-            SizedBox(height: 80),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -134,19 +146,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _pagecontroller.dispose();
     super.dispose();
   }
-}
-
-List<OnboardingDataModel> getOnboardingList() {
-  return [
-    OnboardingDataModel(
-      image: AppOnboardingImage.onBoarding1,
-      title: "Discover Trends",
-      description: "Now we are here to provide variety of the best fashion",
-    ),
-    OnboardingDataModel(
-      image: AppOnboardingImage.onBoarding2,
-      title: "Latest out fit",
-      description: "Express your self through the art of the fashionism",
-    ),
-  ];
 }

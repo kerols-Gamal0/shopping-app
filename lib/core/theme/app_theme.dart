@@ -30,7 +30,6 @@ class AppTheme {
     primaryColor: AppColors.primary,
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.background,
-    //Todo: white Is good for eye
     appBarTheme: const AppBarTheme(
       elevation: 0,
       toolbarHeight: 64,
@@ -105,6 +104,21 @@ class AppTheme {
         fontWeight: FontWeight.w600,
         color: AppColors.heading,
       ),
+      titleLarge: TextStyle(
+        color: AppColors.primary,
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+      ),
+      titleSmall: TextStyle(
+        color: Colors.orange,
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 14,
+        color: AppColors.bodyLight,
+        fontWeight: FontWeight.w400,
+      ),
       bodyLarge: TextStyle(fontSize: 16, color: AppColors.body),
       bodyMedium: TextStyle(fontSize: 14, color: AppColors.body),
       bodySmall: TextStyle(fontSize: 12, color: AppColors.body),
@@ -120,6 +134,7 @@ class AppTheme {
         color: AppColors.body,
       ),
     ),
+
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: colorScheme.surface,
       selectedItemColor: colorScheme.primary,

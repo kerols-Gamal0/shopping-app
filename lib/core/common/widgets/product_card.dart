@@ -31,7 +31,7 @@ class ProductCard extends StatelessWidget {
               width: 1.5,
               style: BorderStyle.solid,
             ),
-           // boxShadow: [AppStyles.kBlackShadowSmall],
+            boxShadow: [AppStyles.kBlackShadowSmall],
           ),
           child: Column(
             children: [

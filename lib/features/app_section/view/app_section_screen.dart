@@ -11,7 +11,7 @@ class AppSectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AppSectionCubit>(
-      create: (_) => getIt<AppSectionCubit>(),
+      create: (_) => serviceLocator<AppSectionCubit>(),
       child: BlocBuilder<AppSectionCubit, int>(
         builder: (context, selectedIndex) {
           return Scaffold(
