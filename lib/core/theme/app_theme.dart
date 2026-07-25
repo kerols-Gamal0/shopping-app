@@ -29,12 +29,15 @@ class AppTheme {
     colorScheme: colorScheme,
     primaryColor: AppColors.primary,
     brightness: Brightness.light,
+    scaffoldBackgroundColor: AppColors.background,
+    //Todo: white Is good for eye
     scaffoldBackgroundColor:
         AppColors.backgroundV2, //Todo: white Is good for eye
     appBarTheme: const AppBarTheme(
       elevation: 0,
       toolbarHeight: 64,
       scrolledUnderElevation: 0,
+      backgroundColor: AppColors.background,
       backgroundColor: AppColors.backgroundV2,
       foregroundColor: AppColors.body,
       systemOverlayStyle: SystemUiOverlayStyle.dark,
@@ -118,6 +121,17 @@ class AppTheme {
         fontSize: 18,
         fontWeight: FontWeight.w400,
         color: AppColors.body,
+      ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: colorScheme.surface,
+      selectedItemColor: colorScheme.primary,
+      unselectedItemColor: colorScheme.onSurfaceVariant,
+      type: BottomNavigationBarType.fixed,
+      selectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+      unselectedLabelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
       ),
     ),
   );
