@@ -7,4 +7,8 @@ abstract class AppAssets {
   static const String helloImage = 'assets/images/hello_.png';
   static const String hiLottie = 'assets/lotties/hi.json';
   static const String appIcon = 'assets/icons/app_icon.png';
+  static const String homeIcon = "assets/icons/home_icon.png";
+  static const String cartIcon = "assets/icons/cart_icon.png";
+  static const String favouriteIcon = "assets/icons/favourite_icon.png";
+  static const String accountIcon = "assets/icons/profile_icon.png";
 }
