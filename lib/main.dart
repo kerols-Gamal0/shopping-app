@@ -8,6 +8,9 @@ import 'package:shopping_app/shopping_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await configureDependencies();
+  ErrorWidget.builder = (FlutterErrorDetails details) =>
+      UnderMaintenanceScreen();
   ErrorWidget.builder = (FlutterErrorDetails details) =>
       UnderMaintenanceScreen();
   await SharedPref.init();
