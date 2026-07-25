@@ -24,6 +24,7 @@ dependencies: # dart fix --apply
   shared_preferences: ^2.2.0
   animate_do: ^5.1.0
   smooth_page_indicator: ^2.0.1
+  pretty_dio_logger: ^1.4.0
 
 dev_dependencies:
   flutter_test:

@@ -7,7 +7,7 @@ import 'package:shopping_app/features/app_section/view/app_section_screen.dart';
 import 'package:shopping_app/features/app_section/view_model/app_section_cubit.dart';
 import 'package:shopping_app/features/cart/presentation/cart.dart';
 import 'package:shopping_app/features/favourite/presentation/favourite.dart';
-import 'package:shopping_app/features/home/presentation/view/screen/home_screen.dart';
+import 'package:shopping_app/features/home/presentation/view/home.dart';
 import 'package:shopping_app/features/onboarding/presentation/view/screen/onboarding_screen.dart';
 import 'package:shopping_app/test_screen.dart';
 

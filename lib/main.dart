@@ -14,7 +14,6 @@ void main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) =>
       UnderMaintenanceScreen();
   await SharedPref.init();
-  await configureDependencies();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,

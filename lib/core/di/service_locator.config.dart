@@ -9,10 +9,24 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
+import '../../features/home/data/repo/home_data_source_remote_impl.dart'
+    as _i575;
+import '../../features/home/data/repo/home_repo_impl.dart' as _i1024;
+import '../../features/home/domain/repo/home_data_source_interface.dart'
+    as _i273;
+import '../../features/home/domain/repo/home_repo_interface.dart' as _i1027;
+import '../../features/home/domain/use_case/get_categories_usecase.dart'
+    as _i315;
+import '../../features/home/domain/use_case/get_products_usecase.dart' as _i111;
+import '../../features/home/presentation/view_model/categories_cubit.dart'
+    as _i550;
+import '../../features/home/presentation/view_model/products_cubit.dart'
+    as _i915;
 import '../../features/onboarding/repo/data_source/onboarding_data_source_imp.dart'
     as _i260;
 import '../../features/onboarding/repo/data_source/onboarding_data_source_interface.dart'
@@ -20,6 +34,7 @@ import '../../features/onboarding/repo/data_source/onboarding_data_source_interf
 import '../../features/onboarding/repo/repo/onboarding_repo_imp.dart' as _i480;
 import '../../features/onboarding/repo/repo/onboarding_repo_interface.dart'
     as _i688;
+import '../network/dio_module.dart' as _i614;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -28,6 +43,8 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final dioModule = _$DioModule();
+    gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
     gh.factory<_i65.OnboardingDataSourceInterface>(
       () => _i260.OnboardingDataSourceImp(),
@@ -37,6 +54,26 @@ extension GetItInjectableX on _i174.GetIt {
         onboardingDataSourceInterface: gh<_i65.OnboardingDataSourceInterface>(),
       ),
     );
+    gh.lazySingleton<_i273.HomeDataSourceInterface>(
+      () => _i575.HomeDataSourceRemoteImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i1027.HomeRepoInterface>(
+      () => _i1024.HomeRepoImpl(gh<_i273.HomeDataSourceInterface>()),
+    );
+    gh.factory<_i315.GetCategoriesUseCase>(
+      () => _i315.GetCategoriesUseCase(gh<_i1027.HomeRepoInterface>()),
+    );
+    gh.factory<_i111.GetProductsUseCase>(
+      () => _i111.GetProductsUseCase(gh<_i1027.HomeRepoInterface>()),
+    );
+    gh.factory<_i915.ProductsCubit>(
+      () => _i915.ProductsCubit(gh<_i111.GetProductsUseCase>()),
+    );
+    gh.factory<_i550.CategoriesCubit>(
+      () => _i550.CategoriesCubit(gh<_i315.GetCategoriesUseCase>()),
+    );
     return this;
   }
 }
+
+class _$DioModule extends _i614.DioModule {}
