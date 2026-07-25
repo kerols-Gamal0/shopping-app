@@ -28,21 +28,30 @@ class BaseStateBuilder<T> extends StatelessWidget {
 
       BaseLoadingState() =>
         onLoading ??
-            Center(
-              child: Shimmer.fromColors(
-                baseColor: theme.colorScheme.surfaceContainerHighest.withValues(
-                  alpha: 0.6,
-                ),
-                highlightColor: theme.colorScheme.surface,
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+            GridView.builder(
+              padding: const EdgeInsets.all(16),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.62,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
               ),
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return Shimmer.fromColors(
+                  baseColor: theme.colorScheme.surfaceContainerHighest
+                      .withValues(alpha: 0.6),
+                  highlightColor: theme.colorScheme.surface,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                );
+              },
             ),
 
       BaseFailureState(errorMessage: final msg) =>

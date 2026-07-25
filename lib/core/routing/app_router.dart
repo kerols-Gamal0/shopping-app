@@ -4,6 +4,9 @@ import 'package:shopping_app/core/common/screens/error_404_screen.dart';
 import 'package:shopping_app/core/common/screens/launcher_screen.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
+import 'package:shopping_app/features/category/presentation/view/category_screen.dart';
+import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_cubit.dart';
+import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_intent.dart';
 import 'package:shopping_app/features/hello/presentation/view/screens/hello_screen.dart';
 import 'package:shopping_app/features/auth/login_screen.dart';
 import 'package:shopping_app/features/auth/register_screen.dart';
@@ -43,18 +46,36 @@ class AppRouter {
 
       case AppRoutes.helloRoute:
         return MaterialPageRoute(
-          builder: (context) =>
-              BlocProvider<HelloCubit>(create: (context) => serviceLocator<HelloCubit>(), child: HelloScreen(),),
+          builder: (context) => BlocProvider<HelloCubit>(
+            create: (context) => serviceLocator<HelloCubit>(),
+            child: HelloScreen(),
+          ),
         );
-        case AppRoutes.launcherRoute:
+      case AppRoutes.launcherRoute:
         return MaterialPageRoute(
-          builder: (context) =>
-              BlocProvider<HelloCubit>(create: (context) => serviceLocator<HelloCubit>(), child: LauncherScreen(),),//Todo: onboarding
+          builder: (context) => BlocProvider<HelloCubit>(
+            create: (context) => serviceLocator<HelloCubit>(),
+            child: LauncherScreen(),
+          ), //Todo: onboarding
         );
       case AppRoutes.loginRoute:
         return MaterialPageRoute(builder: (context) => LoginScreen());
       case AppRoutes.registerRoute:
         return MaterialPageRoute(builder: (context) => RegisterScreen());
+
+      case AppRoutes.productByCategoryRoute:
+        // هنا برضو محدش يشيل الكومنت اللى تحت انا حطيت قيمة دلوقتى لحد ما عبدلله يخلص التاسك علشان اعرف اشوف النتيجة
+        final categoryName = 'beauty';
+        // final categoryName = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => serviceLocator<CategoryCubit>()
+              ..processIntent(
+                FetchCategoryProductsIntent(categoryName: categoryName),
+              ),
+            child: CategoryScreen(categoryName: categoryName),
+          ),
+        );
 
       default:
         return MaterialPageRoute(builder: (context) => Error404Screen());

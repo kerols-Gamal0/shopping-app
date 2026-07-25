@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/model/item/product_item_entity.dart';
@@ -11,6 +12,7 @@ class ProductCard extends StatelessWidget {
   final ProductItemEntity product;
   final VoidCallback? onAddToCart;
   final VoidCallback? onFavorite;
+
   const ProductCard({
     super.key,
     required this.product,
@@ -20,6 +22,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double finalPrice =
+        product.price - (product.discountPercentage / 100 * product.price);
+
     return Column(
       children: [
         Container(
@@ -39,7 +44,7 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.backgroundV2,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(16),
@@ -47,18 +52,24 @@ class ProductCard extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: AppSpacing.x1),
-                      child:
-                          //TODO:replace with cached network image
-                          // CachedNetworkImage(
-                          //   imageUrl: product.thumbnail,
-                          //   placeholder: (context, url) =>
-                          //       Image.asset(AppPlaceholder.homeScreenPlaceHolder,
-                          //           fit: BoxFit.contain),
-                          // ),
-                          Image.asset(product.thumbnail, fit: BoxFit.contain),
+                      child: CachedNetworkImage(
+                        imageUrl: product.thumbnail,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(color: Colors.white),
+                        ),
+                        errorWidget: (context, url, error) => const Center(
+                          child: Icon(
+                            Icons.error_outline,
+                            color: Colors.redAccent,
+                            size: 28,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-
                   Positioned(
                     top: 10,
                     right: 10,
@@ -80,7 +91,6 @@ class ProductCard extends StatelessWidget {
                   ),
                 ],
               ),
-
               Padding(
                 padding: EdgeInsets.all(AppSpacing.x1),
                 child: Column(
@@ -90,52 +100,54 @@ class ProductCard extends StatelessWidget {
                       child: Text(
                         product.title,
                         style: AppTheme.lightTheme.textTheme.headlineMedium,
-                        overflow: .ellipsis,
+                        overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
                     ),
-
                     Row(
                       children: [
                         const Icon(Icons.star, color: Colors.amber, size: 15),
                         const SizedBox(width: 6),
                         Text(
                           product.rating.toString(),
-
                           style: AppTheme.lightTheme.textTheme.bodySmall,
                         ),
                         const SizedBox(width: 6),
-                        Text(
-                          "(${product.reviewCount.toString()} reviews)",
-
-                          style: AppTheme.lightTheme.textTheme.bodySmall,
+                        Expanded(
+                          child: Text(
+                            "(${product.reviewCount} reviews)",
+                            style: AppTheme.lightTheme.textTheme.bodySmall,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
+
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "EGP ${product.price - (product.discountPercentage / 100 * product.price).round()} ",
-                          style: const TextStyle(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                        Flexible(
+                          child: Text(
+                            "EGP ${finalPrice.toStringAsFixed(2)}",
+                            style: const TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: .ellipsis,
                         ),
-
-                        const Spacer(),
-
-                        if (product.discountPercentage > 0)
+                        if (product.discountPercentage > 0) ...[
+                          const SizedBox(width: 4),
                           Container(
                             height: 25,
-
                             padding: EdgeInsets.symmetric(
                               horizontal: AppSpacing.x1,
                             ),
-                            alignment: .center,
+                            alignment: Alignment.center,
                             decoration: BoxDecoration(
                               color: Colors.orange.shade50,
                               borderRadius: BorderRadius.circular(16),
@@ -149,23 +161,24 @@ class ProductCard extends StatelessWidget {
                               ),
                             ),
                           ),
+                        ],
                       ],
                     ),
-                    SizedBox(height: 10),
+
+                    const SizedBox(height: 10),
                     SizedBox(
                       height: 55,
                       child: Text(
                         product.description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: AppColors.bodyLight,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
                     ),
-
                     SizedBox(
                       height: 35,
                       child: PrimaryBtn(
@@ -176,8 +189,8 @@ class ProductCard extends StatelessWidget {
                               'Add to Cart',
                               style: AppTheme.lightTheme.textTheme.labelMedium,
                             ),
-                            Spacer(),
-                            Icon(
+                            const Spacer(),
+                            const Icon(
                               Icons.add_shopping_cart_sharp,
                               color: AppColors.surface,
                             ),

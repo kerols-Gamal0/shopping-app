@@ -11,7 +11,7 @@ class ShoppingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repo = serviceLocator <OnboardingRepoInterface>();
+    final repo = serviceLocator<OnboardingRepoInterface>();
 
     return MaterialApp(
       title: AppStrings.appTitle,
@@ -20,7 +20,6 @@ class ShoppingApp extends StatelessWidget {
       themeAnimationDuration: Duration.zero,
       themeAnimationCurve: Curves.linear,
       onGenerateRoute: AppRouter.onGenerateRoute,
-
       initialRoute: repo.isOnboardingSeen()
           ? AppRoutes.appSection
           : AppRoutes.onboardingRoute,

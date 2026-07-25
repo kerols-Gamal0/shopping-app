@@ -13,6 +13,5 @@ abstract class AppRoutes {
   static const String loginRoute = "/login";
   static const String registerRoute = "/register";
   static const String launcherRoute = "/launcher";
-
-
+  static const String productByCategoryRoute = "/product_by_category";
 }

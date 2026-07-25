@@ -9,10 +9,23 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
+import '../../features/category/data/repo/category_data_source_imp.dart'
+    as _i758;
+import '../../features/category/data/repo/category_repo_imp.dart' as _i610;
+import '../../features/category/domain/repo/category_data_source_interface.dart'
+    as _i575;
+import '../../features/category/domain/repo/category_repo_interface.dart'
+    as _i889;
+import '../../features/category/domain/usecase/get_category_products_use_case.dart'
+    as _i1029;
+import '../../features/category/presentation/view_model/category_cubit/category_cubit.dart'
+    as _i662;
 import '../../features/hello/data/repos/hello_data_source_imp.dart' as _i474;
 import '../../features/hello/data/repos/hello_repo_imp.dart' as _i138;
 import '../../features/hello/domain/repo/hello_data_source_interface.dart'
@@ -36,15 +49,30 @@ import '../../features/onboarding/domain/use_case/save_onboarding_seen_usecase.d
     as _i848;
 import '../../features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart'
     as _i917;
+import 'dio_module.dart' as _i1045;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    final registerModule = _$RegisterModule();
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => registerModule.prefs,
+      preResolve: true,
+    );
     gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
+    gh.lazySingleton<_i361.Dio>(
+      () => registerModule.dio(gh<_i460.SharedPreferences>()),
+    );
+    gh.factory<_i575.CategoryDataSourceInterface>(
+      () => _i758.CategoryDataSourceImp(gh<_i361.Dio>()),
+    );
+    gh.factory<_i889.CategoryRepoInterface>(
+      () => _i610.CategoryRepoImp(gh<_i575.CategoryDataSourceInterface>()),
+    );
     gh.factory<_i289.HelloDataSourceInterface>(
       () => _i474.HelloDataSourceImp(),
     );
@@ -54,10 +82,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i4.OnboardingDataSourceInterface>(
       () => _i180.OnboardingDataSourceImp(),
     );
+    gh.factory<_i1029.GetCategoryProductsUseCase>(
+      () =>
+          _i1029.GetCategoryProductsUseCase(gh<_i889.CategoryRepoInterface>()),
+    );
     gh.factory<_i398.OnboardingRepoInterface>(
       () => _i371.OnboardingRepoImp(
         onboardingDataSourceInterface: gh<_i4.OnboardingDataSourceInterface>(),
       ),
+    );
+    gh.factory<_i662.CategoryCubit>(
+      () => _i662.CategoryCubit(gh<_i1029.GetCategoryProductsUseCase>()),
     );
     gh.factory<_i603.HasVisitedHelloUseCase>(
       () => _i603.HasVisitedHelloUseCase(gh<_i907.HelloRepoInterface>()),
@@ -84,3 +119,5 @@ extension GetItInjectableX on _i174.GetIt {
     return this;
   }
 }
+
+class _$RegisterModule extends _i1045.RegisterModule {}
