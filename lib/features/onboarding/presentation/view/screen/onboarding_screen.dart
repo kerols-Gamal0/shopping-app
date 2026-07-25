@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
+import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_theme.dart';
 import 'package:shopping_app/features/onboarding/data/model/onboarding_data.dart';
 import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart';
 import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_state.dart';
 
-import 'package:shopping_app/test_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       child: BlocListener<OnboardingCubit, OnboardingState>(
         listener: (context, state) {
           if (state is OnboardingCompleted) {
-            Navigator.pushNamed(context, TestScreen.routeName);
+            Navigator.pushReplacementNamed(context, AppRoutes.appSection);
           }
         },
         child: Scaffold(
@@ -125,7 +125,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 );
                               } else {
                                 cubit.intent(IntentFinishOnboarding());
-                                // Navigate to Login/Home
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  AppRoutes.appSection,
+                                );
                               }
                             },
                             child:

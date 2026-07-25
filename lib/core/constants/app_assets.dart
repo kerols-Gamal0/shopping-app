@@ -12,3 +12,15 @@ abstract class AppAssets {
   static const String favouriteIcon = "assets/icons/favourite_icon.png";
   static const String accountIcon = "assets/icons/profile_icon.png";
 }
+
+abstract class AppOnboardingImage {
+  AppOnboardingImage._();
+  static const onBoarding1 = "assets/onboarding/onboarding_1.png";
+  static const onBoarding2 = "assets/onboarding/onboarding_2.png";
+}
+
+abstract class AppPlaceholder {
+  AppPlaceholder._();
+  static const addToCartPlaceholder = "assets/placeholder/add_to_cart.gif";
+  static const homeScreenPlaceHolder = "assets/placeholder/ecommerce.gif";
+}
