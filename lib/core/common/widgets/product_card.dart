@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
+import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/model/item/product_item_entity.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
+import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/core/theme/app_theme.dart';
 
 class ProductCard extends StatelessWidget {
@@ -29,13 +31,7 @@ class ProductCard extends StatelessWidget {
               width: 1.5,
               style: BorderStyle.solid,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: .15),
-                blurRadius: 10,
-                offset: Offset(0, 6),
-              ),
-            ],
+            boxShadow: [AppStyles.kBlackShadowSmall],
           ),
           child: Column(
             children: [
@@ -50,7 +46,7 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(vertical: AppSpacing.x1),
                       child:
                           //TODO:replace with cached network image
                           // CachedNetworkImage(
@@ -86,7 +82,7 @@ class ProductCard extends StatelessWidget {
               ),
 
               Padding(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(AppSpacing.x1),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -136,7 +132,9 @@ class ProductCard extends StatelessWidget {
                           Container(
                             height: 25,
 
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppSpacing.x1,
+                            ),
                             alignment: .center,
                             decoration: BoxDecoration(
                               color: Colors.orange.shade50,
