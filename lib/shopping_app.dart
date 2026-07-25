@@ -11,7 +11,7 @@ class ShoppingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repo = getIt<OnboardingRepoInterface>();
+    final repo = serviceLocator <OnboardingRepoInterface>();
 
     return MaterialApp(
       title: AppStrings.appTitle,
