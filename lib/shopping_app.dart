@@ -9,7 +9,6 @@ class ShoppingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final repo = serviceLocator<OnboardingRepoInterface>();
 
     return MaterialApp(
       title: AppStrings.appTitle,
@@ -19,8 +18,6 @@ class ShoppingApp extends StatelessWidget {
       themeAnimationCurve: Curves.linear,
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: AppRoutes.launcherRoute,
-      //  AppRoutes.helloRoute,
-      // repo.isOnboardingSeen() ? AppRoutes.homeRouteV2 : AppRoutes.onboardingRoute,
     );
   }
 }

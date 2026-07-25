@@ -1,6 +1,5 @@
 part of 'hello_cubit.dart';
 
-// @immutable
 sealed class HelloState {}
 
 final class HelloInitial extends HelloState {}

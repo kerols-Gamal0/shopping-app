@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shopping_app/features/hello/domain/usecases/has_visited_hello_use_case.dart';
 import 'package:shopping_app/features/hello/domain/usecases/mark_hello_as_visited_use_case.dart';
+import 'package:shopping_app/features/hello/presentation/view_model/hello_intent.dart';
 
 part 'hello_state.dart';
 
@@ -33,9 +34,3 @@ class HelloCubit extends Cubit<HelloState> {
     emit(HelloVisited(hasVisited));
   }
 }
-
-sealed class HelloIntent {}
-
-final class HasVisitedHello extends HelloIntent {}
-
-final class MarkHelloAsVisited extends HelloIntent {}
