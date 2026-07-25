@@ -12,7 +12,7 @@ class CategoriesCubit extends Cubit<BaseState<List<CategoryEntity>>> {
 
   void fetchCategories() async {
     emit(const BaseLoadingState());
-    var result = await _getCategoriesUseCase();
+    var result = await _getCategoriesUseCase.invoke();
     switch (result) {
       case Success<List<CategoryEntity>>():
         emit(BaseSuccessState(data: result.data));

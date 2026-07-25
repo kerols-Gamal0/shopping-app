@@ -12,6 +12,7 @@ class ProductsCubit extends PaginatedCubit<ProductEntity> {
 
   @override
   Future<ResultApi<List<ProductEntity>>> fetchPage(int page) {
-    return _getProductsUseCase(page: page);
+    return _getProductsUseCase.invoke(page: page);
+    // Todo(Aya): where emit states .... use-switch (result) {}
   }
 }

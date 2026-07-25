@@ -5,6 +5,7 @@ class ProductEntity {
   final double rating;
   final String thumbnail;
 
+  // Todo(Aya): but default values at appStrings
   const ProductEntity({
     this.id = 0,
     this.title = "Not Found",

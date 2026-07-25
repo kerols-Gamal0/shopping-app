@@ -9,6 +9,6 @@ class GetProductsUseCase {
   final HomeRepoInterface _homeRepoInterface;
   GetProductsUseCase(this._homeRepoInterface);
 
-  Future<ResultApi<List<ProductEntity>>> call({required int page}) async =>
+  Future<ResultApi<List<ProductEntity>>> invoke({required int page}) async =>
       await _homeRepoInterface.getProducts(page: page);
 }

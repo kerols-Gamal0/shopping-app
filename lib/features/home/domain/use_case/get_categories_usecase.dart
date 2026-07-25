@@ -9,6 +9,6 @@ class GetCategoriesUseCase {
   final HomeRepoInterface _homeRepoInterface;
   GetCategoriesUseCase(this._homeRepoInterface);
 
-  Future<ResultApi<List<CategoryEntity>>> call() async =>
+  Future<ResultApi<List<CategoryEntity>>> invoke() async =>
       await _homeRepoInterface.getCategories();
 }

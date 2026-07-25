@@ -114,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     if (!mounted) return;
 
                     // Navigate to Login/Home
-                    Navigator.pushNamed(context, TestScreen.routeName);
+                    Navigator.pushNamed(context, AppRoutes.appSection);
                   }
                 },
                 child: indx < onboardingList.length - 1

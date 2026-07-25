@@ -1,5 +1,5 @@
 import 'package:shopping_app/features/home/domain/entities/category_entity.dart';
-
+// Todo(Aya): Add json_serializable + named class CategoriesDTO
 class CategoriesModel {
   List<Categories>? list;
 

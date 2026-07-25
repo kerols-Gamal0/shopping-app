@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/features/home/domain/entities/category_entity.dart';
 
 class CategoriesWidget extends StatelessWidget {
@@ -17,14 +18,14 @@ class CategoriesWidget extends StatelessWidget {
       height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: AppSpacing.horizontalX2,
         itemCount: categories.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 8),
+        separatorBuilder: (context, index) => horizontalSpace(AppSpacing.x1),
         itemBuilder: (context, index) {
           return OutlinedButton(
             style: OutlinedButton.styleFrom(
               minimumSize: Size.zero,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: AppSpacing.horizontalVerticalX2,
             ),
             onPressed: () => onCategoryTap(
               categories[index].name,

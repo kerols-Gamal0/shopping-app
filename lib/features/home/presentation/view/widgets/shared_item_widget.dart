@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// TODO: مؤقت لحد ما زميلك يعمل الـ SharedItemWidget الرسمي ويستبدل الملف ده
 class SharedItemWidget extends StatelessWidget {
   final String image;
   final String title;

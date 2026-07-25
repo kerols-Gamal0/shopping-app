@@ -7,8 +7,9 @@ import 'package:shopping_app/core/network/api_constants.dart';
 abstract class DioModule {
   @lazySingleton
   Dio provideDio() {
-    var dio = Dio(
+    final dio = Dio(
       BaseOptions(
+        baseUrl: ApiConstants.baseUrl,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {
