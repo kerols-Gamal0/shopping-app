@@ -3,9 +3,9 @@ import 'package:injectable/injectable.dart';
 
 import 'service_locator.config.dart';
 
-final GetIt getIt = GetIt.instance;
+final GetIt serviceLocator = GetIt.instance;
 
 @InjectableInit(initializerName: 'init', preferRelativeImports: true, asExtension: true)
 Future<void> configureDependencies() async {
-  await getIt.init();
+  serviceLocator.init();
 }

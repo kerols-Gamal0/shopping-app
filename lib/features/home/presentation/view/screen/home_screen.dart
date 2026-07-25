@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/model/item/product_item_entity.dart';
-import 'package:shopping_app/core/theme/app_theme.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<ProductItemEntity> products = [
