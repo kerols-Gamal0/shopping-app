@@ -10,7 +10,7 @@ abstract class DioModule {
     final dio = Dio(
       BaseOptions(
         baseUrl: ApiConstants.baseUrl,
-        connectTimeout: const Duration(seconds: 30),
+        connectTimeout: const Duration(minutes: 1),
         receiveTimeout: const Duration(seconds: 30),
         headers: {
           'Authorization': 'Bearer ${ApiConstants.token}',

@@ -14,6 +14,8 @@ abstract class AppSpacing {
   static const EdgeInsets horizontalX2 =
   EdgeInsets.symmetric(horizontal: x2);
 
+  static const EdgeInsets allX1 =
+  EdgeInsets.all(x1);
   /// All Padding
   static const EdgeInsets allX2 =
   EdgeInsets.all(x2);
