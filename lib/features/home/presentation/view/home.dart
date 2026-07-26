@@ -33,12 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    _productsCubit = getIt<ProductsCubit>()..fetchFirstPage();
-    _categoriesCubit = getIt<CategoriesCubit>()..fetchCategories();
+    _productsCubit = serviceLocator<ProductsCubit>()..fetchFirstPage();
+    _categoriesCubit = serviceLocator<CategoriesCubit>()..fetchCategories();
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
         _productsCubit.fetchNextPage();
       }
     });
@@ -68,10 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Padding(
                   padding: AppSpacing.allX2,
-                  child: Text(
-                    "Hi !\nLet's Start Your Day",
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
+                  child: Text("Hi !\nLet's Start Your Day", style: Theme.of(context).textTheme.headlineMedium),
                 ),
 
                 BlocBuilder<CategoriesCubit, BaseState<List<CategoryEntity>>>(
@@ -80,10 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       state: state,
                       onLoading: const CategoriesShimmerWidget(),
                       onSuccess: (categories) {
-                        return CategoriesWidget(
-                          categories: categories,
-                          onCategoryTap: (name, slug) {},
-                        );
+                        return CategoriesWidget(categories: categories, onCategoryTap: (name, slug) {});
                       },
                     );
                   },

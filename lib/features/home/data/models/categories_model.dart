@@ -9,15 +9,15 @@ class CategoriesModel {
     if (json['list'] != null) {
       list = <Categories>[];
       json['list'].forEach((v) {
-        list!.add(new Categories.fromJson(v));
+        list!.add(Categories.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.list != null) {
-      data['list'] = this.list!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (list != null) {
+      data['list'] = list!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -39,11 +39,11 @@ class Categories {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['slug'] = this.slug;
-    data['name'] = this.name;
-    data['url'] = this.url;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['slug'] = slug;
+    data['name'] = name;
+    data['url'] = url;
+    data['image'] = image;
     return data;
   }
 

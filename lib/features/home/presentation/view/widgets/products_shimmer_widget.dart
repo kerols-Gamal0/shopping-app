@@ -19,7 +19,7 @@ class ProductsShimmerWidget extends StatelessWidget {
         mainAxisSpacing: AppSpacing.x2,
         childAspectRatio: .55,
       ),
-      itemBuilder: (_, __) {
+      itemBuilder: (_, _) {
         return Shimmer.fromColors(
           baseColor: AppColors.disabled,
           highlightColor: AppColors.divider,
