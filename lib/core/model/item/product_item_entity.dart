@@ -48,6 +48,8 @@ class ProductItemEntity {
     this.isFavorite = false,
     this.reviewCount = 0,
   });
+
+  double get finalPrice => price - (discountPercentage / 100 * price);
 }
 
 class DimensionsEntity {

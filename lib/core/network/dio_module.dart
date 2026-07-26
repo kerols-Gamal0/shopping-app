@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopping_app/core/network/api_constants.dart';
 
 @module
 abstract class RegisterModule {
@@ -10,6 +11,7 @@ abstract class RegisterModule {
   Dio dio(SharedPreferences sharedPreferences) {
     final dio = Dio(
       BaseOptions(
+        baseUrl: ApiConstants.baseUrl,
         connectTimeout: const Duration(seconds: 60),
         receiveTimeout: const Duration(seconds: 60),
         headers: {'Content-Type': 'application/json'},
@@ -18,7 +20,7 @@ abstract class RegisterModule {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          // محدش يشيل الكومنت اللى تحت انا عملتله كومنت علشان لسه معملناش تسجيل دخول ف انا حطيت توكن ثابت من عندى علشان يشتغل لحد ما نخلص تسجيل الدخول
+          // TODO: Implement token retrieval
           final token =
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjEyZGYwOTc2ZTlmYzNhMmFlNGFlYSIsImlhdCI6MTc4NTAwMDUxNCwiZXhwIjoxNzg3NTkyNTE0fQ.1RRum7jBNfCyufz1hVY4G_QH3VSeizr8xWUtdZXposk";
           // final token = sharedPreferences.getString('token');

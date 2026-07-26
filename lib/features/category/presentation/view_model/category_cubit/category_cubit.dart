@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shopping_app/core/common/base_state/base_state.dart';
@@ -6,24 +8,18 @@ import 'package:shopping_app/core/network/result_api.dart';
 import '../../../domain/usecase/get_category_products_use_case.dart';
 import 'category_intent.dart';
 
+part 'category_state.dart';
+
 @injectable
-class CategoryCubit extends Cubit<BaseState<List<ProductItemEntity>>> {
+class CategoryCubit extends Cubit<CategoryState> {
   final GetCategoryProductsUseCase getCategoryProductsUseCase;
 
-  CategoryCubit(this.getCategoryProductsUseCase)
-    : super(const BaseInitialState<List<ProductItemEntity>>());
+  CategoryCubit(this.getCategoryProductsUseCase) : super(const CategoryState());
 
-  int _skip = 0;
-  final int _limit = 5;
-  bool _hasMore = true;
-  bool _isLoadingMore = false;
-  bool _isInitialLoading = false;
-  final List<ProductItemEntity> _allProducts = [];
+  bool get isLoadingMore => state.isLoadingMore;
 
-  bool get isLoadingMore => _isLoadingMore;
-
-  Future<void> processIntent(CategoryIntent intent) async {
-    switch (intent) {
+  Future<void> processIntent(CategoryIntent categoryIntent) async {
+    switch (categoryIntent) {
       case FetchCategoryProductsIntent(
         categoryName: final categoryName,
         isLoadMore: final isLoadMore,
@@ -37,81 +33,84 @@ class CategoryCubit extends Cubit<BaseState<List<ProductItemEntity>>> {
   }
 
   Future<void> _fetchInitialProducts(String categoryName) async {
-    if (_isInitialLoading) return;
-
-    _isInitialLoading = true;
-    _skip = 0;
-    _hasMore = true;
-    _isLoadingMore = false;
-    _allProducts.clear();
-
-    emit(const BaseLoadingState<List<ProductItemEntity>>());
+    emit(
+      state.copyWith(
+        categoryState: const BaseLoadingState<List<ProductItemEntity>>(),
+        skip: 0,
+        hasMore: true,
+        isLoadingMore: false,
+        allProducts: [],
+        clearError: true,
+      ),
+    );
 
     final result = await getCategoryProductsUseCase.invoke(
       categoryName,
-      skip: _skip,
-      limit: _limit,
+      skip: state.skip,
+      limit: state.limit,
     );
-
-    _isInitialLoading = false;
 
     switch (result) {
       case Success(data: final products):
-        _allProducts.addAll(products);
-        if (products.length < _limit) _hasMore = false;
-        _skip += _limit;
+        final newAllProducts = List<ProductItemEntity>.from(products);
         emit(
-          BaseSuccessState<List<ProductItemEntity>>(
-            data: List.from(_allProducts),
+          state.copyWith(
+            allProducts: newAllProducts,
+            skip: state.skip + state.limit,
+            hasMore: products.length >= state.limit,
+            categoryState: BaseSuccessState<List<ProductItemEntity>>(
+              data: newAllProducts,
+            ),
           ),
         );
 
       case Error(messageError: final message):
-        print('❌ CategoryCubit Error: $message');
-        emit(BaseFailureState<List<ProductItemEntity>>(errorMessage: message));
+        emit(
+          state.copyWith(
+            categoryState: BaseFailureState<List<ProductItemEntity>>(
+              errorMessage: message,
+            ),
+          ),
+        );
     }
   }
 
   Future<void> _loadMoreProducts(String categoryName) async {
-    if (!_hasMore || _isLoadingMore || _isInitialLoading) return;
-
-    _isLoadingMore = true;
-
-    emit(
-      BaseSuccessState<List<ProductItemEntity>>(data: List.from(_allProducts)),
-    );
+    if (!state.hasMore ||
+        state.isLoadingMore ||
+        state.categoryState is BaseLoadingState) {
+      return;
+    }
+    emit(state.copyWith(isLoadingMore: true, clearError: true));
 
     final result = await getCategoryProductsUseCase.invoke(
       categoryName,
-      skip: _skip,
-      limit: _limit,
+      skip: state.skip,
+      limit: state.limit,
     );
 
     switch (result) {
       case Success(data: final products):
         if (products.isEmpty) {
-          _hasMore = false;
+          emit(state.copyWith(hasMore: false, isLoadingMore: false));
         } else {
-          _allProducts.addAll(products);
-          _skip += _limit;
-          if (products.length < _limit) _hasMore = false;
+          final newAllProducts = List<ProductItemEntity>.from(state.allProducts)
+            ..addAll(products);
+          emit(
+            state.copyWith(
+              allProducts: newAllProducts,
+              skip: state.skip + state.limit,
+              hasMore: products.length >= state.limit,
+              isLoadingMore: false,
+              categoryState: BaseSuccessState<List<ProductItemEntity>>(
+                data: newAllProducts,
+              ),
+            ),
+          );
         }
-        _isLoadingMore = false;
-        emit(
-          BaseSuccessState<List<ProductItemEntity>>(
-            data: List.from(_allProducts),
-          ),
-        );
 
       case Error(messageError: final message):
-        print('❌ Load More Error: $message');
-        _isLoadingMore = false;
-        _hasMore = false;
-        emit(
-          BaseSuccessState<List<ProductItemEntity>>(
-            data: List.from(_allProducts),
-          ),
-        );
+        emit(state.copyWith(isLoadingMore: false, paginationError: message));
     }
   }
 }

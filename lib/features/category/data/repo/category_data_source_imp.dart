@@ -22,8 +22,8 @@ class CategoryDataSourceImp implements CategoryDataSourceInterface {
     );
 
     final List dynamicList = response.data is Map
-        ? (response.data['list'] ?? response.data['products'] ?? [])
-        : response.data;
+        ? (response.data['list'] ?? [])
+        : [];
 
     return dynamicList.map((item) => ProductItemDto.fromJson(item)).toList();
   }

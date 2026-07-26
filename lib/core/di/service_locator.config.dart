@@ -49,7 +49,7 @@ import '../../features/onboarding/domain/use_case/save_onboarding_seen_usecase.d
     as _i848;
 import '../../features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart'
     as _i917;
-import 'dio_module.dart' as _i1045;
+import '../network/dio_module.dart' as _i614;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -120,4 +120,4 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$RegisterModule extends _i1045.RegisterModule {}
+class _$RegisterModule extends _i614.RegisterModule {}

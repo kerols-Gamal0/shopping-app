@@ -2,10 +2,6 @@ sealed class BaseState<T> {
   const BaseState();
 }
 
-class BaseInitialState<T> extends BaseState<T> {
-  const BaseInitialState();
-}
-
 class BaseLoadingState<T> extends BaseState<T> {
   const BaseLoadingState();
 }

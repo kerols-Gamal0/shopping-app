@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
+import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/model/item/product_item_entity.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
@@ -22,189 +23,174 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double finalPrice =
-        product.price - (product.discountPercentage / 100 * product.price);
-
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.backgroundV2,
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: AppColors.backgroundV2,
-              width: 1.5,
-              style: BorderStyle.solid,
-            ),
-            boxShadow: [AppStyles.kBlackShadowSmall],
-          ),
-          child: Column(
+    return Container(
+      decoration: AppStyles.productCardDecoration,
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: AppColors.backgroundV2,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
-                      ),
+              AspectRatio(
+                aspectRatio: 1.1,
+                child: Container(
+                  width: double.infinity,
+                  decoration: AppStyles.productImageDecoration,
+                  child: CachedNetworkImage(
+                    imageUrl: product.thumbnail,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: AppColors.border,
+                      highlightColor: AppColors.divider,
+                      child: Container(color: AppColors.surface),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: AppSpacing.x1),
-                      child: CachedNetworkImage(
-                        imageUrl: product.thumbnail,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(color: Colors.white),
-                        ),
-                        errorWidget: (context, url, error) => const Center(
-                          child: Icon(
-                            Icons.error_outline,
-                            color: Colors.redAccent,
-                            size: 28,
-                          ),
-                        ),
+                    errorWidget: (context, url, error) => const Center(
+                      child: Icon(
+                        Icons.error_outline,
+                        color: AppColors.error,
+                        size: 28,
                       ),
                     ),
                   ),
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: AppColors.surface.withValues(alpha: .25),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: onFavorite,
-                        icon: Icon(
-                          product.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: AppColors.primary,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-              Padding(
-                padding: EdgeInsets.all(AppSpacing.x1),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      child: Text(
+              Positioned(
+                top: 8,
+                right: 8,
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: AppColors.surface.withValues(alpha: .25),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: onFavorite,
+                    icon: Icon(
+                      product.isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: AppColors.primary,
+                      size: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.x1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
                         product.title,
                         style: AppTheme.lightTheme.textTheme.headlineMedium,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                       ),
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 15),
-                        const SizedBox(width: 6),
-                        Text(
-                          product.rating.toString(),
-                          style: AppTheme.lightTheme.textTheme.bodySmall,
-                        ),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: Text(
-                            "(${product.reviewCount} reviews)",
+                      verticalSpace(4),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: AppColors.warning,
+                            size: 14,
+                          ),
+                          horizontalSpace(4),
+                          Text(
+                            product.rating.toString(),
                             style: AppTheme.lightTheme.textTheme.bodySmall,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 15),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            "EGP ${finalPrice.toStringAsFixed(2)}",
-                            style: const TextStyle(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (product.discountPercentage > 0) ...[
-                          const SizedBox(width: 4),
-                          Container(
-                            height: 25,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSpacing.x1,
-                            ),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: Colors.orange.shade50,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
+                          horizontalSpace(4),
+                          Expanded(
                             child: Text(
-                              "-${product.discountPercentage.toInt()}%",
-                              style: const TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
+                              "(${product.reviewCount} ${AppStrings.reviews})",
+                              style: AppTheme.lightTheme.textTheme.bodySmall,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
                           ),
                         ],
-                      ],
-                    ),
-
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 55,
-                      child: Text(
+                      ),
+                      verticalSpace(6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "EGP ${product.finalPrice.toStringAsFixed(2)}",
+                              style: AppTheme.lightTheme.textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (product.discountPercentage > 0) ...[
+                            horizontalSpace(4),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.x1,
+                                vertical: 2,
+                              ),
+                              alignment: Alignment.center,
+                              decoration: AppStyles.discountBadgeDecoration,
+                              child: Text(
+                                "-${product.discountPercentage.toInt()}%",
+                                style: AppTheme.lightTheme.textTheme.labelSmall
+                                    ?.copyWith(
+                                      color: AppColors.primaryDark,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      verticalSpace(6),
+                      Text(
                         product.description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: AppColors.bodyLight,
-                          fontWeight: FontWeight.w400,
-                        ),
+                        style: AppTheme.lightTheme.textTheme.bodyMedium
+                            ?.copyWith(color: AppColors.bodyLight),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 32,
+                    child: PrimaryBtn(
+                      onPressed: onAddToCart,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppStrings.addToCart,
+                            style: AppTheme.lightTheme.textTheme.labelMedium,
+                          ),
+                          horizontalSpace(8),
+                          const Icon(
+                            Icons.add_shopping_cart_sharp,
+                            color: AppColors.surface,
+                            size: 16,
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(
-                      height: 35,
-                      child: PrimaryBtn(
-                        onPressed: onAddToCart,
-                        child: Row(
-                          children: [
-                            Text(
-                              'Add to Cart',
-                              style: AppTheme.lightTheme.textTheme.labelMedium,
-                            ),
-                            const Spacer(),
-                            const Icon(
-                              Icons.add_shopping_cart_sharp,
-                              color: AppColors.surface,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

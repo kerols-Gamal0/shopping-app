@@ -64,9 +64,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => RegisterScreen());
 
       case AppRoutes.productByCategoryRoute:
-        // هنا برضو محدش يشيل الكومنت اللى تحت انا حطيت قيمة دلوقتى لحد ما عبدلله يخلص التاسك علشان اعرف اشوف النتيجة
-        final categoryName = 'beauty';
-        // final categoryName = settings.arguments as String;
+        final categoryName = settings.arguments as String;
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
             create: (context) => serviceLocator<CategoryCubit>()
