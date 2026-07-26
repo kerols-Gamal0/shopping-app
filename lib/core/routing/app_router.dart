@@ -14,7 +14,7 @@ import 'package:shopping_app/features/app_section/view_model/app_section_cubit.d
 import 'package:shopping_app/features/cart/presentation/cart.dart';
 import 'package:shopping_app/features/favourite/presentation/favourite.dart';
 import 'package:shopping_app/features/onboarding/presentation/view/screen/onboarding_screen.dart';
-import 'package:shopping_app/test_screen.dart';
+import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart';
 
 class AppRouter {
   AppRouter._();
@@ -24,10 +24,7 @@ class AppRouter {
     switch (settings.name) {
       case AppRoutes.appSection:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => AppSectionCubit(),
-            child: AppSectionScreen(),
-          ),
+          builder: (context) => BlocProvider(create: (context) => AppSectionCubit(), child: AppSectionScreen()),
         );
 
       case AppRoutes.cartScreen:
@@ -38,18 +35,21 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const AccountScreen());
       case AppRoutes.onboardingRoute:
         return MaterialPageRoute(builder: (context) => OnboardingScreen());
-      case AppRoutes.testRoute:
-        return MaterialPageRoute(builder: (context) => TestScreen());
 
       case AppRoutes.helloRoute:
         return MaterialPageRoute(
           builder: (context) =>
-              BlocProvider<HelloCubit>(create: (context) => serviceLocator<HelloCubit>(), child: HelloScreen(),),
+              BlocProvider<HelloCubit>(create: (context) => serviceLocator<HelloCubit>(), child: HelloScreen()),
         );
-        case AppRoutes.launcherRoute:
+      case AppRoutes.launcherRoute:
         return MaterialPageRoute(
-          builder: (context) =>
-              BlocProvider<HelloCubit>(create: (context) => serviceLocator<HelloCubit>(), child: LauncherScreen(),),//Todo: onboarding
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider<OnboardingCubit>(create: (context) => serviceLocator<OnboardingCubit>()),
+              BlocProvider<HelloCubit>(create: (context) => serviceLocator<HelloCubit>()),
+            ],
+            child: LauncherScreen(),
+          ),
         );
       case AppRoutes.loginRoute:
         return MaterialPageRoute(builder: (context) => LoginScreen());

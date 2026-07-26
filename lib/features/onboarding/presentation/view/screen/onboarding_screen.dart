@@ -20,18 +20,18 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pagecontroller = PageController();
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => serviceLocator<OnboardingCubit>(),
+      create: (context) => serviceLocator<OnboardingCubit>(), // TODO: HERE -> at routes+ bloc.value
       child: Builder(
         builder: (context) {
           return BlocListener<OnboardingCubit, OnboardingState>(
             listener: (context, state) {
               if (state is OnboardingCompleted) {
-                Navigator.pushReplacementNamed(context, AppRoutes.appSection);
+                Navigator.pushReplacementNamed(context, AppRoutes.helloRoute);
               }
             },
             child: Scaffold(
@@ -43,38 +43,27 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          context.read<OnboardingCubit>().intent(
-                            IntentFinishOnboarding(),
-                          );
+                          context.read<OnboardingCubit>().intent(IntentFinishOnboarding());
+                          Navigator.pushReplacementNamed(context, AppRoutes.helloRoute);
                         },
-                        child: Text(
-                          'Skip',
-                          style: AppTheme.lightTheme.textTheme.bodyMedium,
-                        ),
+                        child: Text('Skip', style: AppTheme.lightTheme.textTheme.bodyMedium),
                       ),
                     ),
 
                     Expanded(
                       child: PageView.builder(
                         onPageChanged: (value) {
-                          context.read<OnboardingCubit>().intent(
-                            IntentOnboardingPageChanged(value),
-                          );
+                          context.read<OnboardingCubit>().intent(IntentOnboardingPageChanged(value));
                         },
-                        controller: _pagecontroller,
+
+                        controller: _pageController,
                         itemCount: onboardingList.length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSpacing.x3,
-                              vertical: AppSpacing.x2,
-                            ),
+                            padding: EdgeInsets.symmetric(horizontal: AppSpacing.x3, vertical: AppSpacing.x2),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(16),
-                              child: Image.asset(
-                                onboardingList[index].image,
-                                fit: BoxFit.cover,
-                              ),
+                              child: Image.asset(onboardingList[index].image, fit: BoxFit.cover),
                             ),
                           );
                         },
@@ -84,14 +73,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     BlocBuilder<OnboardingCubit, OnboardingState>(
                       builder: (context, state) {
                         final cubit = context.read<OnboardingCubit>();
-                        final currentIndex = state is OnboardingPageChanged
-                            ? state.index
-                            : cubit.currentIndex;
+                        final currentIndex = state is OnboardingPageChanged ? state.index : cubit.currentIndex;
 
                         return Column(
                           children: [
                             SmoothPageIndicator(
-                              controller: _pagecontroller,
+                              controller: _pageController,
                               count: onboardingList.length,
                               effect: SwapEffect(
                                 dotWidth: 10,
@@ -106,12 +93,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               style: AppTheme.lightTheme.textTheme.headlineLarge,
                             ),
                             Container(
-                              margin: EdgeInsets.symmetric(
-                                horizontal: AppSpacing.x2,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: AppSpacing.x4,
-                              ),
+                              margin: EdgeInsets.symmetric(horizontal: AppSpacing.x2),
+                              padding: EdgeInsets.symmetric(horizontal: AppSpacing.x4),
                               child: Text(
                                 onboardingList[currentIndex].description,
                                 style: AppTheme.lightTheme.textTheme.labelSmall,
@@ -120,25 +103,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
 
                             Padding(
-                              padding: const EdgeInsets.all(24.0),
+                              padding: const EdgeInsets.all(24),
                               child: PrimaryBtn(
                                 onPressed: () {
-                                  if (currentIndex < onboardingList.length - 1) {
-                                    _pagecontroller.nextPage(
-                                      duration: const Duration(milliseconds: 500),
-                                      curve: Curves.easeInOut,
-                                    );
-                                  } else {
+                                  final isLastPage = currentIndex == onboardingList.length - 1;
+                                  final cubit = context.read<OnboardingCubit>();
+                                  if (isLastPage) {
                                     cubit.intent(IntentFinishOnboarding());
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      AppRoutes.appSection,
-                                    );
+                                    Navigator.pushReplacementNamed(context, AppRoutes.helloRoute);
+                                    return;
                                   }
+
+                                  _pageController.nextPage(
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut,
+                                  );
+
+                                  cubit.intent(IntentOnboardingPageChanged(currentIndex + 1));
                                 },
-                                child: currentIndex < onboardingList.length - 1
-                                    ? Text('Next')
-                                    : Text('Get Started'),
+                                child: Text(currentIndex == onboardingList.length - 1 ? 'Get Started' : 'Next'),
                               ),
                             ),
                           ],
@@ -158,7 +141,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   void dispose() {
-    _pagecontroller.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 }

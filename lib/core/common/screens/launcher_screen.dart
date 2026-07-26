@@ -4,6 +4,8 @@ import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/features/hello/presentation/view_model/hello_cubit.dart';
 import 'package:shopping_app/features/hello/presentation/view_model/hello_intent.dart';
+import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart';
+import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_state.dart';
 
 class LauncherScreen extends StatefulWidget {
   const LauncherScreen({super.key});
@@ -14,6 +16,9 @@ class LauncherScreen extends StatefulWidget {
 
 class _LauncherScreenState extends State<LauncherScreen> {
   double _rightPosition = -200;
+
+  bool? _hasVisitedHello;
+  bool? _isOnboardingSeen;
 
   @override
   void initState() {
@@ -32,23 +37,49 @@ class _LauncherScreenState extends State<LauncherScreen> {
   }
 
   Future<void> _launch() async {
-    await Future<void>.delayed(const Duration(seconds: 2));
+    await Future<void>.delayed(const Duration(seconds: 3));
     if (!mounted) return;
+
+    context.read<OnboardingCubit>().intent(IntentIsOnboardingSeen());
     context.read<HelloCubit>().intent(HasVisitedHello());
+  }
+
+  void _navigateIfReady() {
+    if (_hasVisitedHello == null || _isOnboardingSeen == null) return;
+    Navigator.pushReplacementNamed(
+      context,
+
+      !_isOnboardingSeen!
+          ? AppRoutes.onboardingRoute
+          : !_hasVisitedHello!
+          ? AppRoutes.helloRoute
+          : AppRoutes.loginRoute, // TODO: check token
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HelloCubit, HelloState>(
-      listener: (context, state) {
-        if (state is HelloVisited) {
-          Navigator.pushReplacementNamed(
-            context,
-            //Todo: onboarding
-            state.hasVisited ? AppRoutes.loginRoute : AppRoutes.helloRoute,
-          );
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HelloCubit, HelloState>(
+          listener: (context, state) {
+            if (state is HelloVisited) {
+              _hasVisitedHello = state.hasVisited;
+              debugPrint("_hasVisitedHello: $_hasVisitedHello");
+              _navigateIfReady();
+            }
+          },
+        ),
+        BlocListener<OnboardingCubit, OnboardingState>(
+          listener: (context, state) {
+            if (state is OnboardingSaving) {
+              _isOnboardingSeen = state.hasVisited;
+              debugPrint("_isOnboardingSeen: $_isOnboardingSeen");
+              _navigateIfReady();
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         body: Stack(
           children: [
@@ -58,7 +89,6 @@ class _LauncherScreenState extends State<LauncherScreen> {
               right: _rightPosition,
               top: MediaQuery.of(context).size.height * 0.4,
               child: SizedBox(width: 120, height: 120, child: Image.asset(AppAssets.appIcon, fit: BoxFit.contain)),
-              //  Image.asset(AppAssets.appIcon, width: double.infinity, height: double.infinity*0.35),
             ),
           ],
         ),
