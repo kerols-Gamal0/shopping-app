@@ -27,6 +27,7 @@ class HelloCubit extends Cubit<HelloState> {
     emit(HelloLoading());
     await _markHelloAsVisitedUseCase.invoke();
     emit(HelloMarkedAsVisited());
+    
   }
 
   void _hasVisitedHello() {

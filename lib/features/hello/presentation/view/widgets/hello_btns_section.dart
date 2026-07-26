@@ -20,7 +20,10 @@ class HelloBtnsSection extends StatelessWidget {
           PrimaryBtn(
             onPressed: () {
               context.read<HelloCubit>().intent(MarkHelloAsVisited());
-              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.registerRoute, (Route<dynamic> route) => false);
+             context.read<HelloCubit>().intent(HasVisitedHello());
+              Navigator.pushReplacementNamed(context, AppRoutes.registerRoute);
+              
+
             },
             child: const Text(AppStrings.signUp),
           ),
@@ -28,7 +31,9 @@ class HelloBtnsSection extends StatelessWidget {
           SecondaryBtn(
             onPressed: () {
               context.read<HelloCubit>().intent(MarkHelloAsVisited());
-              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.loginRoute, (Route<dynamic> route) => false);
+             context.read<HelloCubit>().intent(HasVisitedHello());
+
+              Navigator.pushReplacementNamed(context, AppRoutes.loginRoute);
             },
             child: const Text(AppStrings.login),
           ),
