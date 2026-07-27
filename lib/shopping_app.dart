@@ -9,7 +9,6 @@ class ShoppingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,

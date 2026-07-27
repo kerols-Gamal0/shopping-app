@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
+import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/model/item/product_item_entity.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
@@ -10,6 +13,7 @@ class ProductCard extends StatelessWidget {
   final ProductItemEntity product;
   final VoidCallback? onAddToCart;
   final VoidCallback? onFavorite;
+
   const ProductCard({
     super.key,
     required this.product,
@@ -19,178 +23,174 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.backgroundV2,
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: AppColors.backgroundV2,
-              width: 1.5,
-              style: BorderStyle.solid,
-            ),
-            boxShadow: [AppStyles.kBlackShadowSmall],
-          ),
-          child: Column(
+    return Container(
+      decoration: AppStyles.productCardDecoration,
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.backgroundV2,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
+              AspectRatio(
+                aspectRatio: 1.1,
+                child: Container(
+                  width: double.infinity,
+                  decoration: AppStyles.productImageDecoration,
+                  child: CachedNetworkImage(
+                    imageUrl: product.thumbnail,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: AppColors.border,
+                      highlightColor: AppColors.divider,
+                      child: Container(color: AppColors.surface),
+                    ),
+                    errorWidget: (context, url, error) => const Center(
+                      child: Icon(
+                        Icons.error_outline,
+                        color: AppColors.error,
+                        size: 28,
                       ),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: AppSpacing.x1),
-                      child:
-                          //TODO:replace with cached network image
-                          // CachedNetworkImage(
-                          //   imageUrl: product.thumbnail,
-                          //   placeholder: (context, url) =>
-                          //       Image.asset(AppPlaceholder.homeScreenPlaceHolder,
-                          //           fit: BoxFit.contain),
-                          // ),
-                          Image.asset(product.thumbnail, fit: BoxFit.contain),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: CircleAvatar(
+                  radius: 16,
+                  backgroundColor: AppColors.surface.withValues(alpha: .25),
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: onFavorite,
+                    icon: Icon(
+                      product.isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: AppColors.primary,
+                      size: 18,
                     ),
                   ),
+                ),
+              ),
+            ],
+          ),
 
-                  Positioned(
-                    top: 10,
-                    right: 10,
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: AppColors.surface.withValues(alpha: .25),
-                      child: IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: onFavorite,
-                        icon: Icon(
-                          product.isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border,
-                          color: AppColors.primary,
-                          size: 20,
-                        ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(AppSpacing.x1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.title,
+                        style: AppTheme.lightTheme.textTheme.headlineMedium,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      verticalSpace(4),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: AppColors.warning,
+                            size: 14,
+                          ),
+                          horizontalSpace(4),
+                          Text(
+                            product.rating.toString(),
+                            style: AppTheme.lightTheme.textTheme.bodySmall,
+                          ),
+                          horizontalSpace(4),
+                          Expanded(
+                            child: Text(
+                              "(${product.reviewCount} ${AppStrings.reviews})",
+                              style: AppTheme.lightTheme.textTheme.bodySmall,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      verticalSpace(6),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              "EGP ${product.finalPrice.toStringAsFixed(2)}",
+                              style: AppTheme.lightTheme.textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (product.discountPercentage > 0) ...[
+                            horizontalSpace(4),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.x1,
+                                vertical: 2,
+                              ),
+                              alignment: Alignment.center,
+                              decoration: AppStyles.discountBadgeDecoration,
+                              child: Text(
+                                "-${product.discountPercentage.toInt()}%",
+                                style: AppTheme.lightTheme.textTheme.labelSmall
+                                    ?.copyWith(
+                                      color: AppColors.primaryDark,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      verticalSpace(6),
+                      Text(
+                        product.description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.lightTheme.textTheme.bodyMedium
+                            ?.copyWith(color: AppColors.bodyLight),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(
+                    height: 32,
+                    child: PrimaryBtn(
+                      onPressed: onAddToCart,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppStrings.addToCart,
+                            style: AppTheme.lightTheme.textTheme.labelMedium,
+                          ),
+                          horizontalSpace(8),
+                          const Icon(
+                            Icons.add_shopping_cart_sharp,
+                            color: AppColors.surface,
+                            size: 16,
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ],
               ),
-
-              Padding(
-                padding: EdgeInsets.all(AppSpacing.x1),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      child: Text(
-                        product.title,
-                        style: AppTheme.lightTheme.textTheme.headlineMedium,
-                        overflow: .ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-
-                    Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 15),
-                        const SizedBox(width: 6),
-                        Text(
-                          product.rating.toString(),
-
-                          style: AppTheme.lightTheme.textTheme.bodySmall,
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          "(${product.reviewCount.toString()} reviews)",
-
-                          style: AppTheme.lightTheme.textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 15),
-                    Row(
-                      children: [
-                        Text(
-                          "EGP ${product.price - (product.discountPercentage / 100 * product.price).round()} ",
-                          style: const TextStyle(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                          maxLines: 2,
-                          overflow: .ellipsis,
-                        ),
-
-                        const Spacer(),
-
-                        if (product.discountPercentage > 0)
-                          Container(
-                            height: 25,
-
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSpacing.x1,
-                            ),
-                            alignment: .center,
-                            decoration: BoxDecoration(
-                              color: Colors.orange.shade50,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              "-${product.discountPercentage.toInt()}%",
-                              style: const TextStyle(
-                                color: Colors.orange,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      height: 55,
-                      child: Text(
-                        product.description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.bodyLight,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(
-                      height: 35,
-                      child: PrimaryBtn(
-                        onPressed: onAddToCart,
-                        child: Row(
-                          children: [
-                            Text(
-                              'Add to Cart',
-                              style: AppTheme.lightTheme.textTheme.labelMedium,
-                            ),
-                            Spacer(),
-                            Icon(
-                              Icons.add_shopping_cart_sharp,
-                              color: AppColors.surface,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -4,6 +4,9 @@ import 'package:shopping_app/core/common/screens/error_404_screen.dart';
 import 'package:shopping_app/core/common/screens/launcher_screen.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
+import 'package:shopping_app/features/category/presentation/view/category_screen.dart';
+import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_cubit.dart';
+import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_intent.dart';
 import 'package:shopping_app/features/hello/presentation/view/screens/hello_screen.dart';
 import 'package:shopping_app/features/auth/login_screen.dart';
 import 'package:shopping_app/features/auth/register_screen.dart';
@@ -24,7 +27,10 @@ class AppRouter {
     switch (settings.name) {
       case AppRoutes.appSection:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(create: (context) => AppSectionCubit(), child: AppSectionScreen()),
+          builder: (context) => BlocProvider(
+            create: (context) => AppSectionCubit(),
+            child: AppSectionScreen(),
+          ),
         );
 
       case AppRoutes.cartScreen:
@@ -38,15 +44,21 @@ class AppRouter {
 
       case AppRoutes.helloRoute:
         return MaterialPageRoute(
-          builder: (context) =>
-              BlocProvider<HelloCubit>(create: (context) => serviceLocator<HelloCubit>(), child: HelloScreen()),
+          builder: (context) => BlocProvider<HelloCubit>(
+            create: (context) => serviceLocator<HelloCubit>(),
+            child: HelloScreen(),
+          ),
         );
       case AppRoutes.launcherRoute:
         return MaterialPageRoute(
           builder: (context) => MultiBlocProvider(
             providers: [
-              BlocProvider<OnboardingCubit>(create: (context) => serviceLocator<OnboardingCubit>()),
-              BlocProvider<HelloCubit>(create: (context) => serviceLocator<HelloCubit>()),
+              BlocProvider<OnboardingCubit>(
+                create: (context) => serviceLocator<OnboardingCubit>(),
+              ),
+              BlocProvider<HelloCubit>(
+                create: (context) => serviceLocator<HelloCubit>(),
+              ),
             ],
             child: LauncherScreen(),
           ),
@@ -55,6 +67,18 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => LoginScreen());
       case AppRoutes.registerRoute:
         return MaterialPageRoute(builder: (context) => RegisterScreen());
+
+      case AppRoutes.productByCategoryRoute:
+        final categoryName = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => serviceLocator<CategoryCubit>()
+              ..processIntent(
+                FetchCategoryProductsIntent(categoryName: categoryName),
+              ),
+            child: CategoryScreen(categoryName: categoryName),
+          ),
+        );
 
       default:
         return MaterialPageRoute(builder: (context) => Error404Screen());

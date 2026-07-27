@@ -2,11 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 
 abstract final class AppStyles {
-  static const BoxShadow defaultShadow = BoxShadow(color: Color(0x4DFF9900), offset: Offset(0, 4), blurRadius: 8);
+  static const BoxShadow defaultShadow = BoxShadow(
+    color: Color(0x4DFF9900),
+    offset: Offset(0, 4),
+    blurRadius: 8,
+  );
 
-  static const BoxShadow primaryShadow = BoxShadow(color: Color(0x59FF9900), offset: Offset(0, 4), blurRadius: 10);
+  static const BoxShadow primaryShadow = BoxShadow(
+    color: Color(0x59FF9900),
+    offset: Offset(0, 4),
+    blurRadius: 10,
+  );
 
-  static const BoxShadow secondaryShadow = BoxShadow(color: Color(0x59FF9900), offset: Offset(0, 4), blurRadius: 6);
+  static const BoxShadow secondaryShadow = BoxShadow(
+    color: Color(0x59FF9900),
+    offset: Offset(0, 4),
+    blurRadius: 6,
+  );
   static final ButtonStyle defaultStyle = ElevatedButton.styleFrom();
 
   static final ButtonStyle primaryStyle = ElevatedButton.styleFrom(
@@ -35,11 +47,30 @@ abstract final class AppStyles {
   );
 
   static BoxDecoration secondaryDecoration = BoxDecoration(
-    gradient: const LinearGradient(colors: [Color(0xFFFF9900), Color(0xFFFFB700)]),
+    gradient: const LinearGradient(
+      colors: [Color(0xFFFF9900), Color(0xFFFFB700)],
+    ),
     borderRadius: BorderRadius.circular(12),
     boxShadow: const [AppStyles.secondaryShadow],
   );
-
+  static final BoxDecoration productCardDecoration = BoxDecoration(
+    color: AppColors.backgroundV2,
+    borderRadius: BorderRadius.circular(18),
+    border: Border.all(
+      color: AppColors.backgroundV2,
+      width: 1.5,
+      style: BorderStyle.solid,
+    ),
+    boxShadow: [kBlackShadowSmall],
+  );
+  static const BoxDecoration productImageDecoration = BoxDecoration(
+    color: AppColors.backgroundV2,
+    borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+  );
+  static final BoxDecoration discountBadgeDecoration = BoxDecoration(
+    color: AppColors.oragneLight.withValues(alpha: 0.3),
+    borderRadius: BorderRadius.circular(16),
+  );
   static const BoxShadow kOrangeShadowSmall = BoxShadow(
     color: Color(0x4DFF9900),
     offset: Offset(0, 4),
