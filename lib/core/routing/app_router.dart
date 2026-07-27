@@ -17,7 +17,7 @@ import 'package:shopping_app/features/app_section/view_model/app_section_cubit.d
 import 'package:shopping_app/features/cart/presentation/cart.dart';
 import 'package:shopping_app/features/favourite/presentation/favourite.dart';
 import 'package:shopping_app/features/onboarding/presentation/view/screen/onboarding_screen.dart';
-import 'package:shopping_app/test_screen.dart';
+import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart';
 
 class AppRouter {
   AppRouter._();
@@ -41,8 +41,6 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const AccountScreen());
       case AppRoutes.onboardingRoute:
         return MaterialPageRoute(builder: (context) => OnboardingScreen());
-      case AppRoutes.testRoute:
-        return MaterialPageRoute(builder: (context) => TestScreen());
 
       case AppRoutes.helloRoute:
         return MaterialPageRoute(
@@ -50,9 +48,25 @@ class AppRouter {
             create: (context) => serviceLocator<HelloCubit>(),
             child: HelloScreen(),
           ),
+          builder: (context) => BlocProvider<HelloCubit>(
+            create: (context) => serviceLocator<HelloCubit>(),
+            child: HelloScreen(),
+          ),
         );
       case AppRoutes.launcherRoute:
+      case AppRoutes.launcherRoute:
         return MaterialPageRoute(
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider<OnboardingCubit>(
+                create: (context) => serviceLocator<OnboardingCubit>(),
+              ),
+              BlocProvider<HelloCubit>(
+                create: (context) => serviceLocator<HelloCubit>(),
+              ),
+            ],
+            child: LauncherScreen(),
+          ),
           builder: (context) => BlocProvider<HelloCubit>(
             create: (context) => serviceLocator<HelloCubit>(),
             child: LauncherScreen(),

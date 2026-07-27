@@ -114,7 +114,10 @@ extension GetItInjectableX on _i174.GetIt {
           _i848.SaveOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
     );
     gh.factory<_i917.OnboardingCubit>(
-      () => _i917.OnboardingCubit(gh<_i848.SaveOnboardingSeenUseCase>()),
+      () => _i917.OnboardingCubit(
+        gh<_i848.SaveOnboardingSeenUseCase>(),
+        gh<_i608.IsOnboardingSeenUseCase>(),
+      ),
     );
     return this;
   }
