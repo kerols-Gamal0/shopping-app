@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
-import 'package:shopping_app/core/model/item/product_item_entity.dart';
+import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 
 class ProductsWidget extends StatelessWidget {
   final List<ProductItemEntity> products;

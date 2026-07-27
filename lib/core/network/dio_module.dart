@@ -12,20 +12,12 @@ abstract class DioModule {
         baseUrl: ApiConstants.baseUrl,
         connectTimeout: const Duration(minutes: 1),
         receiveTimeout: const Duration(seconds: 30),
-        headers: {
-          'Authorization': 'Bearer ${ApiConstants.token}',
-        },
+        headers: {'Authorization': 'Bearer ${ApiConstants.token}'},
       ),
     );
 
     dio.interceptors.add(
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        compact: true,
-      ),
+      PrettyDioLogger(requestHeader: true, requestBody: true, responseBody: true, responseHeader: false, compact: true),
     );
 
     return dio;

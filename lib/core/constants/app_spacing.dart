@@ -10,19 +10,10 @@ abstract class AppSpacing {
   static const double x5 = 40.0;
   static const double x6 = 48.0;
 
-  /// Horizontal Padding
-  static const EdgeInsets horizontalX2 =
-  EdgeInsets.symmetric(horizontal: x2);
-
-  static const EdgeInsets allX1 =
-  EdgeInsets.all(x1);
-  /// All Padding
-  static const EdgeInsets allX2 =
-  EdgeInsets.all(x2);
-
-  /// Horizontal & Vertical Padding
-  static const EdgeInsets horizontalVerticalX2 =
-  EdgeInsets.symmetric(horizontal: x2, vertical: x1);
+  static const EdgeInsets horizontalX2 = EdgeInsets.symmetric(horizontal: x2);
+  static const EdgeInsets allX1 = EdgeInsets.all(x1);
+  static const EdgeInsets allX2 = EdgeInsets.all(x2);
+  static const EdgeInsets horizontalVerticalX2 = EdgeInsets.symmetric(horizontal: x2, vertical: x1);
 }
 
 SizedBox verticalSpace(double height) => SizedBox(height: height);

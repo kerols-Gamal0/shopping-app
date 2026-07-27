@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
+import 'package:shopping_app/core/extensions/shimmer_extension.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 
-class CategoriesShimmerWidget extends StatelessWidget {
-  const CategoriesShimmerWidget({super.key});
+class CategoriesShimmer extends StatelessWidget {
+  const CategoriesShimmer({super.key, this.itemCount = 6});
+
+  final int itemCount;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40,// Todo(Aya): hard spacing
-      child: Shimmer.fromColors(
-        baseColor: AppColors.disabled,
-        highlightColor: AppColors.divider,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          padding: AppSpacing.horizontalX2,
-          itemCount: 4,
-          separatorBuilder: (context, index) => horizontalSpace(AppSpacing.x1),
-          itemBuilder: (context, index) {
-            return Container(
-              width: 90,
-              decoration: BoxDecoration(// Todo(Aya): Add decoration as var at AppStyle
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(20),
-              ),
-            );
-          },
-        ),
+      height: 40,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: AppSpacing.horizontalX2,
+        itemCount: itemCount,
+        separatorBuilder: (_, _) => horizontalSpace(AppSpacing.x1),
+        itemBuilder: (_, _) => const CategoryCardShimmer(),
       ),
+    );
+  }
+}
+
+class CategoryCardShimmer extends StatelessWidget {
+  const CategoryCardShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Container(width: 96, height: 32, color: AppColors.surface).withShimmer(),
     );
   }
 }
