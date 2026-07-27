@@ -32,7 +32,6 @@ class AppRouter {
             child: AppSectionScreen(),
           ),
         );
-
       case AppRoutes.cartScreen:
         return MaterialPageRoute(builder: (context) => const CartScreen());
       case AppRoutes.favouriteScreen:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 
 abstract final class AppStyles {
@@ -51,7 +52,31 @@ abstract final class AppStyles {
       colors: [Color(0xFFFF9900), Color(0xFFFFB700)],
     ),
     borderRadius: BorderRadius.circular(12),
-    boxShadow: const [AppStyles.secondaryShadow],
+    // boxShadow: const [AppStyles.secondaryShadow],
+  );
+  static BoxDecoration productCardDecoration = BoxDecoration(
+    color: const Color(0xFFFDFBF8),
+    borderRadius: const BorderRadius.only(
+      topLeft: Radius.circular(28),
+      topRight: Radius.circular(18),
+      bottomLeft: Radius.circular(18),
+      bottomRight: Radius.circular(28),
+    ),
+    border: Border.all(color: const Color(0xFFF1ECE5)),
+    // boxShadow: const [
+    //   BoxShadow(
+    //     color: Color(0x14000000), // 8% black
+    //     offset: Offset(0, 8),
+    //     blurRadius: 24,
+    //     spreadRadius: 0,
+    //   ),
+    //   BoxShadow(
+    //     color: Color(0x0A000000), // 4% black
+    //     offset: Offset(0, 2),
+    //     blurRadius: 8,
+    //     spreadRadius: 0,
+    //   ),
+    // ],
   );
   static final BoxDecoration productCardDecoration = BoxDecoration(
     color: AppColors.backgroundV2,
@@ -95,5 +120,47 @@ abstract final class AppStyles {
     color: Colors.black.withValues(alpha: .15),
     blurRadius: 10,
     offset: const Offset(0, 6),
+  );
+  static BoxDecoration cardDecoration = BoxDecoration(
+    color: AppColors.background,
+    borderRadius: BorderRadius.circular(18),
+    border: Border.all(color: AppColors.backgroundV2, width: 1.5, style: BorderStyle.solid),
+    // boxShadow: const [AppStyles.defaultShadow],
+  );
+  static var productsGridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2,
+    crossAxisSpacing: AppSpacing.x2,
+    mainAxisSpacing: AppSpacing.x2,
+    childAspectRatio: .65,
+  );
+
+  static BoxDecoration customCardBoxDecoration = BoxDecoration(
+    color: AppColors.background, // cardBg,
+    borderRadius: BorderRadius.circular(16),
+    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 10, offset: const Offset(0, 4))],
+  );
+  static BoxDecoration customImageCardBoxDecoration = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    gradient: const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        Color(0xFFFFC84A),
+        Color(0xFFFFC84A), // Light golden
+        // Light golden
+        // Color(0xFFF5A623), // Orange
+        // Color(0xFFE88B00), // Dark orange
+      ],
+      stops: [0.0, 0.45, 1.0],
+    ),
+  );
+  static BoxDecoration customImageCardBoxDecoration2 = BoxDecoration(
+    borderRadius: BorderRadius.circular(12),
+    gradient: const LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Colors.blue, Colors.purple],
+      stops: [0.0, 0.45, 1.0],
+    ),
   );
 }

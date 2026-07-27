@@ -11,6 +11,9 @@ abstract class AppAssets {
   static const String cartIcon = "assets/icons/cart_icon.png";
   static const String favouriteIcon = "assets/icons/favourite_icon.png";
   static const String accountIcon = "assets/icons/profile_icon.png";
+  static const String errorIcon ="assets/images/error_.png";
+
+ static const String emptyProduct = "assets/images/empty_product.png";
 
   static const onBoarding1 = "assets/onboarding/onboarding_1.png";
   static const onBoarding2 = "assets/onboarding/onboarding_2.png";

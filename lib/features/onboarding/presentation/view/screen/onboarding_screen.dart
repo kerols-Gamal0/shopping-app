@@ -20,128 +20,139 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController();
+  final PageController _pagecontroller = PageController();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => serviceLocator<OnboardingCubit>(), // TODO: HERE -> at routes+ bloc.value
-      child: Builder(
-        builder: (context) {
-          return BlocListener<OnboardingCubit, OnboardingState>(
-            listener: (context, state) {
-              if (state is OnboardingCompleted) {
-                Navigator.pushReplacementNamed(context, AppRoutes.helloRoute);
-              }
-            },
-            child: Scaffold(
-              body: SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          context.read<OnboardingCubit>().intent(IntentFinishOnboarding());
-                          Navigator.pushReplacementNamed(context, AppRoutes.helloRoute);
-                        },
-                        child: Text('Skip', style: AppTheme.lightTheme.textTheme.bodyMedium),
-                      ),
-                    ),
-
-                    Expanded(
-                      child: PageView.builder(
-                        onPageChanged: (value) {
-                          context.read<OnboardingCubit>().intent(IntentOnboardingPageChanged(value));
-                        },
-
-                        controller: _pageController,
-                        itemCount: onboardingList.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: AppSpacing.x3, vertical: AppSpacing.x2),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Image.asset(onboardingList[index].image, fit: BoxFit.cover),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-
-                    BlocBuilder<OnboardingCubit, OnboardingState>(
-                      builder: (context, state) {
-                        final cubit = context.read<OnboardingCubit>();
-                        final currentIndex = state is OnboardingPageChanged ? state.index : cubit.currentIndex;
-
-                        return Column(
-                          children: [
-                            SmoothPageIndicator(
-                              controller: _pageController,
-                              count: onboardingList.length,
-                              effect: SwapEffect(
-                                dotWidth: 10,
-                                dotHeight: 10,
-                                activeDotColor: AppColors.body,
-                                dotColor: AppColors.dotColor,
-                              ),
-                            ),
-                            SizedBox(height: 40),
-                            Text(
-                              onboardingList[currentIndex].title,
-                              style: AppTheme.lightTheme.textTheme.headlineLarge,
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(horizontal: AppSpacing.x2),
-                              padding: EdgeInsets.symmetric(horizontal: AppSpacing.x4),
-                              child: Text(
-                                onboardingList[currentIndex].description,
-                                style: AppTheme.lightTheme.textTheme.labelSmall,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.all(24),
-                              child: PrimaryBtn(
-                                onPressed: () {
-                                  final isLastPage = currentIndex == onboardingList.length - 1;
-                                  final cubit = context.read<OnboardingCubit>();
-                                  if (isLastPage) {
-                                    cubit.intent(IntentFinishOnboarding());
-                                    Navigator.pushReplacementNamed(context, AppRoutes.helloRoute);
-                                    return;
-                                  }
-
-                                  _pageController.nextPage(
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.easeInOut,
-                                  );
-
-                                  cubit.intent(IntentOnboardingPageChanged(currentIndex + 1));
-                                },
-                                child: Text(currentIndex == onboardingList.length - 1 ? 'Get Started' : 'Next'),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                    SizedBox(height: 80),
-                  ],
-                ),
-              ),
-            ),
-          );
+      create: (context) => serviceLocator<OnboardingCubit>(),
+      child: BlocListener<OnboardingCubit, OnboardingState>(
+        listener: (context, state) {
+          if (state is OnboardingCompleted) {
+            Navigator.pushReplacementNamed(context, AppRoutes.appSection);
+          }
         },
+        child: Scaffold(
+          body: SafeArea(
+            child: Column(
+              mainAxisAlignment: .center,
+              children: [
+                Align(
+                  alignment: .centerRight,
+                  child: TextButton(
+                    onPressed: () async {
+                      context.read<OnboardingCubit>().intent(
+                        IntentFinishOnboarding(),
+                      );
+                    },
+                    child: Text(
+                      'Skip',
+                      style: AppTheme.lightTheme.textTheme.bodyMedium,
+                    ),
+                  ),
+                ),
+
+                Expanded(
+                  child: PageView.builder(
+                    onPageChanged: (value) {
+                      context.read<OnboardingCubit>().intent(
+                        IntentOnboardingPageChanged(value),
+                      );
+                    },
+                    controller: _pagecontroller,
+                    itemCount: onboardingList.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSpacing.x3,
+                          vertical: AppSpacing.x2,
+                        ),
+
+                        child: ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(16),
+                          child: Image.asset(
+                            onboardingList[index].image,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                BlocBuilder<OnboardingCubit, OnboardingState>(
+                  builder: (context, state) {
+                    final cubit = context.read<OnboardingCubit>();
+                    return Column(
+                      children: [
+                        SmoothPageIndicator(
+                          controller: _pagecontroller,
+                          count: onboardingList.length,
+                          effect: SwapEffect(
+                            dotWidth: 10,
+                            dotHeight: 10,
+                            activeDotColor: AppColors.body,
+                            dotColor: AppColors.dotColor,
+                          ),
+                        ),
+                        SizedBox(height: 40),
+                        Text(
+                          onboardingList[cubit.currentIndex].title,
+                          style: AppTheme.lightTheme.textTheme.headlineLarge,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: AppSpacing.x2,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppSpacing.x4,
+                          ),
+                          child: Text(
+                            onboardingList[cubit.currentIndex].description,
+                            style: AppTheme.lightTheme.textTheme.labelSmall,
+                            textAlign: .center,
+                          ),
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(24.0),
+                          child: PrimaryBtn(
+                            onPressed: () async {
+                              if (cubit.currentIndex <
+                                  onboardingList.length - 1) {
+                                _pagecontroller.nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOut,
+                                );
+                              } else {
+                                cubit.intent(IntentFinishOnboarding());
+                                Navigator.pushReplacementNamed(
+                                  context,
+                                  AppRoutes.appSection,
+                                );
+                              }
+                            },
+                            child:
+                                cubit.currentIndex < onboardingList.length - 1
+                                ? Text('Next')
+                                : Text('Get Started'),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                SizedBox(height: 80),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _pagecontroller.dispose();
     super.dispose();
   }
 }

@@ -9,6 +9,7 @@ class ShoppingApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: AppStrings.appTitle,
       debugShowCheckedModeBanner: false,
@@ -17,6 +18,7 @@ class ShoppingApp extends StatelessWidget {
       themeAnimationCurve: Curves.linear,
       onGenerateRoute: AppRouter.onGenerateRoute,
       initialRoute: AppRoutes.launcherRoute,
+      initialRoute: AppRoutes.appSection,
     );
   }
 }
