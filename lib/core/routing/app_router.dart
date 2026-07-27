@@ -48,12 +48,7 @@ class AppRouter {
             create: (context) => serviceLocator<HelloCubit>(),
             child: HelloScreen(),
           ),
-          builder: (context) => BlocProvider<HelloCubit>(
-            create: (context) => serviceLocator<HelloCubit>(),
-            child: HelloScreen(),
-          ),
         );
-      case AppRoutes.launcherRoute:
       case AppRoutes.launcherRoute:
         return MaterialPageRoute(
           builder: (context) => MultiBlocProvider(
@@ -67,10 +62,6 @@ class AppRouter {
             ],
             child: LauncherScreen(),
           ),
-          builder: (context) => BlocProvider<HelloCubit>(
-            create: (context) => serviceLocator<HelloCubit>(),
-            child: LauncherScreen(),
-          ), //Todo: onboarding
         );
       case AppRoutes.loginRoute:
         return MaterialPageRoute(builder: (context) => LoginScreen());
