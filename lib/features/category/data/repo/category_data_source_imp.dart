@@ -17,7 +17,7 @@ class CategoryDataSourceImp implements CategoryDataSourceInterface {
     int limit = 5,
   }) async {
     final response = await dio.get(
-      '${ApiConstants.baseUrl}${ApiConstants.productByCategory(categoryName)}',
+      ApiConstants.productByCategory(categoryName),
       queryParameters: {'skip': skip, 'limit': limit},
     );
 

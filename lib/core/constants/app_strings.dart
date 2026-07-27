@@ -7,9 +7,9 @@ abstract class AppStrings {
 
   static const String addToCart = 'Add to Cart';
   static const String reviews = 'reviews';
-  static const String noProductsFound = 'لا توجد منتجات';
+  static const String noProductsFound = 'No products found';
   static const String noProductsFoundDesc =
-      'لا توجد منتجات متاحة في هذا القسم حالياً.';
-  static const String retry = 'إعادة المحاولة';
-  static const String errorOccurred = 'حدث خطأ غير متوقع';
+      'No products available in this category at the moment.';
+  static const String retry = 'Retry';
+  static const String errorOccurred = 'An unexpected error occurred';
 }
