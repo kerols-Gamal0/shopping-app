@@ -1,5 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
 import '../../domain/entities/cart_entity.dart';
 
+part 'cart_model.g.dart';
+
+@JsonSerializable()
 class CartModel {
   final int id;
   final String title;
@@ -13,14 +17,10 @@ class CartModel {
     required this.price,
   });
 
-  factory CartModel.fromJson(Map<String, dynamic> json) {
-    return CartModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      thumbnail: json['thumbnail'] ?? '',
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
-    );
-  }
+  factory CartModel.fromJson(Map<String, dynamic> json) =>
+      _$CartModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CartModelToJson(this);
 
   CartEntity toEntity({int quantity = 1}) {
     return CartEntity(

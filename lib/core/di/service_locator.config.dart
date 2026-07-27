@@ -14,6 +14,15 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
+import '../../features/cart/data/repo/cart_remote_data_source.dart' as _i349;
+import '../../features/cart/data/repo/cart_repo_impl.dart' as _i234;
+import '../../features/cart/domain/repo/cart_remote_data_source.dart' as _i141;
+import '../../features/cart/domain/repo/cart_repo_interface.dart' as _i76;
+import '../../features/cart/domain/use_cases/add_to_cart_use_case.dart'
+    as _i252;
+import '../../features/cart/domain/use_cases/delete_cart_item_use_case.dart'
+    as _i570;
+import '../../features/cart/domain/use_cases/get_cart_use_case.dart' as _i176;
 import '../../features/category/data/repo/category_data_source_imp.dart'
     as _i758;
 import '../../features/category/data/repo/category_repo_imp.dart' as _i610;
@@ -73,6 +82,9 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
+    gh.factory<_i349.CartRemoteDataSource>(
+      () => _i349.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.factory<_i575.CategoryDataSourceInterface>(
       () => _i758.CategoryDataSourceImp(gh<_i361.Dio>()),
     );
@@ -85,8 +97,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i907.HelloRepoInterface>(
       () => _i138.HelloRepoImp(gh<_i289.HelloDataSourceInterface>()),
     );
+    gh.factory<_i76.CartRepoInterface>(
+      () => _i234.CartRepoImpl(gh<_i141.CartRemoteDataSource>()),
+    );
     gh.factory<_i4.OnboardingDataSourceInterface>(
       () => _i180.OnboardingDataSourceImp(),
+    );
+    gh.factory<_i252.AddToCartUseCase>(
+      () => _i252.AddToCartUseCase(gh<_i76.CartRepoInterface>()),
+    );
+    gh.factory<_i570.DeleteCartItemUseCase>(
+      () => _i570.DeleteCartItemUseCase(gh<_i76.CartRepoInterface>()),
+    );
+    gh.factory<_i176.GetCartUseCase>(
+      () => _i176.GetCartUseCase(gh<_i76.CartRepoInterface>()),
     );
     gh.factory<_i1029.GetCategoryProductsUseCase>(
       () =>
