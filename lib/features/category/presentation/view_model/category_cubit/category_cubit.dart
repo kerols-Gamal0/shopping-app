@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shopping_app/core/common/base_state/base_state.dart';
-import 'package:shopping_app/core/model/item/product_item_entity.dart';
+import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/network/result_api.dart';
 import '../../../domain/usecase/get_category_products_use_case.dart';
 import 'category_intent.dart';

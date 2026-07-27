@@ -4,6 +4,7 @@ import 'package:shopping_app/core/common/base_state/base_state.dart';
 import 'package:shopping_app/core/common/base_state/base_state_builder.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
+import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/features/home/domain/entities/category_entity.dart';
 import 'package:shopping_app/features/home/presentation/view/widgets/categories_shimmer_widget.dart';
@@ -18,11 +19,15 @@ class CategoriesSection extends StatelessWidget {
       builder: (context, state) {
         return BaseStateBuilder<List<CategoryEntity>>(
           state: state,
-          onLoading: _buildOnLoadingWidget(),
-          onFailure: (error) => _buildOnFailureWidget(error, context),
+          onLoading: () => _buildOnLoadingWidget(),
+          onError: (error) => _buildOnFailureWidget(error, context),
           onSuccess: (categories) => _buildOnSuccessWidget(
             categories: categories,
-            onCategoryTap: (name, slug) {}, // Todo: Add nav
+            onCategoryTap: (name, slug) {
+              Navigator.of(
+                context,
+              ).pushNamed(AppRoutes.productByCategoryRoute, arguments: slug);
+            }, // Todo: Add nav
           ),
         );
       },
@@ -33,11 +38,14 @@ class CategoriesSection extends StatelessWidget {
     required List<CategoryEntity> categories,
     required void Function(String name, String slug) onCategoryTap,
   }) {
-      if (categories.isEmpty) {
+    if (categories.isEmpty) {
       return Center(
         child: Column(
-          children: [verticalSpace(96), Image.asset(AppAssets.emptyProduct, height: 96), Text('No categories available at the moment.
-')],
+          children: [
+            verticalSpace(96),
+            Image.asset(AppAssets.emptyProduct, height: 96),
+            Text('No categories available at the moment.'),
+          ],
         ),
       );
     }
@@ -51,7 +59,10 @@ class CategoriesSection extends StatelessWidget {
         itemBuilder: (_, index) {
           final category = categories[index];
           return OutlinedButton(
-            style: OutlinedButton.styleFrom(minimumSize: Size.zero, padding: AppSpacing.horizontalVerticalX2),
+            style: OutlinedButton.styleFrom(
+              minimumSize: Size.zero,
+              padding: AppSpacing.horizontalVerticalX2,
+            ),
             onPressed: () => onCategoryTap(category.name, category.slug),
             child: Text(category.name),
           );

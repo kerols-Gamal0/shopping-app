@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:shopping_app/core/common/base_state/base_state_builder.dart';
+import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/common/widgets/error_info.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
@@ -10,7 +11,7 @@ import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
-import 'package:shopping_app/core/model/item/product_item_entity.dart';
+import 'package:shopping_app/features/home/presentation/view/widgets/product_card_shimmer.dart';
 import '../view_model/category_cubit/category_cubit.dart';
 import '../view_model/category_cubit/category_intent.dart';
 
@@ -131,23 +132,12 @@ class CategoryScreen extends StatelessWidget {
             },
             onLoading: () {
               return GridView.builder(
-                padding: EdgeInsets.all(AppSpacing.x2),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.48,
-                  crossAxisSpacing: AppSpacing.x2,
-                  mainAxisSpacing: AppSpacing.x2,
-                ),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return Shimmer.fromColors(
-                    baseColor: AppColors.disabled,
-                    highlightColor: AppColors.backgroundV2,
-                    child: Container(
-                      decoration: AppStyles.productCardDecoration,
-                    ),
-                  );
-                },
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: AppSpacing.horizontalX2,
+                itemCount: 8,
+                gridDelegate: AppStyles.productsGridDelegate,
+                itemBuilder: (_, _) => ProductCardShimmer(),
               );
             },
             onError: (String error) {

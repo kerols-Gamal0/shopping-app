@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shopping_app/core/model/item/product_item_dto.dart';
+import 'package:shopping_app/core/common/model/product_item/product_item_dto.dart';
 import 'package:shopping_app/core/network/api_constants.dart';
 import '../../domain/repo/category_data_source_interface.dart';
 

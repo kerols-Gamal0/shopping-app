@@ -1,4 +1,4 @@
-import 'package:shopping_app/core/model/item/product_item_entity.dart';
+import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/network/result_api.dart';
 
 abstract interface class CategoryRepoInterface {

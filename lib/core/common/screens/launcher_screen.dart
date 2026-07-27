@@ -53,7 +53,7 @@ class _LauncherScreenState extends State<LauncherScreen> {
           ? AppRoutes.onboardingRoute
           : !_hasVisitedHello!
           ? AppRoutes.helloRoute
-          : AppRoutes.loginRoute, // TODO: check token
+          : AppRoutes.appSection, // TODO: check token
     );
   }
 
@@ -88,7 +88,11 @@ class _LauncherScreenState extends State<LauncherScreen> {
               curve: Curves.easeOutBack,
               right: _rightPosition,
               top: MediaQuery.of(context).size.height * 0.4,
-              child: SizedBox(width: 120, height: 120, child: Image.asset(AppAssets.appIcon, fit: BoxFit.contain)),
+              child: SizedBox(
+                width: 120,
+                height: 120,
+                child: Image.asset(AppAssets.appIcon, fit: BoxFit.contain),
+              ),
             ),
           ],
         ),

@@ -39,7 +39,12 @@ class AppRouter {
       case AppRoutes.accountScreen:
         return MaterialPageRoute(builder: (context) => const AccountScreen());
       case AppRoutes.onboardingRoute:
-        return MaterialPageRoute(builder: (context) => OnboardingScreen());
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => serviceLocator<OnboardingCubit>(),
+            child: OnboardingScreen(),
+          ),
+        );
 
       case AppRoutes.helloRoute:
         return MaterialPageRoute(

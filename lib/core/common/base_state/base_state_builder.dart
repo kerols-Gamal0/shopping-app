@@ -21,6 +21,7 @@ class BaseStateBuilder<T> extends StatelessWidget {
       BaseLoadingState() => onLoading(),
       BaseSuccessState(data: final data) => onSuccess(data),
       BaseFailureState(errorMessage: final message) => onError(message),
+      BaseInitialState() => const SizedBox.shrink(),
     };
   }
 }

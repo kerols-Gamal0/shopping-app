@@ -20,15 +20,15 @@ class CategoriesCubit extends Cubit<BaseState<List<CategoryEntity>>> {
   }
 
   Future<void> _fetchCategories() async {
-    emit(BaseFailureState(errorMessage: 'Oops! No categories found right now. Check back soon for exciting updates!'));
+    // emit(BaseFailureState(errorMessage: 'Oops! No categories found right now. Check back soon for exciting updates!'));
 
-    //   emit(const BaseLoadingState());
-    //   var result = await _getCategoriesUseCase.invoke();
-    //   switch (result) {
-    //     case Success<List<CategoryEntity>>():
-    //       emit(BaseSuccessState(data: result.data));
-    //     case Error<List<CategoryEntity>>():
-    //       emit(BaseFailureState(errorMessage: result.messageError));
-    //   }
+    emit(const BaseLoadingState());
+    var result = await _getCategoriesUseCase.invoke();
+    switch (result) {
+      case Success<List<CategoryEntity>>():
+        emit(BaseSuccessState(data: result.data));
+      case Error<List<CategoryEntity>>():
+        emit(BaseFailureState(errorMessage: result.messageError));
+    }
   }
 }

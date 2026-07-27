@@ -54,30 +54,7 @@ abstract final class AppStyles {
     borderRadius: BorderRadius.circular(12),
     // boxShadow: const [AppStyles.secondaryShadow],
   );
-  static BoxDecoration productCardDecoration = BoxDecoration(
-    color: const Color(0xFFFDFBF8),
-    borderRadius: const BorderRadius.only(
-      topLeft: Radius.circular(28),
-      topRight: Radius.circular(18),
-      bottomLeft: Radius.circular(18),
-      bottomRight: Radius.circular(28),
-    ),
-    border: Border.all(color: const Color(0xFFF1ECE5)),
-    // boxShadow: const [
-    //   BoxShadow(
-    //     color: Color(0x14000000), // 8% black
-    //     offset: Offset(0, 8),
-    //     blurRadius: 24,
-    //     spreadRadius: 0,
-    //   ),
-    //   BoxShadow(
-    //     color: Color(0x0A000000), // 4% black
-    //     offset: Offset(0, 2),
-    //     blurRadius: 8,
-    //     spreadRadius: 0,
-    //   ),
-    // ],
-  );
+
   static final BoxDecoration productCardDecoration = BoxDecoration(
     color: AppColors.backgroundV2,
     borderRadius: BorderRadius.circular(18),
@@ -124,7 +101,11 @@ abstract final class AppStyles {
   static BoxDecoration cardDecoration = BoxDecoration(
     color: AppColors.background,
     borderRadius: BorderRadius.circular(18),
-    border: Border.all(color: AppColors.backgroundV2, width: 1.5, style: BorderStyle.solid),
+    border: Border.all(
+      color: AppColors.backgroundV2,
+      width: 1.5,
+      style: BorderStyle.solid,
+    ),
     // boxShadow: const [AppStyles.defaultShadow],
   );
   static var productsGridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
@@ -137,7 +118,13 @@ abstract final class AppStyles {
   static BoxDecoration customCardBoxDecoration = BoxDecoration(
     color: AppColors.background, // cardBg,
     borderRadius: BorderRadius.circular(16),
-    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 10, offset: const Offset(0, 4))],
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.06),
+        blurRadius: 10,
+        offset: const Offset(0, 4),
+      ),
+    ],
   );
   static BoxDecoration customImageCardBoxDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(12),
