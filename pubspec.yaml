@@ -27,6 +27,7 @@ dependencies: # dart fix --apply
   lottie: ^3.5.1
   equatable: ^2.1.0
   pretty_dio_logger: ^1.4.0
+  carousel_slider: ^5.1.2
 
 dev_dependencies:
   flutter_test:

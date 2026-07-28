@@ -18,6 +18,7 @@ import 'package:shopping_app/features/cart/presentation/cart.dart';
 import 'package:shopping_app/features/favourite/presentation/favourite.dart';
 import 'package:shopping_app/features/onboarding/presentation/view/screen/onboarding_screen.dart';
 import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart';
+import 'package:shopping_app/features/product_details_screen/presentation/view/product_details_screen.dart';
 
 class AppRouter {
   AppRouter._();
@@ -71,6 +72,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => LoginScreen());
       case AppRoutes.registerRoute:
         return MaterialPageRoute(builder: (context) => RegisterScreen());
+      case AppRoutes.productDetailsRoute:
+        return MaterialPageRoute(builder: (context) => ProductDetailsScreen());
 
       case AppRoutes.productByCategoryRoute:
         final categoryName = settings.arguments as String;

@@ -12,6 +12,7 @@ abstract class AppRoutes {
   static const String helloRoute = "/hello";
   static const String loginRoute = "/login";
   static const String registerRoute = "/register";
+  static const String productDetailsRoute = "/product-details";
   static const String launcherRoute = "/launcher";
   static const String productByCategoryRoute = "/product-by-category";
 }

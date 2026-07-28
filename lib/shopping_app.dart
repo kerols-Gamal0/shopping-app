@@ -16,7 +16,8 @@ class ShoppingApp extends StatelessWidget {
       themeAnimationDuration: Duration.zero,
       themeAnimationCurve: Curves.linear,
       onGenerateRoute: AppRouter.onGenerateRoute,
-      initialRoute: AppRoutes.launcherRoute,
+      // initialRoute: AppRoutes.launcherRoute,
+      initialRoute: AppRoutes.productDetailsRoute,
     );
   }
 }
