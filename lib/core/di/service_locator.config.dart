@@ -23,6 +23,7 @@ import '../../features/cart/domain/use_cases/add_to_cart_use_case.dart'
 import '../../features/cart/domain/use_cases/delete_cart_item_use_case.dart'
     as _i570;
 import '../../features/cart/domain/use_cases/get_cart_use_case.dart' as _i176;
+import '../../features/cart/presentation/view_model/cart_cubit.dart' as _i818;
 import '../../features/category/data/repo/category_data_source_imp.dart'
     as _i758;
 import '../../features/category/data/repo/category_repo_imp.dart' as _i610;
@@ -82,9 +83,6 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
-    gh.factory<_i349.CartRemoteDataSource>(
-      () => _i349.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
     gh.factory<_i575.CategoryDataSourceInterface>(
       () => _i758.CategoryDataSourceImp(gh<_i361.Dio>()),
     );
@@ -93,6 +91,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i289.HelloDataSourceInterface>(
       () => _i474.HelloDataSourceImp(),
+    );
+    gh.factory<_i141.CartRemoteDataSource>(
+      () => _i349.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.factory<_i907.HelloRepoInterface>(
       () => _i138.HelloRepoImp(gh<_i289.HelloDataSourceInterface>()),
@@ -141,6 +142,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i1027.HomeRepoInterface>(
       () => _i1024.HomeRepoImpl(gh<_i273.HomeDataSourceInterface>()),
+    );
+    gh.factory<_i818.CartCubit>(
+      () => _i818.CartCubit(gh<_i76.CartRepoInterface>()),
     );
     gh.factory<_i608.IsOnboardingSeenUseCase>(
       () => _i608.IsOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),

@@ -44,7 +44,7 @@ class CartRepoImpl implements CartRepoInterface {
   }
 
   @override
-  Future<ResultApi<void>> addToCart({required int productId}) async {
+  Future<ResultApi<void>> addToCart({required String productId}) async {
     try {
       await _remoteDataSource.addToCart(productId: productId);
       return Success(null);
@@ -56,7 +56,7 @@ class CartRepoImpl implements CartRepoInterface {
   }
 
   @override
-  Future<ResultApi<void>> deleteCartItem({required int productId}) async {
+  Future<ResultApi<void>> deleteCartItem({required String productId}) async {
     try {
       await _remoteDataSource.deleteCartItem(productId: productId);
       return Success(null);

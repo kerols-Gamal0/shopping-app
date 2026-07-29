@@ -1,5 +1,5 @@
 class CartEntity {
-  final int id;
+  final String id;
   final String title;
   final String thumbnail;
   final double price;
@@ -14,7 +14,7 @@ class CartEntity {
   });
 
   CartEntity copyWith({
-    int? id,
+    String? id,
     String? title,
     String? thumbnail,
     double? price,

@@ -14,4 +14,12 @@ abstract class AppStrings {
   static const String addToCart = 'Add to Cart';
 
   static const String homeGreeting = "Hi !\nLet's Start Your Day";
+  static const String lostInSpaceTitle = "Lost in Space!";
+  static const String lostInSpaceDesc =
+      "The page you are looking for seems to be missing. Please go back or visit the homepage.";
+  static const String backToHome = "Back to home";
+
+  static const String underMaintenanceTitle = "Under Maintenance!";
+  static const String underMaintenanceDesc =
+      "We are currently performing scheduled maintenance. Please check back later. Thank you for your patience.";
 }

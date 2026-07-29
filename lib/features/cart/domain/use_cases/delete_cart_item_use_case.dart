@@ -8,7 +8,7 @@ class DeleteCartItemUseCase {
 
   DeleteCartItemUseCase(this._repo);
 
-  Future<ResultApi<void>> invoke({required int productId}) async {
+  Future<ResultApi<void>> invoke({required String productId}) async {
     return await _repo.deleteCartItem(productId: productId);
   }
 }

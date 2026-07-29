@@ -8,7 +8,7 @@ class AddToCartUseCase {
 
   AddToCartUseCase(this._repo);
 
-  Future<ResultApi<void>> invoke({required int productId}) async {
+  Future<ResultApi<void>> invoke({required String productId}) async {
     return await _repo.addToCart(productId: productId);
   }
 }

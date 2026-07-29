@@ -28,14 +28,16 @@ class HomeDataSourceRemoteImpl implements HomeDataSourceInterface {
 
       return Error("Failed to load categories: Status ${response.statusCode}");
     } on DioException catch (e) {
-      HandleDioExceptionsService.handle(e);
+      return Error(HandleDioExceptionsService.handle(e));
     } catch (e) {
       return Error(e.toString());
     }
   }
 
   @override
-  Future<ResultApi<List<ProductItemDto>>> getProducts({required int page}) async {
+  Future<ResultApi<List<ProductItemDto>>> getProducts({
+    required int page,
+  }) async {
     try {
       final skip = (page - 1) * ApiConstants.pageLimit;
 
@@ -45,18 +47,25 @@ class HomeDataSourceRemoteImpl implements HomeDataSourceInterface {
 
       final response = await _dio.get<Map<String, dynamic>>(
         ApiConstants.allProducts,
-        queryParameters: PaginationQueryParams(skip: skip, limit: ApiConstants.pageLimit).toJson(),
+        queryParameters: PaginationQueryParams(
+          skip: skip,
+          limit: ApiConstants.pageLimit,
+        ).toJson(),
       );
 
       if (response.statusCode != 200) {
-        return Error('Failed to load products. Status code: ${response.statusCode}');
+        return Error(
+          'Failed to load products. Status code: ${response.statusCode}',
+        );
       }
 
       final List<dynamic> data = response.data?['list'] as List<dynamic>? ?? [];
 
       log('Products Count: ${data.length}');
 
-      final products = data.map((json) => ProductItemDto.fromJson(json as Map<String, dynamic>)).toList();
+      final products = data
+          .map((json) => ProductItemDto.fromJson(json as Map<String, dynamic>))
+          .toList();
 
       return Success(products);
     } on DioException catch (e) {

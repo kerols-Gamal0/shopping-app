@@ -24,7 +24,7 @@ class CartModel {
 
   CartEntity toEntity({int quantity = 1}) {
     return CartEntity(
-      id: id,
+      id: id.toString(),
       title: title,
       thumbnail: thumbnail,
       price: price,
