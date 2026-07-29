@@ -65,7 +65,7 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
         data['image'] = imageUrl;
       }
 
-      await _dio.post('portfolio/edit_user_data', data: data);
+      await _dio.post(ApiConstants.editUserData, data: data);
     } on DioException catch (e) {
       HandleDioExceptionsService.handle(e);
     }

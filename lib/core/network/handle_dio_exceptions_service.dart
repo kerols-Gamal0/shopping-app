@@ -26,46 +26,60 @@ abstract final class HandleDioExceptionsService {
 
       case DioExceptionType.transformTimeout:
         throw 'Request processing timed out';
-        
+
       case DioExceptionType.badResponse:
         throw _handleStatusCode(e.response);
     }
   }
 
   static String _handleStatusCode(Response? response) {
-    switch (response?.statusCode) {
+    final statusCode = response?.statusCode;
+    final data = response?.data;
+    final message = _extractMessage(data);
+
+    switch (statusCode) {
       case 400:
-        return 'Bad request';
+        return message ?? 'Bad request';
 
       case 401:
-        return 'Unauthorized';
+        return message ?? 'Unauthorized';
 
       case 403:
-        return 'Forbidden';
+        return message ?? 'Forbidden';
 
       case 404:
-        return 'Resource not found';
+        return message ?? 'Resource not found';
 
       case 409:
-        return 'Conflict';
+        return message ?? 'Conflict';
 
       case 422:
-        return 'Validation failed';
+        return message ?? 'Validation failed';
 
       case 500:
-        return 'Internal server error';
+        return message ?? 'Internal server error';
 
       case 502:
-        return 'Bad gateway';
+        return message ?? 'Bad gateway';
 
       case 503:
-        return 'Service unavailable';
+        return message ?? 'Service unavailable';
 
       case 504:
-        return 'Gateway timeout';
+        return message ?? 'Gateway timeout';
 
       default:
-        return response?.statusMessage ?? 'Something went wrong';
+        return message ?? response?.statusMessage ?? 'Something went wrong';
     }
+  }
+
+  static String? _extractMessage(dynamic data) {
+    if (data is Map<String, dynamic>) {
+      return data['message']?.toString() ?? data['error']?.toString();
+    }
+    if (data is Map) {
+      return data['message']?.toString() ?? data['error']?.toString();
+    }
+    return null;
   }
 }

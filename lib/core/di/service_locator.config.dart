@@ -22,6 +22,8 @@ import '../../features/account/domain/use_cases/edit_user_data_usecase.dart'
     as _i588;
 import '../../features/account/domain/use_cases/get_user_data_usecase.dart'
     as _i140;
+import '../../features/account/presentation/view_model/account_cubit.dart'
+    as _i802;
 import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
 import '../../features/category/data/repo/category_data_source_imp.dart'
     as _i758;
@@ -163,6 +165,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i550.CategoriesCubit>(
       () => _i550.CategoriesCubit(gh<_i315.GetCategoriesUseCase>()),
+    );
+    gh.factory<_i802.AccountCubit>(
+      () => _i802.AccountCubit(
+        gh<_i140.GetUserDataUseCase>(),
+        gh<_i588.EditUserDataUseCase>(),
+      ),
     );
     return this;
   }
