@@ -18,7 +18,7 @@ class ReviewsSection extends StatelessWidget {
           children: [
             Text(
               'Reviews (${reviews.length})',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: AppTheme.lightTheme.textTheme.headlineMedium,
             ),
             const Spacer(),
           ],

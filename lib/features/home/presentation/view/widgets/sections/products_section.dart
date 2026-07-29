@@ -68,6 +68,7 @@ class ProductsSection extends StatelessWidget {
       gridDelegate: AppStyles.productsGridDelegate,
       itemBuilder: (context, index) {
         return ProductCard(
+          key: ValueKey(products[index].id),
           product: products[index],
           onAddToCart: () {},
           onFavorite: () {},

@@ -16,7 +16,7 @@ class ProductDescription extends StatelessWidget {
           style: AppTheme.lightTheme.textTheme.headlineMedium,
         ),
         Text(description, style: AppTheme.lightTheme.textTheme.bodyMedium),
-        Divider(thickness: .5),
+        Divider(thickness: 0.5),
       ],
     );
   }
