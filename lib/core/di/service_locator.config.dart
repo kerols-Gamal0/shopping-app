@@ -83,6 +83,9 @@ extension GetItInjectableX on _i174.GetIt {
     final dioModule = _$DioModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
+    gh.factory<_i349.CartRemoteDataSource>(
+      () => _i349.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.factory<_i575.CategoryDataSourceInterface>(
       () => _i758.CategoryDataSourceImp(gh<_i361.Dio>()),
     );
@@ -91,9 +94,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i289.HelloDataSourceInterface>(
       () => _i474.HelloDataSourceImp(),
-    );
-    gh.factory<_i141.CartRemoteDataSource>(
-      () => _i349.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.factory<_i907.HelloRepoInterface>(
       () => _i138.HelloRepoImp(gh<_i289.HelloDataSourceInterface>()),
