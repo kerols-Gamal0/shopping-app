@@ -22,4 +22,12 @@ abstract class AppStrings {
   static const String underMaintenanceTitle = "Under Maintenance!";
   static const String underMaintenanceDesc =
       "We are currently performing scheduled maintenance. Please check back later. Thank you for your patience.";
+
+  static const String cartTitle = 'My Cart';
+  static const String cartEmptyState = 'Your cart is empty.';
+  static const String cartShippingFee = 'Shipping fee';
+  static const String cartSubTotal = 'Sub total';
+  static const String cartTotal = 'Total';
+  static const String cartCheckout = 'Checkout';
+  static const String cartCheckoutMessage = 'Checkout feature coming soon!';
 }

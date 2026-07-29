@@ -4,7 +4,8 @@ import 'package:shopping_app/core/common/base_state/base_state.dart';
 import 'package:shopping_app/core/common/base_state/base_state_builder.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
-import 'package:shopping_app/core/theme/app_colors.dart';
+import 'package:shopping_app/core/constants/app_strings.dart';
+import 'package:shopping_app/core/theme/cart_theme_colors.dart';
 import 'package:shopping_app/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_state.dart';
@@ -14,8 +15,6 @@ import 'package:shopping_app/features/cart/presentation/view/widgets/cart_item_s
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
-
-  static const routeName = 'CartScreen';
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -28,10 +27,50 @@ class _CartScreenState extends State<CartScreen> {
     context.read<CartCubit>().doIntent(const GetCartEvent());
   }
 
+  void _showCheckoutAlert(BuildContext context) {
+    final theme = Theme.of(context);
+
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const Icon(Icons.check_circle, color: Colors.white),
+            const SizedBox(width: 12),
+            Text(
+              AppStrings.cartCheckoutMessage,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onPrimary,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: theme.colorScheme.primary,
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        margin: const EdgeInsets.all(16),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cartColors = theme.extension<CartThemeColors>()!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('My Cart'), centerTitle: true),
+      backgroundColor: cartColors.screenBackground,
+      appBar: AppBar(
+        title: Text(
+          AppStrings.cartTitle,
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurface,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: SafeArea(
         child: BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
@@ -56,6 +95,8 @@ class _CartScreenState extends State<CartScreen> {
     required List<CartEntity> cartItems,
     required BuildContext context,
   }) {
+    final theme = Theme.of(context);
+    final cartColors = theme.extension<CartThemeColors>()!;
     if (cartItems.isEmpty) {
       return Center(
         child: Column(
@@ -63,40 +104,154 @@ class _CartScreenState extends State<CartScreen> {
           children: [
             Image.asset(AppAssets.emptyCart, height: 200),
             verticalSpace(AppSpacing.x2),
-            const Text('Your cart is empty.'),
+            Text(
+              AppStrings.cartEmptyState,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
           ],
         ),
       );
     }
 
-    return ListView.separated(
-      padding: AppSpacing.allX2,
-      itemCount: cartItems.length,
-      separatorBuilder: (_, _) => verticalSpace(AppSpacing.x2),
-      itemBuilder: (context, index) {
-        final item = cartItems[index];
-        return CartItemCard(
-          imageUrl: item.thumbnail,
-          title: item.title,
-          price: 'EGP ${item.price}',
-          quantity: item.quantity,
-          onIncrement: () {
-            context.read<CartCubit>().doIntent(
-              AddToCartEvent(productId: item.id),
-            );
-          },
-          onDecrement: () {
-            context.read<CartCubit>().doIntent(
-              DeleteCartItemEvent(productId: item.id),
-            );
-          },
-          onDelete: () {
-            context.read<CartCubit>().doIntent(
-              DeleteCartItemEvent(productId: item.id),
-            );
-          },
-        );
-      },
+    double subtotal = 0.0;
+    for (var item in cartItems) {
+      subtotal += (item.price * item.quantity);
+    }
+    const double shippingFee = 45.0;
+    double total = subtotal + shippingFee;
+
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.separated(
+            padding: AppSpacing.allX2,
+            itemCount: cartItems.length,
+            separatorBuilder: (_, _) => verticalSpace(AppSpacing.x2),
+            itemBuilder: (context, index) {
+              final item = cartItems[index];
+              return CartItemCard(
+                imageUrl: item.thumbnail,
+                title: item.title,
+                price: 'EGP ${item.price}',
+                quantity: item.quantity,
+                onIncrement: () {
+                  context.read<CartCubit>().doIntent(
+                    AddToCartEvent(productId: item.id),
+                  );
+                },
+                onDecrement: () {
+                  context.read<CartCubit>().doIntent(
+                    DeleteCartItemEvent(productId: item.id),
+                  );
+                },
+                onDelete: () {
+                  context.read<CartCubit>().doIntent(
+                    DeleteAllCartItemEvent(
+                      productId: item.id,
+                      quantity: item.quantity,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+
+        Container(
+          padding: AppSpacing.allX2,
+          decoration: BoxDecoration(
+            color: cartColors.summaryBackground,
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.shadow.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, -5),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppStrings.cartShippingFee,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  Text(
+                    'EGP ${shippingFee.toStringAsFixed(0)}',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              verticalSpace(AppSpacing.x1),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppStrings.cartSubTotal,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  Text(
+                    'EGP ${subtotal.toStringAsFixed(0)}',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              Divider(height: 24, color: cartColors.dividerColor),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppStrings.cartTotal,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'EGP ${total.toStringAsFixed(0)}',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              verticalSpace(AppSpacing.x2),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () => _showCheckoutAlert(context),
+                  child: Text(
+                    AppStrings.cartCheckout,
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: theme.colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -113,7 +268,9 @@ class _CartScreenState extends State<CartScreen> {
             Text(
               error,
               textAlign: TextAlign.center,
-              style: TextStyle(color: AppColors.bodyLight),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
