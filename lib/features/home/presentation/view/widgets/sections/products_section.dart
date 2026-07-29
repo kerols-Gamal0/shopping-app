@@ -6,6 +6,7 @@ import 'package:shopping_app/core/common/pagination/pagination_state.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
+import 'package:shopping_app/core/network/result_api.dart' show Error, Success;
 import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/features/home/presentation/view/widgets/product_card_shimmer.dart';
 import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
@@ -37,29 +38,57 @@ class ProductsSection extends StatelessWidget {
   }
 
   Widget _buildOnSuccessWidget(PaginationState<ProductItemEntity> state, {required List<ProductItemEntity> products}) {
-    if (state.isLoadingMore) {
-      return const Padding(
-        padding: AppSpacing.allX2,
-        child: Center(child: CupertinoActivityIndicator()),
-      );
-    }
-    if (products.isEmpty) {
+    if (products.isEmpty && !state.isLoadingMore) {
       return Center(
         child: Column(
-          children: [verticalSpace(96), Image.asset(AppAssets.emptyProduct, height: 96), Text("No products available in this category right now.")],
+          children: [
+            verticalSpace(96),
+            Image.asset(AppAssets.emptyProduct, height: 96),
+            const Text("No products available in this category right now."),
+          ],
         ),
       );
     }
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: AppSpacing.horizontalX2,
-      itemCount: products.length,
-      gridDelegate: AppStyles.productsGridDelegate,
-      itemBuilder: (_, index) {
-        return ProductCard(product: products[index], onAddToCart: () {}, onFavorite: () {});
-      },
+    return Column(
+      children: [
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: AppSpacing.horizontalX2,
+          itemCount: products.length,
+          gridDelegate: AppStyles.productsGridDelegate,
+          itemBuilder: (context, index) {
+            final product = products[index];
+            return ProductCard(
+              product: product,
+              onAddToCart: () {},
+              onFavorite: () async {
+                final cubit = context.read<ProductsCubit>();
+                final result = await cubit.toggleFavorite(product.id);
+                if (!context.mounted) return;
+                switch (result) {
+                  case Success<bool>():
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(result.data ? "Added to favourites" : "Removed from favourites"),
+                      ),
+                    );
+                  case Error<bool>():
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(result.messageError)),
+                    );
+                }
+              },
+            );
+          },
+        ),
+        if (state.isLoadingMore)
+          const Padding(
+            padding: AppSpacing.allX2,
+            child: Center(child: CupertinoActivityIndicator()),
+          ),
+      ],
     );
   }
 

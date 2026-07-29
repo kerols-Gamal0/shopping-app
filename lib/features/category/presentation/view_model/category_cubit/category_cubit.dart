@@ -1,116 +1,99 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shopping_app/core/common/base_state/base_state.dart';
+import 'package:shopping_app/core/common/favourite/favourite_status_service.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
+import 'package:shopping_app/core/common/pagination/paginated_cubit.dart';
+import 'package:shopping_app/core/di/service_locator.dart';
+import 'package:shopping_app/core/network/api_constants.dart';
 import 'package:shopping_app/core/network/result_api.dart';
+import 'package:shopping_app/features/favourite/presentation/view_model/favourite_cubit.dart';
+import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
 import '../../../domain/usecase/get_category_products_use_case.dart';
-import 'category_intent.dart';
 
-part 'category_state.dart';
-
-@injectable
-class CategoryCubit extends Cubit<CategoryState> {
+@lazySingleton
+class CategoryCubit extends PaginatedCubit<ProductItemEntity> {
   final GetCategoryProductsUseCase getCategoryProductsUseCase;
+  final FavouriteStatusService _favouriteStatusService;
 
-  CategoryCubit(this.getCategoryProductsUseCase) : super(const CategoryState());
+  String? _categoryName;
 
-  bool get isLoadingMore => state.isLoadingMore;
+  CategoryCubit(this.getCategoryProductsUseCase, this._favouriteStatusService)
+      : super(pageSize: ApiConstants.pageLimit);
 
-  Future<void> processIntent(CategoryIntent categoryIntent) async {
-    switch (categoryIntent) {
-      case FetchCategoryProductsIntent(
-        categoryName: final categoryName,
-        isLoadMore: final isLoadMore,
-      ):
-        if (isLoadMore) {
-          await _loadMoreProducts(categoryName);
-        } else {
-          await _fetchInitialProducts(categoryName);
-        }
+  /// بتتنادى من الـ UI بدل الـ Intent القديم. لو الكاتيجوري اتغيرت
+  /// بيعمل reset ويجيب أول صفحة من جديد.
+  void fetchCategoryProducts(String categoryName) {
+    if (_categoryName != categoryName) {
+      _categoryName = categoryName;
+      fetchFirstPage();
+    } else if (state.items.isEmpty && !state.isFirstLoading) {
+      fetchFirstPage();
     }
   }
 
-  Future<void> _fetchInitialProducts(String categoryName) async {
-    emit(
-      state.copyWith(
-        categoryState: const BaseLoadingState<List<ProductItemEntity>>(),
-        skip: 0,
-        hasMore: true,
-        isLoadingMore: false,
-        allProducts: [],
-        clearError: true,
-      ),
-    );
+  @override
+  Future<ResultApi<List<ProductItemEntity>>> fetchPage(int page) async {
+    final categoryName = _categoryName;
+    if (categoryName == null) {
+      return Error('No category selected');
+    }
 
+    final skip = (page - 1) * pageSize;
     final result = await getCategoryProductsUseCase.invoke(
       categoryName,
-      skip: state.skip,
-      limit: state.limit,
+      skip: skip,
+      limit: pageSize,
     );
 
     switch (result) {
-      case Success(data: final products):
-        final newAllProducts = List<ProductItemEntity>.from(products);
-        emit(
-          state.copyWith(
-            allProducts: newAllProducts,
-            skip: state.skip + state.limit,
-            hasMore: products.length >= state.limit,
-            categoryState: BaseSuccessState<List<ProductItemEntity>>(
-              data: newAllProducts,
-            ),
-          ),
-        );
-
-      case Error(messageError: final message):
-        emit(
-          state.copyWith(
-            categoryState: BaseFailureState<List<ProductItemEntity>>(
-              errorMessage: message,
-            ),
-          ),
-        );
+      case Success<List<ProductItemEntity>>():
+        return Success(_applyFavouriteStatus(result.data));
+      case Error<List<ProductItemEntity>>():
+        return result;
     }
   }
 
-  Future<void> _loadMoreProducts(String categoryName) async {
-    if (!state.hasMore ||
-        state.isLoadingMore ||
-        state.categoryState is BaseLoadingState) {
-      return;
-    }
-    emit(state.copyWith(isLoadingMore: true, clearError: true));
+  List<ProductItemEntity> _applyFavouriteStatus(List<ProductItemEntity> products) {
+    return products
+        .map((product) => product.copyWith(
+      isFavorite: _favouriteStatusService.isFavourite(product.id),
+    ))
+        .toList();
+  }
 
-    final result = await getCategoryProductsUseCase.invoke(
-      categoryName,
-      skip: state.skip,
-      limit: state.limit,
-    );
+  /// تحديث محلي فوري من غير Network call، بيتنادى من فيتشرز تانية
+  /// (Home, Favourite) لما حاجة تتغير من عندهم.
+  void updateFavoriteStatus(int productId, bool isFavorite) {
+    final updatedItems = state.items.map((product) {
+      if (product.id == productId) {
+        return product.copyWith(isFavorite: isFavorite);
+      }
+      return product;
+    }).toList();
+    emit(state.copyWith(items: updatedItems));
+  }
 
+  Future<ResultApi<bool>> toggleFavorite(int productId) async {
+    final result = await _favouriteStatusService.toggle(productId);
     switch (result) {
-      case Success(data: final products):
-        if (products.isEmpty) {
-          emit(state.copyWith(hasMore: false, isLoadingMore: false));
-        } else {
-          final newAllProducts = List<ProductItemEntity>.from(state.allProducts)
-            ..addAll(products);
-          emit(
-            state.copyWith(
-              allProducts: newAllProducts,
-              skip: state.skip + state.limit,
-              hasMore: products.length >= state.limit,
-              isLoadingMore: false,
-              categoryState: BaseSuccessState<List<ProductItemEntity>>(
-                data: newAllProducts,
-              ),
-            ),
-          );
+      case Success<bool>():
+        updateFavoriteStatus(productId, result.data);
+
+        if (serviceLocator.isRegistered<ProductsCubit>()) {
+          serviceLocator<ProductsCubit>().updateFavoriteStatus(productId, result.data);
         }
 
-      case Error(messageError: final message):
-        emit(state.copyWith(isLoadingMore: false, paginationError: message));
+        if (serviceLocator.isRegistered<FavouriteCubit>()) {
+          final favouriteCubit = serviceLocator<FavouriteCubit>();
+          if (result.data) {
+            final product = state.items.firstWhere((p) => p.id == productId);
+            favouriteCubit.addFavouriteItem(product);
+          } else {
+            favouriteCubit.removeFavouriteItem(productId);
+          }
+        }
+      case Error<bool>():
+        break;
     }
+    return result;
   }
 }

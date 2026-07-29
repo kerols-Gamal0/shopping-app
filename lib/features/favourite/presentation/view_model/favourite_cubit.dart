@@ -1,0 +1,77 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+import 'package:shopping_app/core/common/base_state/base_state.dart';
+import 'package:shopping_app/core/common/favourite/favourite_status_service.dart';
+import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
+import 'package:shopping_app/core/di/service_locator.dart';
+import 'package:shopping_app/core/network/result_api.dart';
+import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_cubit.dart';
+import 'package:shopping_app/features/favourite/domain/use_case/get_favourites_usecase.dart';
+import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
+
+@lazySingleton
+class FavouriteCubit extends Cubit<BaseState<List<ProductItemEntity>>> {
+  final GetFavouritesUseCase _getFavouritesUseCase;
+  final FavouriteStatusService _favouriteStatusService;
+
+  FavouriteCubit(this._getFavouritesUseCase, this._favouriteStatusService)
+      : super(const BaseInitialState());
+
+  void fetchFavourites() async {
+    emit(const BaseLoadingState());
+    final result = await _getFavouritesUseCase.invoke();
+    switch (result) {
+      case Success<List<ProductItemEntity>>():
+        emit(BaseSuccessState(data: result.data));
+      case Error<List<ProductItemEntity>>():
+        emit(BaseFailureState(errorMessage: result.messageError));
+    }
+  }
+
+  /// بترجع true لو نجحت (وهي هتنجح دايمًا بمعنى "اتشالت من المفضلة" هنا)،
+  /// وبتحدّث الليست المعروضة فورًا من غير Refresh يدوي.
+  Future<ResultApi<bool>> toggleFavourite(int productId) async {
+    final result = await _favouriteStatusService.toggle(productId);
+
+    switch (result) {
+      case Success<bool>():
+        removeFavouriteItem(productId);
+
+        // تحديث الهوم بالـ Instance الأصلي Singleton
+        serviceLocator<ProductsCubit>().updateFavoriteStatus(
+          productId,
+          false, // مسحناها من المفضلة
+        );
+        if (serviceLocator.isRegistered<CategoryCubit>()) {
+          serviceLocator<CategoryCubit>().updateFavoriteStatus(productId, false);
+        }
+      case Error<bool>():
+        break;
+    }
+
+    return result;
+  }
+
+  /// بيتنادى من الـ Home لما منتج يتضاف للمفضلة، بيضيفه مباشرة للـ List
+  /// المعروضة هنا من غير أي Network call.
+  void addFavouriteItem(ProductItemEntity product) {
+    final currentState = state;
+    if (currentState is BaseSuccessState<List<ProductItemEntity>>) {
+      final alreadyExists = currentState.data.any((p) => p.id == product.id);
+      if (!alreadyExists) {
+        emit(BaseSuccessState(data: [...currentState.data, product]));
+      }
+    }
+  }
+
+  /// بيتنادى من الـ Home لما منتج يتشال من المفضلة، بيشيله مباشرة من الـ List
+  /// المعروضة هنا من غير أي Network call.
+  void removeFavouriteItem(int productId) {
+    final currentState = state;
+    if (currentState is BaseSuccessState<List<ProductItemEntity>>) {
+      final updatedItems =
+      currentState.data.where((p) => p.id != productId).toList();
+      emit(BaseSuccessState(data: updatedItems));
+    }
+  }
+}

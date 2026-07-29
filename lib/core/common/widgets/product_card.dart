@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
+import 'package:shopping_app/core/common/widgets/favourite_button.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
@@ -120,18 +121,9 @@ class ProductCard extends StatelessWidget {
           Positioned(
             top: 8,
             right: 8,
-            child: CircleAvatar(
-              radius: 16,
-              backgroundColor: AppColors.surface.withValues(alpha: .25),
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: onFavorite,
-                icon: Icon(
-                  product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: AppColors.primary,
-                  size: 18,
-                ),
-              ),
+            child: FavouriteButton(
+              isFavorite: product.isFavorite,
+              onTap: onFavorite,
             ),
           ),
         ],

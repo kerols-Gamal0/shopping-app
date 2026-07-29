@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
 import 'package:shopping_app/features/account/presentation/account.dart';
 import 'package:shopping_app/features/cart/presentation/cart.dart';
-import 'package:shopping_app/features/favourite/presentation/favourite.dart';
+import 'package:shopping_app/features/favourite/presentation/view/screens/favourite_screen.dart';
+import 'package:shopping_app/features/favourite/presentation/view_model/favourite_cubit.dart';
 import 'package:shopping_app/features/home/presentation/view/home_screen.dart';
 import 'package:shopping_app/features/home/presentation/view_model/categories_cubit.dart';
 import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
@@ -24,7 +25,10 @@ class AppTabs {
       child: HomeScreen(),
     ),
     CartScreen(),
-    FavouriteScreen(),
+    BlocProvider.value(
+      value: serviceLocator<FavouriteCubit>()..fetchFavourites(),
+      child: const FavouriteScreen(),
+    ),
     AccountScreen(),
   ];
 }

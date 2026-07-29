@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/core/common/favourite/favourite_status_service.dart';
 import 'package:shopping_app/core/common/screens/under_maintenance_screen.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
 import 'package:shopping_app/core/storage_helper/shared_pref.dart';
@@ -13,6 +14,7 @@ void main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) => UnderMaintenanceScreen();
   await SharedPref.init();
   await configureDependencies();
+  await serviceLocator<FavouriteStatusService>().initialize();
   Bloc.observer = AppBlocObserver();
 
   await SystemChrome.setPreferredOrientations([
