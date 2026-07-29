@@ -26,7 +26,7 @@ abstract final class HandleDioExceptionsService {
 
       case DioExceptionType.transformTimeout:
         return 'Request processing timed out';
-        
+
       case DioExceptionType.badResponse:
         return _handleStatusCode(e.response);
     }

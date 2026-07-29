@@ -18,7 +18,6 @@ import 'package:shopping_app/features/cart/presentation/cart.dart';
 import 'package:shopping_app/features/favourite/presentation/favourite.dart';
 import 'package:shopping_app/features/onboarding/presentation/view/screen/onboarding_screen.dart';
 import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart';
-import 'package:shopping_app/features/search/data/models/search_products_by_category_request_body.dart';
 import 'package:shopping_app/features/search/presentation/view/screens/search_products_by_category_screen.dart';
 import 'package:shopping_app/features/search/presentation/view_model/bloc/search_products_by_category_bloc.dart';
 
@@ -75,12 +74,12 @@ class AppRouter {
         );
 
       case AppRoutes.searchProductsByCategoryRoute:
-        final categoryName = settings.arguments as String;
+        // final categoryName = settings.arguments as String;
         return MaterialPageRoute(
           builder: (context) => BlocProvider(
-            create: (context) => serviceLocator<SearchProductsByCategoryBloc>(),
+            create: (context) => serviceLocator<SearchProductsByCategoryBloc>()..add(Start()),
             // ..add(SearchQueryChanged(SearchProductsByCategoryRequestBody().copyWith(category: categoryName))),
-            child: SearchProductsByCategoryScreen(category: categoryName),
+            child: SearchProductsByCategoryScreen(),
           ),
         );
       default:

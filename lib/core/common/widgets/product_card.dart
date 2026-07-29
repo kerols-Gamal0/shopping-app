@@ -87,14 +87,17 @@ class ProductCard extends StatelessWidget {
           ),
           verticalSpace(8),
           // Add To Cart Button
-          PrimaryBtn(
-            onPressed: onAddToCart,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(child: Text(AppStrings.addToCart, style: AppTheme.lightTheme.textTheme.labelMedium)),
-                const Icon(Icons.add_shopping_cart_sharp, color: AppColors.surface, size: 16),
-              ],
+          SizedBox(
+            height: 42,
+            child: PrimaryBtn(
+              onPressed: onAddToCart,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(child: Text(AppStrings.addToCart, style: AppTheme.lightTheme.textTheme.labelMedium)),
+                  const Icon(Icons.add_shopping_cart_sharp, color: AppColors.surface, size: 16),
+                ],
+              ),
             ),
           ),
         ],

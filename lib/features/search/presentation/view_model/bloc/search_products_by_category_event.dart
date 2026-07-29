@@ -22,3 +22,8 @@ final class LoadMoreProducts extends SearchProductsByCategoryEvent {
   @override
   List<Object> get props => [body];
 }
+final class Start extends SearchProductsByCategoryEvent {
+  const Start();
+  @override
+  List<Object> get props => [];
+}

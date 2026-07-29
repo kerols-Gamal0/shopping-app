@@ -13,9 +13,13 @@ abstract class AppAssets {
   static const String accountIcon = "assets/icons/profile_icon.png";
   static const String errorIcon ="assets/images/error_.png";
   static const String loadingLottie = 'assets/lotties/loading.json';
+  static const String searchLottie = 'assets/lotties/searching.json';
+
 
 
  static const String emptyProduct = "assets/images/empty_product.png";
+ static const String search = "assets/images/search.png";
+
 
   static const onBoarding1 = "assets/onboarding/onboarding_1.png";
   static const onBoarding2 = "assets/onboarding/onboarding_2.png";

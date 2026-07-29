@@ -112,7 +112,7 @@ abstract final class AppStyles {
     crossAxisCount: 2,
     crossAxisSpacing: AppSpacing.x2,
     mainAxisSpacing: AppSpacing.x2,
-    childAspectRatio: .65,
+    childAspectRatio: .55,
   );
 
   static BoxDecoration customCardBoxDecoration = BoxDecoration(

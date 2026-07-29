@@ -42,7 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _scrollController,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [HeaderSection(), CategoriesSection(), verticalSpace(AppSpacing.x3), ProductsSection()],
+            children: [HeaderSection(), 
+            
+            CategoriesSection(), verticalSpace(AppSpacing.x3), ProductsSection()],
           ),
         ),
       ),

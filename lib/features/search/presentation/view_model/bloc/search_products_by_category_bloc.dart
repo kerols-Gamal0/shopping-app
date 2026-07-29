@@ -20,10 +20,25 @@ class SearchProductsByCategoryBloc extends Bloc<SearchProductsByCategoryEvent, S
   SearchProductsByCategoryBloc(this._useCase) : super(SearchProductsByCategoryState()) {
     on<SearchQueryChanged>(_onQueryChanged, transformer: debounce(const Duration(milliseconds: 500)));
     on<LoadMoreProducts>(_loadMoreProducts);
+    on<Start>(_onStart);
   }
 
   bool get isLoadingMore => state.isLoadingMore;
-
+  void _onStart(
+  Start event,
+  Emitter<SearchProductsByCategoryState> emit,
+) {
+  emit(
+    state.copyWith(
+      searchState: const BaseInitialState<List<ProductItemEntity>>(),
+      skip: 0,
+      hasMore: true,
+      isLoadingMore: false,
+      allProducts: const [],
+      clearError: true,
+    ),
+  );
+}
   Future<void> _onQueryChanged(SearchQueryChanged event, Emitter<SearchProductsByCategoryState> emit) async {
     if (event.body.search.isEmpty) {
       emit(
@@ -55,7 +70,7 @@ class SearchProductsByCategoryBloc extends Bloc<SearchProductsByCategoryEvent, S
         emit(
           state.copyWith(
             allProducts: newAllProducts,
-            skip: state.skip + state.limit,
+            skip: state.skip + 1,
             hasMore: result.data.length >= state.limit,
             searchState: BaseSuccessState<List<ProductItemEntity>>(data: newAllProducts),
           ),
@@ -81,7 +96,7 @@ class SearchProductsByCategoryBloc extends Bloc<SearchProductsByCategoryEvent, S
           emit(
             state.copyWith(
               allProducts: newAllProducts,
-              skip: state.skip + state.limit,
+              skip: state.skip + 1,
               hasMore: products.length >= state.limit,
               isLoadingMore: false,
               searchState: BaseSuccessState<List<ProductItemEntity>>(data: newAllProducts),

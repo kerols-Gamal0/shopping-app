@@ -73,8 +73,8 @@ extension NavigationExtension on BuildContext {
     return Navigator.push<T>(
       this,
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => page,
-        transitionsBuilder: (_, animation, __, child) {
+        pageBuilder: (_, _, _) => page,
+        transitionsBuilder: (_, animation, _, child) {
           final offsetAnimation = animation.drive(
             Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: curve)),
           );
@@ -94,7 +94,7 @@ extension NavigationExtension on BuildContext {
       this,
       PageRouteBuilder(
         pageBuilder: (_, _, _) => page,
-        transitionsBuilder: (_, animation, __, child) {
+        transitionsBuilder: (_, animation, _, child) {
           final offsetAnimation = animation.drive(
             Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: curve)),
           );
@@ -113,8 +113,8 @@ extension NavigationExtension on BuildContext {
     return Navigator.pushAndRemoveUntil<T>(
       this,
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) => page,
-        transitionsBuilder: (_, animation, __, child) {
+        pageBuilder: (_, _, _) => page,
+        transitionsBuilder: (_, animation, _, child) {
           final offsetAnimation = animation.drive(
             Tween(begin: const Offset(1.0, 0.0), end: Offset.zero).chain(CurveTween(curve: curve)),
           );
