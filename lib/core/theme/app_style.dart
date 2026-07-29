@@ -161,4 +161,8 @@ abstract final class AppStyles {
     color: const Color(0xFFF7F7F8),
     borderRadius: BorderRadius.circular(AppSpacing.x3),
   );
+  static BoxDecoration customHeaderDecoration = BoxDecoration(
+    color: const Color(0xffFFE9E2),
+    borderRadius: BorderRadius.circular(10),
+  );
 }

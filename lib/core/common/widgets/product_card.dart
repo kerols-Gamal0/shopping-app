@@ -13,16 +13,26 @@ class ProductCard extends StatelessWidget {
   final ProductItemEntity product;
   final VoidCallback? onAddToCart;
   final VoidCallback? onFavorite;
+  final Function()? onTap;
 
-  const ProductCard({super.key, required this.product, this.onAddToCart, this.onFavorite});
+  const ProductCard({
+    super.key,
+    required this.product,
+    this.onAddToCart,
+    this.onFavorite,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: AppStyles.customCardBoxDecoration,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_buildProductImage(), _buildProductDetails()],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: AppStyles.customCardBoxDecoration,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [_buildProductImage(), _buildProductDetails()],
+        ),
       ),
     );
   }
@@ -48,7 +58,10 @@ class ProductCard extends StatelessWidget {
                 spacing: 4,
                 children: [
                   const Icon(Icons.star, color: AppColors.primary, size: 14),
-                  Text(product.rating.toString(), style: AppTheme.lightTheme.textTheme.bodySmall),
+                  Text(
+                    product.rating.toString(),
+                    style: AppTheme.lightTheme.textTheme.bodySmall,
+                  ),
                   Expanded(
                     child: Text(
                       "(${product.reviewCount})",
@@ -67,7 +80,11 @@ class ProductCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   "EGP ${(product.price - (product.discountPercentage / 100 * product.price)).toStringAsFixed(2)}",
-                  style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 16),
+                  style: const TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -77,10 +94,17 @@ class ProductCard extends StatelessWidget {
                   height: 22,
                   padding: EdgeInsets.symmetric(horizontal: AppSpacing.x1),
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(color: Colors.orange.shade50, borderRadius: BorderRadius.circular(16)),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade50,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   child: Text(
                     "-${product.discountPercentage.toInt()}%",
-                    style: const TextStyle(color: Colors.orange, fontWeight: FontWeight.w600, fontSize: 11),
+                    style: const TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11,
+                    ),
                   ),
                 ),
             ],
@@ -92,8 +116,17 @@ class ProductCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(child: Text(AppStrings.addToCart, style: AppTheme.lightTheme.textTheme.labelMedium)),
-                const Icon(Icons.add_shopping_cart_sharp, color: AppColors.surface, size: 16),
+                Expanded(
+                  child: Text(
+                    AppStrings.addToCart,
+                    style: AppTheme.lightTheme.textTheme.labelMedium,
+                  ),
+                ),
+                const Icon(
+                  Icons.add_shopping_cart_sharp,
+                  color: AppColors.surface,
+                  size: 16,
+                ),
               ],
             ),
           ),
@@ -112,8 +145,10 @@ class ProductCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: product.thumbnail,
                 fit: BoxFit.contain,
-                placeholder: (_, _) => const Center(child: CupertinoActivityIndicator()),
-                errorWidget: (_, _, _) => const Center(child: Icon(Icons.image_not_supported)),
+                placeholder: (_, _) =>
+                    const Center(child: CupertinoActivityIndicator()),
+                errorWidget: (_, _, _) =>
+                    const Center(child: Icon(Icons.image_not_supported)),
               ),
             ),
           ),

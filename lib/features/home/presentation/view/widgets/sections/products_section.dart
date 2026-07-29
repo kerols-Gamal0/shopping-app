@@ -6,6 +6,7 @@ import 'package:shopping_app/core/common/pagination/pagination_state.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
+import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/features/home/presentation/view/widgets/product_card_shimmer.dart';
 import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
@@ -18,7 +19,8 @@ class ProductsSection extends StatelessWidget {
     return BlocBuilder<ProductsCubit, PaginationState<ProductItemEntity>>(
       builder: (context, state) {
         if (state.isFirstLoading) return _buildOnLoadingWidget();
-        if (state.errorMessage != null && state.items.isEmpty) return _buildOnFailureWidget(state, context);
+        if (state.errorMessage != null && state.items.isEmpty)
+          return _buildOnFailureWidget(state, context);
         return _buildOnSuccessWidget(state, products: state.items);
       },
     );
@@ -36,7 +38,10 @@ class ProductsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildOnSuccessWidget(PaginationState<ProductItemEntity> state, {required List<ProductItemEntity> products}) {
+  Widget _buildOnSuccessWidget(
+    PaginationState<ProductItemEntity> state, {
+    required List<ProductItemEntity> products,
+  }) {
     if (state.isLoadingMore) {
       return const Padding(
         padding: AppSpacing.allX2,
@@ -46,7 +51,11 @@ class ProductsSection extends StatelessWidget {
     if (products.isEmpty) {
       return Center(
         child: Column(
-          children: [verticalSpace(96), Image.asset(AppAssets.emptyProduct, height: 96), Text("No products available in this category right now.")],
+          children: [
+            verticalSpace(96),
+            Image.asset(AppAssets.emptyProduct, height: 96),
+            Text("No products available in this category right now."),
+          ],
         ),
       );
     }
@@ -57,13 +66,27 @@ class ProductsSection extends StatelessWidget {
       padding: AppSpacing.horizontalX2,
       itemCount: products.length,
       gridDelegate: AppStyles.productsGridDelegate,
-      itemBuilder: (_, index) {
-        return ProductCard(product: products[index], onAddToCart: () {}, onFavorite: () {});
+      itemBuilder: (context, index) {
+        return ProductCard(
+          product: products[index],
+          onAddToCart: () {},
+          onFavorite: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.productDetailsRoute,
+              arguments: products[index].id,
+            );
+          },
+        );
       },
     );
   }
 
-  Widget _buildOnFailureWidget(PaginationState<ProductItemEntity> state, BuildContext context) {
+  Widget _buildOnFailureWidget(
+    PaginationState<ProductItemEntity> state,
+    BuildContext context,
+  ) {
     return Center(
       child: Padding(
         padding: AppSpacing.allX2,

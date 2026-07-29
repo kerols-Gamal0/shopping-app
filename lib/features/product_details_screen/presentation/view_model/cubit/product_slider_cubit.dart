@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:injectable/injectable.dart';
 
 part 'product_slider_state.dart';
 
+@injectable
 class ProductSliderCubit extends Cubit<ProductSliderState> {
   ProductSliderCubit() : super(const ProductSliderState());
 

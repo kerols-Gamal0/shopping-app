@@ -6,4 +6,5 @@ abstract interface class HomeDataSourceInterface {
   Future<ResultApi<CategoriesDto>> getCategories();
 
   Future<ResultApi<List<ProductItemDto>>> getProducts({required int page});
+  Future<ResultApi<ProductItemDto>> getProductById({required int productId});
 }

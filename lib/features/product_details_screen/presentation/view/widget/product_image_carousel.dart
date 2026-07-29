@@ -35,7 +35,6 @@ class ProductImageCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(AppSpacing.x2),
       decoration: AppStyles.decorationImageSlider,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(AppSpacing.x3),

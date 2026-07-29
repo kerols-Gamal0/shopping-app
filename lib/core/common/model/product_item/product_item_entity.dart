@@ -109,19 +109,15 @@ class ProductItemEntity {
       rating: rating ?? this.rating,
       stock: stock ?? this.stock,
       weight: weight ?? this.weight,
-      minimumOrderQuantity:
-          minimumOrderQuantity ?? this.minimumOrderQuantity,
+      minimumOrderQuantity: minimumOrderQuantity ?? this.minimumOrderQuantity,
       reviewCount: reviewCount ?? this.reviewCount,
       tags: tags ?? this.tags,
       images: images ?? this.images,
       reviews: reviews ?? this.reviews,
       dimensions: dimensions ?? this.dimensions,
-      warrantyInformation:
-          warrantyInformation ?? this.warrantyInformation,
-      shippingInformation:
-          shippingInformation ?? this.shippingInformation,
-      availabilityStatus:
-          availabilityStatus ?? this.availabilityStatus,
+      warrantyInformation: warrantyInformation ?? this.warrantyInformation,
+      shippingInformation: shippingInformation ?? this.shippingInformation,
+      availabilityStatus: availabilityStatus ?? this.availabilityStatus,
       returnPolicy: returnPolicy ?? this.returnPolicy,
       thumbnail: thumbnail ?? this.thumbnail,
       isFavorite: isFavorite ?? this.isFavorite,
@@ -140,11 +136,7 @@ class DimensionsEntity {
   final double height;
   final double depth;
 
-  DimensionsEntity copyWith({
-    double? width,
-    double? height,
-    double? depth,
-  }) {
+  DimensionsEntity copyWith({double? width, double? height, double? depth}) {
     return DimensionsEntity(
       width: width ?? this.width,
       height: height ?? this.height,

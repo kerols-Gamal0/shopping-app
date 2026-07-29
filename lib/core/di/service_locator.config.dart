@@ -43,6 +43,8 @@ import '../../features/home/domain/repo/home_data_source_interface.dart'
 import '../../features/home/domain/repo/home_repo_interface.dart' as _i1027;
 import '../../features/home/domain/use_case/get_categories_usecase.dart'
     as _i315;
+import '../../features/home/domain/use_case/get_product_by_id_usecase.dart'
+    as _i74;
 import '../../features/home/domain/use_case/get_products_usecase.dart' as _i111;
 import '../../features/home/presentation/view_model/categories_cubit.dart'
     as _i550;
@@ -61,6 +63,10 @@ import '../../features/onboarding/domain/use_case/save_onboarding_seen_usecase.d
     as _i848;
 import '../../features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart'
     as _i917;
+import '../../features/product_details_screen/presentation/view_model/cubit/product_details_cubit.dart'
+    as _i205;
+import '../../features/product_details_screen/presentation/view_model/cubit/product_slider_cubit.dart'
+    as _i542;
 import '../network/dio_module.dart' as _i614;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -71,6 +77,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
+    gh.factory<_i542.ProductSliderCubit>(() => _i542.ProductSliderCubit());
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
     gh.factory<_i575.CategoryDataSourceInterface>(
@@ -124,6 +131,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i848.SaveOnboardingSeenUseCase>(
       () =>
           _i848.SaveOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
+    );
+    gh.factory<_i74.GetProductByIdUseCase>(
+      () => _i74.GetProductByIdUseCase(gh<_i1027.HomeRepoInterface>()),
+    );
+    gh.factory<_i205.ProductDetailsCubit>(
+      () => _i205.ProductDetailsCubit(gh<_i74.GetProductByIdUseCase>()),
     );
     gh.factory<_i315.GetCategoriesUseCase>(
       () => _i315.GetCategoriesUseCase(gh<_i1027.HomeRepoInterface>()),

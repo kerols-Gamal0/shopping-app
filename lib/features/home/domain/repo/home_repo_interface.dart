@@ -8,4 +8,7 @@ abstract interface class HomeRepoInterface {
   Future<ResultApi<List<ProductItemEntity>>> getProducts({
     required int page,
   });
+   Future<ResultApi<ProductItemEntity>> getProductById({
+    required int productId,
+  });
 }

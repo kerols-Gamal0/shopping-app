@@ -73,7 +73,10 @@ class AppRouter {
       case AppRoutes.registerRoute:
         return MaterialPageRoute(builder: (context) => RegisterScreen());
       case AppRoutes.productDetailsRoute:
-        return MaterialPageRoute(builder: (context) => ProductDetailsScreen());
+        final productId = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (context) => ProductDetailsScreen(productId: productId),
+        );
 
       case AppRoutes.productByCategoryRoute:
         final categoryName = settings.arguments as String;
