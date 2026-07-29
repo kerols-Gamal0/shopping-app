@@ -32,7 +32,7 @@ class ReviewsSection extends StatelessWidget {
     return Column(
       children: reviews.map((element) {
         return Padding(
-          padding: const EdgeInsets.only(bottom: 16),
+          padding: EdgeInsets.only(bottom: AppSpacing.x2),
           child: ProductReview(
             date: element.date,
             name: element.reviewerName,
