@@ -12,6 +12,8 @@ abstract class AppAssets {
   static const String favouriteIcon = "assets/icons/favourite_icon.png";
   static const String accountIcon = "assets/icons/profile_icon.png";
   static const String errorIcon ="assets/images/error_.png";
+  static const String loadingLottie = 'assets/lotties/loading.json';
+
 
  static const String emptyProduct = "assets/images/empty_product.png";
 

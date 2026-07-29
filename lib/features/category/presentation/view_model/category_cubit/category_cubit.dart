@@ -17,6 +17,8 @@ class CategoryCubit extends Cubit<CategoryState> {
   CategoryCubit(this.getCategoryProductsUseCase) : super(const CategoryState());
 
   bool get isLoadingMore => state.isLoadingMore;
+  bool get hasMore => state.hasMore;
+
 
   Future<void> processIntent(CategoryIntent categoryIntent) async {
     switch (categoryIntent) {

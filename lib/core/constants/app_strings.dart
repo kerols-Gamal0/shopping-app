@@ -14,4 +14,7 @@ abstract class AppStrings {
   static const String addToCart = 'Add to Cart';
 
   static const String homeGreeting = "Hi !\nLet's Start Your Day";
+ static const String next = 'Next';
+  static const String getStarted = 'Get Started';
+  static const String skip = 'Skip';
 }

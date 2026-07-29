@@ -28,7 +28,7 @@ class HomeDataSourceRemoteImpl implements HomeDataSourceInterface {
 
       return Error("Failed to load categories: Status ${response.statusCode}");
     } on DioException catch (e) {
-      HandleDioExceptionsService.handle(e);
+      return Error(HandleDioExceptionsService.handle(e));
     } catch (e) {
       return Error(e.toString());
     }
