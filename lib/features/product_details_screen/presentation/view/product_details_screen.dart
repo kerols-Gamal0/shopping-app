@@ -135,6 +135,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 //Todo: handle add to cart
               },
               child: Row(
+                mainAxisAlignment: .center,
                 children: [
                   Icon(Icons.shopping_cart, color: AppColors.background),
                   Text(
