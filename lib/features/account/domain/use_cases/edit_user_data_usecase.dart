@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:shopping_app/core/network/result_api.dart';
 import 'package:shopping_app/features/account/domain/repo/account_repo_interface.dart';
 
 @injectable
@@ -7,7 +8,7 @@ class EditUserDataUseCase {
 
   EditUserDataUseCase(this._repository);
 
-  Future<void> call({
+  Future<ResultApi<void>> call({
     required String name,
     required String phone,
     required String address,

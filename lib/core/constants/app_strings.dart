@@ -22,4 +22,5 @@ abstract class AppStrings {
   static const String accountEmail = 'Email';
   static const String accountPhone = 'Phone Number';
   static const String accountAddress = 'Address';
+  static const String unknownError = 'Unknown error';
 }

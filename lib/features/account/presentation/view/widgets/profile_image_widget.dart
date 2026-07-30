@@ -1,7 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shopping_app/core/constants/app_spacing.dart';
+import 'package:shopping_app/core/theme/app_colors.dart';
+import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/features/account/domain/entities/user_entity.dart';
 import 'package:shopping_app/features/account/presentation/view_model/account_cubit.dart';
+import 'package:shopping_app/features/account/presentation/view_model/account_intent.dart';
 
 class ProfileImageWidget extends StatelessWidget {
   final AccountCubit cubit;
@@ -15,25 +20,19 @@ class ProfileImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final double screenWidth = MediaQuery.sizeOf(context).width;
+    final double imageSize = screenWidth * 0.32;
 
     return Center(
       child: Stack(
         children: [
           Container(
-            width: 125,
-            height: 125,
+            width: imageSize,
+            height: imageSize,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: colorScheme.surface, width: 4),
-              boxShadow: [
-                BoxShadow(
-                  color: colorScheme.shadow.withValues(alpha: 0.08),
-                  blurRadius: 15,
-                  spreadRadius: 2,
-                ),
-              ],
+              border: Border.all(color: AppColors.surface, width: 4),
+              boxShadow: [AppStyles.kBlackShadowSmall],
             ),
             child: ClipOval(
               child: cubit.selectedImagePath != null
@@ -42,43 +41,43 @@ class ProfileImageWidget extends StatelessWidget {
                       fit: BoxFit.cover,
                     )
                   : (userEntity?.image != null && userEntity!.image.isNotEmpty)
-                  ? Image.network(
-                      userEntity!.image,
+                  ? CachedNetworkImage(
+                      imageUrl: userEntity!.image,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Icon(
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) => Icon(
                         Icons.person,
-                        size: 60,
-                        color: colorScheme.onSurfaceVariant,
+                        size: imageSize * 0.48,
+                        color: AppColors.bodyLight,
                       ),
                     )
                   : Icon(
                       Icons.person,
-                      size: 60,
-                      color: colorScheme.onSurfaceVariant,
+                      size: imageSize * 0.48,
+                      color: AppColors.bodyLight,
                     ),
             ),
           ),
           Positioned(
-            bottom: 0,
-            right: 4,
+            bottom: AppSpacing.x1 / 2,
+            right: AppSpacing.x1 / 2,
             child: GestureDetector(
               onTap: () => cubit.doIntent(PickImageIntent()),
               child: Container(
-                padding: const EdgeInsets.all(10),
+                padding: AppSpacing.allX1,
                 decoration: BoxDecoration(
-                  color: colorScheme.primary,
+                  color: AppColors.primary,
                   shape: BoxShape.circle,
-                  border: Border.all(color: colorScheme.surface, width: 2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: colorScheme.shadow.withValues(alpha: 0.15),
-                      blurRadius: 6,
-                    ),
-                  ],
+                  border: Border.all(color: AppColors.surface, width: 2),
+                  boxShadow: [AppStyles.primaryShadow],
                 ),
                 child: Icon(
                   Icons.camera_alt,
-                  color: colorScheme.onPrimary,
+                  color: AppColors.onPrimary,
                   size: 18,
                 ),
               ),

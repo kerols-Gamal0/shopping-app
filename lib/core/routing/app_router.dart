@@ -5,6 +5,8 @@ import 'package:shopping_app/core/common/screens/launcher_screen.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/features/account/presentation/view/account_screen.dart';
+import 'package:shopping_app/features/account/presentation/view_model/account_cubit.dart';
+import 'package:shopping_app/features/account/presentation/view_model/account_intent.dart';
 import 'package:shopping_app/features/category/presentation/view/category_screen.dart';
 import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_cubit.dart';
 import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_intent.dart';
@@ -37,7 +39,13 @@ class AppRouter {
       case AppRoutes.favouriteScreen:
         return MaterialPageRoute(builder: (context) => const FavouriteScreen());
       case AppRoutes.accountScreen:
-        return MaterialPageRoute(builder: (context) => const AccountScreen());
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) =>
+                serviceLocator<AccountCubit>()..doIntent(GetUserDataIntent()),
+            child: AccountScreen(),
+          ),
+        );
       case AppRoutes.onboardingRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(

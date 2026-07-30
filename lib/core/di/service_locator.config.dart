@@ -13,8 +13,7 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../features/account/data/repo/account_remote_data_source.dart'
-    as _i33;
+import '../../features/account/data/repo/account_data_source_imp.dart' as _i831;
 import '../../features/account/data/repo/account_repo_imp.dart' as _i781;
 import '../../features/account/domain/repo/account_repo_interface.dart'
     as _i684;
@@ -96,9 +95,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i907.HelloRepoInterface>(
       () => _i138.HelloRepoImp(gh<_i289.HelloDataSourceInterface>()),
     );
-    gh.lazySingleton<_i33.AccountRemoteDataSource>(
-      () => _i33.AccountRemoteDataSourceImpl(gh<_i361.Dio>()),
-    );
     gh.factory<_i4.OnboardingDataSourceInterface>(
       () => _i180.OnboardingDataSourceImp(),
     );
@@ -108,6 +104,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i273.HomeDataSourceInterface>(
       () => _i576.HomeDataSourceRemoteImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i831.AccountRemoteDataSource>(
+      () => _i831.AccountRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.factory<_i398.OnboardingRepoInterface>(
       () => _i371.OnboardingRepoImp(
@@ -132,15 +131,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1027.HomeRepoInterface>(
       () => _i1024.HomeRepoImpl(gh<_i273.HomeDataSourceInterface>()),
     );
-    gh.lazySingleton<_i684.AccountRepoInterface>(
-      () => _i781.AccountRepoImpl(gh<_i33.AccountRemoteDataSource>()),
-    );
     gh.factory<_i608.IsOnboardingSeenUseCase>(
       () => _i608.IsOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
     );
     gh.factory<_i848.SaveOnboardingSeenUseCase>(
       () =>
           _i848.SaveOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
+    );
+    gh.lazySingleton<_i684.AccountRepoInterface>(
+      () => _i781.AccountRepoImpl(gh<_i831.AccountRemoteDataSource>()),
     );
     gh.factory<_i588.EditUserDataUseCase>(
       () => _i588.EditUserDataUseCase(gh<_i684.AccountRepoInterface>()),
