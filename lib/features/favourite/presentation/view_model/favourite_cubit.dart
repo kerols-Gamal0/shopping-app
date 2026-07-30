@@ -28,8 +28,6 @@ class FavouriteCubit extends Cubit<BaseState<List<ProductItemEntity>>> {
     }
   }
 
-  /// بترجع true لو نجحت (وهي هتنجح دايمًا بمعنى "اتشالت من المفضلة" هنا)،
-  /// وبتحدّث الليست المعروضة فورًا من غير Refresh يدوي.
   Future<ResultApi<bool>> toggleFavourite(int productId) async {
     final result = await _favouriteStatusService.toggle(productId);
 
@@ -52,8 +50,6 @@ class FavouriteCubit extends Cubit<BaseState<List<ProductItemEntity>>> {
     return result;
   }
 
-  /// بيتنادى من الـ Home لما منتج يتضاف للمفضلة، بيضيفه مباشرة للـ List
-  /// المعروضة هنا من غير أي Network call.
   void addFavouriteItem(ProductItemEntity product) {
     final currentState = state;
     if (currentState is BaseSuccessState<List<ProductItemEntity>>) {
@@ -64,8 +60,6 @@ class FavouriteCubit extends Cubit<BaseState<List<ProductItemEntity>>> {
     }
   }
 
-  /// بيتنادى من الـ Home لما منتج يتشال من المفضلة، بيشيله مباشرة من الـ List
-  /// المعروضة هنا من غير أي Network call.
   void removeFavouriteItem(int productId) {
     final currentState = state;
     if (currentState is BaseSuccessState<List<ProductItemEntity>>) {

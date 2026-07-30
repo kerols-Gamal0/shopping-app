@@ -17,32 +17,22 @@ class FavouriteDataSourceImpl implements FavouriteDataSourceInterface {
       final response = await _dio.get(ApiConstants.getFavorite);
 
       if (response.statusCode == 200) {
-        // 1. ندخل أول List
         final List<dynamic> outerList = response.data['list'] ?? [];
-
         if (outerList.isNotEmpty) {
-          // 2. نجيب الـ Map اللي جوة القائمة الأولى
           final Map<String, dynamic> innerMap = outerList.first;
-
-          // 3. نطلع القائمة الحقيقية بتاعة المنتجات
           final List<dynamic> productsList = innerMap['list'] ?? [];
-
-          // 4. نحول كل منتج لـ ProductItemDto
           final products = productsList
               .map((e) => ProductItemDto.fromJson(e as Map<String, dynamic>))
               .toList();
 
           return Success(products);
         }
-
-        // لو القائمة فاضية تماماً نرجع قائمة فاضية
         return Success([]);
       }
       return Error("Failed to load favourites: Status ${response.statusCode}");
     } on DioException catch (e) {
       return Error(_mapError(e));
     } catch (e, stackTrace) {
-      // طبعنا الـ StackTrace عشان لو حصل إيرور في الـ Parsing تشكفه فوراً في الكونسول
       print('Parsing Error: $e');
       print('StackTrace: $stackTrace');
       return Error(e.toString());

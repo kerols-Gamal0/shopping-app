@@ -12,7 +12,6 @@ class FavouriteStatusService {
 
   bool isFavourite(int productId) => _favouriteIds.contains(productId);
 
-  /// بتتنادى مرة واحدة بس (مثلاً في main.dart بعد configureDependencies)
   Future<void> initialize() async {
     final result = await _favouriteRepoInterface.getFavourites();
     switch (result) {
@@ -21,7 +20,6 @@ class FavouriteStatusService {
           ..clear()
           ..addAll(result.data.map((e) => e.id));
       case Error<List<ProductItemEntity>>():
-      // بنسيبها فاضية بصمت هنا؛ شاشة الـ Favourite هتظهر الخطأ الحقيقي لو حصل لما تفتح
         break;
     }
   }

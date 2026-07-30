@@ -16,7 +16,6 @@ class FavouriteRepoImpl implements FavouriteRepoInterface {
 
     switch (result) {
       case Success<List<ProductItemDto>>():
-      // كل منتج جاي من الـ API ده أصلاً Favourite، فبنظبط isFavorite: true يدويًا
         final entities = result.data
             .map((dto) => dto.toEntity().copyWith(isFavorite: true))
             .toList();

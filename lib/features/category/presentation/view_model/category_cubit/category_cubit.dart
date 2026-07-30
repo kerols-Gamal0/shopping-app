@@ -19,8 +19,6 @@ class CategoryCubit extends PaginatedCubit<ProductItemEntity> {
   CategoryCubit(this.getCategoryProductsUseCase, this._favouriteStatusService)
       : super(pageSize: ApiConstants.pageLimit);
 
-  /// بتتنادى من الـ UI بدل الـ Intent القديم. لو الكاتيجوري اتغيرت
-  /// بيعمل reset ويجيب أول صفحة من جديد.
   void fetchCategoryProducts(String categoryName) {
     if (_categoryName != categoryName) {
       _categoryName = categoryName;
@@ -60,8 +58,6 @@ class CategoryCubit extends PaginatedCubit<ProductItemEntity> {
         .toList();
   }
 
-  /// تحديث محلي فوري من غير Network call، بيتنادى من فيتشرز تانية
-  /// (Home, Favourite) لما حاجة تتغير من عندهم.
   void updateFavoriteStatus(int productId, bool isFavorite) {
     final updatedItems = state.items.map((product) {
       if (product.id == productId) {

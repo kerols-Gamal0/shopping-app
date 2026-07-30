@@ -162,7 +162,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   ),
                 ),
 
-                // لسه بيلود صفحة جديدة
                 if (state.isLoadingMore)
                   SliverToBoxAdapter(
                     child: Padding(
@@ -183,7 +182,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                   ),
 
-                // مفيش داتا تانية تتلود
                 if (!state.isLoadingMore && state.hasReachedMax && state.currentPage > 1)
                   SliverToBoxAdapter(
                     child: Padding(

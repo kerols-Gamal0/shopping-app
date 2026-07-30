@@ -39,7 +39,6 @@ class ProductsCubit extends PaginatedCubit<ProductItemEntity> {
       case Success<bool>():
         updateFavoriteStatus(productId, result.data);
 
-        // نحدّث الفيفورت كيوبت مباشرة (من غير Network call) بدل ما نطلب منها Refetch
         if (serviceLocator.isRegistered<FavouriteCubit>()) {
           final favouriteCubit = serviceLocator<FavouriteCubit>();
           if (result.data) {
@@ -61,7 +60,6 @@ class ProductsCubit extends PaginatedCubit<ProductItemEntity> {
   }
 
   void updateFavoriteStatus(int productId, bool isFavorite) {
-    // بنلف على الـ items ونحدث المنتج المستهدف
     final updatedItems = state.items.map((product) {
       if (product.id == productId) {
         return product.copyWith(isFavorite: isFavorite);
@@ -69,7 +67,6 @@ class ProductsCubit extends PaginatedCubit<ProductItemEntity> {
       return product;
     }).toList();
 
-    // بنبث الـ state الجديد فوراً بنفس طريقة PaginatedCubit
     emit(state.copyWith(items: updatedItems));
   }
 }
