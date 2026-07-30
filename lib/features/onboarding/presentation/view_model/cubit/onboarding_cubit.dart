@@ -1,5 +1,3 @@
-import 'package:bloc/bloc.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shopping_app/features/onboarding/domain/use_case/is_onboarding_seen_usecase.dart';

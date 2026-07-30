@@ -110,7 +110,7 @@ class CategoryScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(vertical: AppSpacing.x2),
                         child: Shimmer.fromColors(
                           baseColor: AppColors.disabled,
-                          highlightColor: AppColors.backgroundV2,
+                          highlightColor: AppColors.background,
                           child: Container(
                             height: 60,
                             width: double.infinity,
