@@ -5,7 +5,7 @@ import 'package:shopping_app/core/common/base_state/base_state_builder.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
-import 'package:shopping_app/core/theme/cart_theme_colors.dart';
+import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_state.dart';
@@ -35,8 +35,8 @@ class _CartScreenState extends State<CartScreen> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(Icons.check_circle, color: Colors.white),
-            const SizedBox(width: 12),
+            const Icon(Icons.check_circle, color: AppColors.onPrimary),
+            horizontalSpace(AppSpacing.x2),
             Text(
               AppStrings.cartCheckoutMessage,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -48,19 +48,28 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: theme.colorScheme.primary,
         duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        margin: const EdgeInsets.all(16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSpacing.x1),
+        ),
+        margin: const EdgeInsets.all(AppSpacing.x2),
       ),
     );
+  }
+
+  double _calculateSubtotal(List<CartEntity> cartItems) {
+    double subtotal = 0.0;
+    for (var item in cartItems) {
+      subtotal += (item.price * item.quantity);
+    }
+    return subtotal;
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final cartColors = theme.extension<CartThemeColors>()!;
 
     return Scaffold(
-      backgroundColor: cartColors.screenBackground,
+      backgroundColor: AppColors.cartScreenBackground,
       appBar: AppBar(
         title: Text(
           AppStrings.cartTitle,
@@ -96,7 +105,6 @@ class _CartScreenState extends State<CartScreen> {
     required BuildContext context,
   }) {
     final theme = Theme.of(context);
-    final cartColors = theme.extension<CartThemeColors>()!;
     if (cartItems.isEmpty) {
       return Center(
         child: Column(
@@ -115,12 +123,9 @@ class _CartScreenState extends State<CartScreen> {
       );
     }
 
-    double subtotal = 0.0;
-    for (var item in cartItems) {
-      subtotal += (item.price * item.quantity);
-    }
+    final double subtotal = _calculateSubtotal(cartItems);
     const double shippingFee = 45.0;
-    double total = subtotal + shippingFee;
+    final double total = subtotal + shippingFee;
 
     return Column(
       children: [
@@ -162,7 +167,7 @@ class _CartScreenState extends State<CartScreen> {
         Container(
           padding: AppSpacing.allX2,
           decoration: BoxDecoration(
-            color: cartColors.summaryBackground,
+            color: AppColors.cartSummaryBackground,
             boxShadow: [
               BoxShadow(
                 color: theme.colorScheme.shadow.withValues(alpha: 0.05),
@@ -209,7 +214,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ],
               ),
-              Divider(height: 24, color: cartColors.dividerColor),
+              Divider(height: 24, color: AppColors.cartDividerColor),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -235,7 +240,7 @@ class _CartScreenState extends State<CartScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppSpacing.x2),
                     ),
                   ),
                   onPressed: () => _showCheckoutAlert(context),

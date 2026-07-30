@@ -68,28 +68,11 @@ class CartCubit extends Cubit<CartState> {
     required String productId,
     required int quantity,
   }) async {
-    emit(state.copyWith(isActionLoading: true, clearActionError: true));
-
-    try {
-      for (int i = 0; i < quantity; i++) {
-        final result = await _cartRepo.deleteCartItem(productId: productId);
-        if (result is Error) {
-          emit(
-            state.copyWith(
-              isActionLoading: false,
-              actionError: (result).messageError,
-            ),
-          );
-          getCart();
-          return;
-        }
-      }
-      emit(state.copyWith(isActionLoading: false));
-      getCart();
-    } catch (e) {
-      emit(state.copyWith(isActionLoading: false, actionError: e.toString()));
-      getCart();
-    }
+    await _executeAction(
+      action: () =>
+          _cartRepo.deleteAllCartItem(productId: productId, quantity: quantity),
+      onSuccess: () => getCart(),
+    );
   }
 
   Future<void> _executeAction({

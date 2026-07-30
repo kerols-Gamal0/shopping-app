@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shopping_app/core/network/result_api.dart';
 import 'package:shopping_app/core/network/handle_dio_exceptions_service.dart';
-import 'package:shopping_app/features/cart/domain/repo/cart_remote_data_source.dart';
+import 'package:shopping_app/features/cart/domain/repo/cart_data_source_interface.dart';
 import '../../domain/entities/cart_entity.dart';
 import '../../domain/repo/cart_repo_interface.dart';
 import '../models/cart_model.dart';
@@ -59,6 +59,23 @@ class CartRepoImpl implements CartRepoInterface {
   Future<ResultApi<void>> deleteCartItem({required String productId}) async {
     try {
       await _remoteDataSource.deleteCartItem(productId: productId);
+      return Success(null);
+    } on DioException catch (e) {
+      return Error(HandleDioExceptionsService.handle(e));
+    } catch (e) {
+      return Error(e.toString());
+    }
+  }
+
+  @override
+  Future<ResultApi<void>> deleteAllCartItem({
+    required String productId,
+    required int quantity,
+  }) async {
+    try {
+      for (int i = 0; i < quantity; i++) {
+        await _remoteDataSource.deleteCartItem(productId: productId);
+      }
       return Success(null);
     } on DioException catch (e) {
       return Error(HandleDioExceptionsService.handle(e));

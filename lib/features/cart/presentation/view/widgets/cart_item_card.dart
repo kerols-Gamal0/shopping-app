@@ -33,7 +33,7 @@ class CartItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppSpacing.x2),
             child: CachedNetworkImage(
               imageUrl: imageUrl,
               width: 80,
@@ -67,8 +67,8 @@ class CartItemCard extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: onDelete,
-                      child: const Padding(
-                        padding: EdgeInsets.all(4.0),
+                      child: Padding(
+                        padding: EdgeInsets.all(AppSpacing.x1),
                         child: Icon(
                           Icons.close,
                           size: 18,
@@ -91,13 +91,10 @@ class CartItemCard extends StatelessWidget {
                     ),
 
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                      padding: AppSpacing.horizontalVerticalX2,
                       decoration: BoxDecoration(
                         color: AppColors.backgroundV2,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(AppSpacing.x1),
                       ),
                       child: Row(
                         children: [
@@ -110,7 +107,9 @@ class CartItemCard extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: AppSpacing.x1,
+                            ),
                             child: Text(
                               '$quantity',
                               style: Theme.of(context).textTheme.bodyMedium

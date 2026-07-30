@@ -14,9 +14,10 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
-import '../../features/cart/data/repo/cart_remote_data_source.dart' as _i349;
+import '../../features/cart/data/repo/cart_data_source_imp.dart' as _i349;
 import '../../features/cart/data/repo/cart_repo_impl.dart' as _i234;
-import '../../features/cart/domain/repo/cart_remote_data_source.dart' as _i141;
+import '../../features/cart/domain/repo/cart_data_source_interface.dart'
+    as _i141;
 import '../../features/cart/domain/repo/cart_repo_interface.dart' as _i76;
 import '../../features/cart/domain/use_cases/add_to_cart_use_case.dart'
     as _i252;

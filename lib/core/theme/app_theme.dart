@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
-import 'package:shopping_app/core/theme/cart_theme_colors.dart';
 
 class AppTheme {
   AppTheme._();
@@ -31,13 +30,6 @@ class AppTheme {
     primaryColor: AppColors.primary,
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.background,
-    extensions: <ThemeExtension<dynamic>>[
-      const CartThemeColors(
-        screenBackground: AppColors.cartScreenBackground,
-        summaryBackground: AppColors.cartSummaryBackground,
-        dividerColor: AppColors.cartDividerColor,
-      ),
-    ],
     appBarTheme: const AppBarTheme(
       elevation: 0,
       toolbarHeight: 64,

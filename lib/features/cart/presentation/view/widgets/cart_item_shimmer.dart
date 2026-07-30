@@ -16,7 +16,7 @@ class CartItemShimmer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppSpacing.x2),
             child: Container(width: 80, height: 80, color: AppColors.surface),
           ).withShimmer(),
           horizontalSpace(AppSpacing.x1),
@@ -31,13 +31,13 @@ class CartItemShimmer extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
+                        borderRadius: BorderRadius.circular(AppSpacing.x1),
                         child: Container(height: 14, color: AppColors.surface),
                       ).withShimmer(),
                     ),
                     horizontalSpace(AppSpacing.x3),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(AppSpacing.x1),
                       child: Container(
                         width: 18,
                         height: 18,
@@ -51,7 +51,7 @@ class CartItemShimmer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(AppSpacing.x1),
                       child: Container(
                         width: 60,
                         height: 14,
@@ -59,7 +59,7 @@ class CartItemShimmer extends StatelessWidget {
                       ),
                     ).withShimmer(),
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(AppSpacing.x1),
                       child: Container(
                         width: 70,
                         height: 28,
