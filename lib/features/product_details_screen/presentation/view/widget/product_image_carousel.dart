@@ -110,10 +110,10 @@ class ProductImageCarousel extends StatelessWidget {
                 effect: ScrollingDotsEffect(
                   activeDotColor: AppColors.primary,
                   dotColor: AppColors.bodyLight,
-                  dotWidth: 8,
-                  dotHeight: 8,
+                  dotWidth: AppSpacing.x1,
+                  dotHeight: AppSpacing.x1,
                   activeDotScale: 1.2,
-                  spacing: 8,
+                  spacing: AppSpacing.x1,
                 ),
               ),
             ),
@@ -133,7 +133,7 @@ class ProductImageCarousel extends StatelessWidget {
       decoration: AppStyles.favInProductDetailsDecoration,
       child: IconButton(
         padding: EdgeInsets.zero,
-        icon: Icon(icon, size: 18, color: AppColors.primary),
+        icon: Icon(icon, size: AppSpacing.x2, color: AppColors.primary),
         onPressed: onTap,
       ),
     );

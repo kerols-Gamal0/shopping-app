@@ -97,16 +97,11 @@ class ProductReview extends StatelessWidget {
                 ],
               ),
 
-              Row(
-                children: [
-                  _ratingStars(rating),
-                  horizontalSpace(20),
-                  Text(
-                    comment,
-                    style: AppTheme.lightTheme.textTheme.bodyMedium,
-                    softWrap: true,
-                  ),
-                ],
+              _ratingStars(rating),
+              Text(
+                comment,
+                style: AppTheme.lightTheme.textTheme.bodyMedium,
+                softWrap: true,
               ),
             ],
           ),
@@ -121,7 +116,7 @@ class ProductReview extends StatelessWidget {
         return Icon(
           index < rating ? Icons.star : Icons.star_border,
           color: AppColors.primary,
-          size: 18,
+          size: AppSpacing.x2,
         );
       }),
     );

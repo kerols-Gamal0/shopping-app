@@ -3,6 +3,7 @@ import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/core/theme/app_theme.dart';
+import 'package:shopping_app/core/utils/app_methods.dart';
 
 class ProductHeader extends StatelessWidget {
   const ProductHeader({
@@ -37,7 +38,7 @@ class ProductHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'EGP ${calculateDiscount(price, discount).toStringAsFixed(2)}',
+                'EGP ${AppMethods.calculateDiscount(price, discount).toStringAsFixed(2)}',
                 style: AppTheme.lightTheme.textTheme.titleLarge?.copyWith(
                   fontSize: 20,
                 ),
@@ -64,7 +65,7 @@ class ProductHeader extends StatelessWidget {
                   vertical: AppSpacing.x1,
                 ),
                 decoration: AppStyles.customHeaderDecoration.copyWith(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(AppSpacing.x2),
                 ),
                 child: Text(
                   '-${discount.toStringAsFixed(0)}%',
@@ -102,9 +103,5 @@ class ProductHeader extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  double calculateDiscount(double price, double discountPercentage) {
-    return price * (1 - discountPercentage / 100);
   }
 }

@@ -8,6 +8,7 @@ import 'package:shopping_app/core/common/model/product_item/product_item_entity.
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/core/theme/app_theme.dart';
+import 'package:shopping_app/core/utils/app_methods.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductItemEntity product;
@@ -79,7 +80,7 @@ class ProductCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "EGP ${(product.price - (product.discountPercentage / 100 * product.price)).toStringAsFixed(2)}",
+                  "EGP ${AppMethods.calculateDiscount(product.price, product.discountPercentage).toStringAsFixed(2)}",
                   style: const TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.bold,
@@ -89,24 +90,26 @@ class ProductCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (product.discountPercentage > 0)
-                Container(
-                  height: 22,
-                  padding: EdgeInsets.symmetric(horizontal: AppSpacing.x1),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.orange.shade50,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Text(
-                    "-${product.discountPercentage.toInt()}%",
-                    style: const TextStyle(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 11,
-                    ),
-                  ),
-                ),
+              product.discountPercentage.toDouble() > 0 ||
+                      product.discountPercentage.toDouble() < 0
+                  ? Container(
+                      height: 22,
+                      padding: EdgeInsets.symmetric(horizontal: AppSpacing.x1),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade50,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        "-${product.discountPercentage.toStringAsFixed(0)}%",
+                        style: const TextStyle(
+                          color: Colors.orange,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 11,
+                        ),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
           verticalSpace(8),
