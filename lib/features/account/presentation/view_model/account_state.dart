@@ -7,7 +7,9 @@ class AccountInitial extends AccountState {}
 
 class AccountDataState extends AccountState {
   final BaseState<UserEntity?> state;
-  AccountDataState(this.state);
+  final bool showSuccessMessage;
+
+  AccountDataState(this.state, {this.showSuccessMessage = false});
 }
 
 class AccountImageSelectedState extends AccountState {

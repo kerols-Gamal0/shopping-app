@@ -2,12 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shopping_app/core/network/api_constants.dart';
 import 'package:shopping_app/features/cart/data/models/cart_model.dart';
-
-abstract class CartRemoteDataSource {
-  Future<List<CartModel>> getCart();
-  Future<void> addToCart({required String productId});
-  Future<void> deleteCartItem({required String productId});
-}
+import 'package:shopping_app/features/cart/domain/repo/cart_data_source_interface.dart';
 
 @Injectable(as: CartRemoteDataSource)
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {

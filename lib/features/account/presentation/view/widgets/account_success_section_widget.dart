@@ -37,64 +37,101 @@ class AccountSuccessSection extends StatelessWidget {
       addressController.text = data!.address;
     }
 
-    return Padding(
-      padding: AppSpacing.horizontalVerticalX2,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            verticalSpace(AppSpacing.x1),
-            ProfileImageWidget(cubit: cubit, userEntity: data),
-            verticalSpace(AppSpacing.x4),
-            _buildField(
-              context,
-              controller: nameController,
-              label: AppStrings.accountName,
-              icon: Icons.person_outline,
-            ),
-            verticalSpace(AppSpacing.x2),
-            _buildField(
-              context,
-              controller: emailController,
-              label: AppStrings.accountEmail,
-              icon: Icons.email_outlined,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            verticalSpace(AppSpacing.x2),
-            _buildField(
-              context,
-              controller: phoneController,
-              label: AppStrings.accountPhone,
-              icon: Icons.phone_outlined,
-              keyboardType: TextInputType.phone,
-            ),
-            verticalSpace(AppSpacing.x2),
-            _buildField(
-              context,
-              controller: addressController,
-              label: AppStrings.accountAddress,
-              icon: Icons.location_on_outlined,
-            ),
-            verticalSpace(AppSpacing.x4),
-            SizedBox(
-              width: double.infinity,
-              child: PrimaryBtn(
-                onPressed: () => cubit.doIntent(EditUserDataIntent()),
-                child: Padding(
-                  padding: AppSpacing.allX1,
-                  child: Text(
-                    AppStrings.accountSubmit,
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.onPrimary,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isWide = constraints.maxWidth >= 640;
+        final isCompactHeight = constraints.maxHeight < 620;
+        final horizontalPadding = isWide ? AppSpacing.x4 : AppSpacing.x2;
+        final topSpacing = isCompactHeight ? AppSpacing.x1 : AppSpacing.x3;
+        final imageSpacing = isCompactHeight ? AppSpacing.x3 : AppSpacing.x5;
+        final fieldSpacing = isCompactHeight ? AppSpacing.x1 : AppSpacing.x2;
+        final buttonSpacing = isCompactHeight ? AppSpacing.x3 : AppSpacing.x4;
+
+        return CustomScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: SafeArea(
+                top: false,
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 560),
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        horizontalPadding,
+                        topSpacing,
+                        horizontalPadding,
+                        AppSpacing.x3,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          verticalSpace(topSpacing),
+                          ProfileImageWidget(cubit: cubit, userEntity: data),
+                          verticalSpace(imageSpacing),
+                          _buildField(
+                            context,
+                            controller: nameController,
+                            label: AppStrings.accountName,
+                            icon: Icons.person_outline,
+                          ),
+                          verticalSpace(fieldSpacing),
+                          _buildField(
+                            context,
+                            controller: emailController,
+                            label: AppStrings.accountEmail,
+                            icon: Icons.email_outlined,
+                            keyboardType: TextInputType.emailAddress,
+                            readOnly: true,
+                          ),
+                          verticalSpace(fieldSpacing),
+                          _buildField(
+                            context,
+                            controller: phoneController,
+                            label: AppStrings.accountPhone,
+                            icon: Icons.phone_outlined,
+                            keyboardType: TextInputType.phone,
+                          ),
+                          verticalSpace(fieldSpacing),
+                          _buildField(
+                            context,
+                            controller: addressController,
+                            label: AppStrings.accountAddress,
+                            icon: Icons.location_on_outlined,
+                          ),
+                          const Spacer(),
+                          verticalSpace(buttonSpacing),
+                          SizedBox(
+                            height: 52,
+                            child: PrimaryBtn(
+                              onPressed: () => cubit.doIntent(
+                                EditUserDataIntent(),
+                                updatedData: {
+                                  'name': nameController.text.trim(),
+                                  'phone': phoneController.text.trim(),
+                                  'address': addressController.text.trim(),
+                                },
+                              ),
+                              child: Text(
+                                AppStrings.accountSubmit,
+                                style: theme.textTheme.labelLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.onPrimary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-            verticalSpace(AppSpacing.x2),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -104,6 +141,7 @@ class AccountSuccessSection extends StatelessWidget {
     required String label,
     required IconData icon,
     TextInputType keyboardType = TextInputType.text,
+    bool readOnly = false,
   }) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -113,6 +151,7 @@ class AccountSuccessSection extends StatelessWidget {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
+      readOnly: readOnly,
       style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
       decoration: InputDecoration(
         labelText: label,

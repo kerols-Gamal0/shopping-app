@@ -119,8 +119,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i889.CategoryRepoInterface>(
       () => _i610.CategoryRepoImp(gh<_i575.CategoryDataSourceInterface>()),
     );
-    gh.factory<_i76.CartRepoInterface>(
-      () => _i234.CartRepoImpl(gh<_i1034.CartRemoteDataSource>()),
+    gh.factory<_i1034.CartRemoteDataSource>(
+      () => _i615.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.factory<_i289.HelloDataSourceInterface>(
       () => _i474.HelloDataSourceImp(),
@@ -128,23 +128,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i907.HelloRepoInterface>(
       () => _i138.HelloRepoImp(gh<_i289.HelloDataSourceInterface>()),
     );
-    gh.factory<_i818.CartCubit>(
-      () => _i818.CartCubit(gh<_i76.CartRepoInterface>()),
-    );
     gh.factory<_i4.OnboardingDataSourceInterface>(
       () => _i180.OnboardingDataSourceImp(),
-    );
-    gh.factory<_i252.AddToCartUseCase>(
-      () => _i252.AddToCartUseCase(gh<_i76.CartRepoInterface>()),
-    );
-    gh.factory<_i570.DeleteCartItemUseCase>(
-      () => _i570.DeleteCartItemUseCase(gh<_i76.CartRepoInterface>()),
-    );
-    gh.factory<_i176.GetCartUseCase>(
-      () => _i176.GetCartUseCase(gh<_i76.CartRepoInterface>()),
-    );
-    gh.factory<_i615.CartRemoteDataSource>(
-      () => _i615.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.factory<_i1029.GetCategoryProductsUseCase>(
       () =>
@@ -182,10 +167,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1027.HomeRepoInterface>(
       () => _i1024.HomeRepoImpl(gh<_i273.HomeDataSourceInterface>()),
     );
+    gh.factory<_i76.CartRepoInterface>(
+      () => _i234.CartRepoImpl(gh<_i1034.CartRemoteDataSource>()),
+    );
     gh.lazySingleton<_i347.SearchProductsByCategoryRepoInterface>(
       () => _i548.SearchProductsByCategoryRepoImpl(
         gh<_i802.SearchProductsByCategoryDataSourceInterface>(),
       ),
+    );
+    gh.factory<_i818.CartCubit>(
+      () => _i818.CartCubit(gh<_i76.CartRepoInterface>()),
     );
     gh.factory<_i608.IsOnboardingSeenUseCase>(
       () => _i608.IsOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
@@ -193,6 +184,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i848.SaveOnboardingSeenUseCase>(
       () =>
           _i848.SaveOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
+    );
+    gh.factory<_i252.AddToCartUseCase>(
+      () => _i252.AddToCartUseCase(gh<_i76.CartRepoInterface>()),
+    );
+    gh.factory<_i570.DeleteCartItemUseCase>(
+      () => _i570.DeleteCartItemUseCase(gh<_i76.CartRepoInterface>()),
+    );
+    gh.factory<_i176.GetCartUseCase>(
+      () => _i176.GetCartUseCase(gh<_i76.CartRepoInterface>()),
     );
     gh.lazySingleton<_i684.AccountRepoInterface>(
       () => _i781.AccountRepoImpl(gh<_i831.AccountRemoteDataSource>()),

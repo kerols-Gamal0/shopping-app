@@ -32,27 +32,30 @@ class AccountCubit extends Cubit<AccountState> {
     } else if (intent is PickImageIntent) {
       pickImage();
     } else if (intent is EditUserDataIntent) {
-      if (updatedData != null) {
-        editUserData(
-          name: updatedData['name'] ?? '',
-          phone: updatedData['phone'] ?? '',
-          address: updatedData['address'] ?? '',
-        );
-      }
+      editUserData(
+        name: updatedData?['name'] ?? userEntity?.name ?? '',
+        phone: updatedData?['phone'] ?? userEntity?.phone ?? '',
+        address: updatedData?['address'] ?? userEntity?.address ?? '',
+      );
     } else if (intent is TogglePasswordVisibilityIntent) {
       isPasswordObscured = !isPasswordObscured;
       emit(AccountImageSelectedState(selectedImagePath ?? ''));
     }
   }
 
-  Future<void> getUserData() async {
+  Future<void> getUserData({bool showSuccessMessage = false}) async {
     emit(AccountDataState(BaseLoadingState()));
 
     final result = await _getUserDataUseCase();
 
     if (result is Success<UserEntity>) {
       userEntity = result.data;
-      emit(AccountDataState(BaseSuccessState(data: userEntity)));
+      emit(
+        AccountDataState(
+          BaseSuccessState(data: userEntity),
+          showSuccessMessage: showSuccessMessage,
+        ),
+      );
     } else if (result is Error<UserEntity>) {
       emit(
         AccountDataState(BaseFailureState(errorMessage: result.messageError)),
@@ -89,7 +92,8 @@ class AccountCubit extends Cubit<AccountState> {
     );
 
     if (result is Success<void>) {
-      await getUserData();
+      selectedImagePath = null;
+      await getUserData(showSuccessMessage: true);
     } else if (result is Error<void>) {
       emit(
         AccountDataState(BaseFailureState(errorMessage: result.messageError)),

@@ -21,7 +21,9 @@ class ProfileImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.sizeOf(context).width;
-    final double imageSize = screenWidth * 0.32;
+    final double imageSize = (screenWidth * 0.30)
+        .clamp(96.0, 132.0)
+        .toDouble();
 
     return Center(
       child: Stack(

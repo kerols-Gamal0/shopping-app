@@ -38,7 +38,7 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
   Future<String> uploadImage(String imagePath) async {
     try {
       FormData formData = FormData.fromMap({
-        'path': await MultipartFile.fromFile(imagePath),
+        'image': await MultipartFile.fromFile(imagePath),
       });
 
       final response = await _dio.post(ApiConstants.addImage, data: formData);

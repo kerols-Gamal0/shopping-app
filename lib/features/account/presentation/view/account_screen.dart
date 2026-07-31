@@ -7,6 +7,7 @@ import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/features/account/domain/entities/user_entity.dart';
+import 'package:shopping_app/features/account/presentation/view/widgets/account_loading_shimmer_widget.dart';
 import 'package:shopping_app/features/account/presentation/view/widgets/account_success_section_widget.dart';
 import 'package:shopping_app/features/account/presentation/view_model/account_cubit.dart';
 import 'package:shopping_app/features/account/presentation/view_model/account_intent.dart';
@@ -43,6 +44,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           AppStrings.accountTitle,
           style: theme.textTheme.titleLarge?.copyWith(
@@ -59,13 +61,15 @@ class _AccountScreenState extends State<AccountScreen> {
           if (state is AccountDataState) {
             if (state.state is BaseSuccessState<UserEntity?>) {
               final user = (state.state as BaseSuccessState<UserEntity?>).data;
-              if (user != null && nameController.text.isEmpty) {
+              if (user != null) {
                 nameController.text = user.name;
                 emailController.text = user.email;
                 phoneController.text = user.phone;
                 addressController.text = user.address;
               }
-              _showSuccessSnackBar(context, AppStrings.accountSuccessMessage);
+              if (state.showSuccessMessage) {
+                _showSuccessSnackBar(context, AppStrings.accountSuccessMessage);
+              }
             } else if (state.state is BaseFailureState) {
               final errorMsg = (state.state as BaseFailureState).errorMessage;
               _showErrorSnackBar(context, errorMsg);
@@ -84,7 +88,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
           return BaseStateBuilder<UserEntity?>(
             state: currentBaseState,
-            onLoading: () => const _AccountLoadingSection(),
+            onLoading: () => const AccountLoadingShimmer(),
             onError: (error) => _AccountErrorSection(
               error: error,
               onRetry: () => cubit.doIntent(GetUserDataIntent()),
@@ -161,15 +165,6 @@ class _AccountScreenState extends State<AccountScreen> {
         margin: AppSpacing.allX2,
       ),
     );
-  }
-}
-
-class _AccountLoadingSection extends StatelessWidget {
-  const _AccountLoadingSection();
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator(color: AppColors.primary));
   }
 }
 
