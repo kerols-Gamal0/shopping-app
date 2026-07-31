@@ -9,9 +9,7 @@ class GetProductsUseCase {
 
   GetProductsUseCase(this._homeRepoInterface);
 
-  Future<ResultApi<List<ProductItemEntity>>> invoke({
-    required int page,
-  }) {
+  Future<ResultApi<List<ProductItemEntity>>> invoke({required int page}) {
     return _homeRepoInterface.getProducts(page: page);
   }
 }

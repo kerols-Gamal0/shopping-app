@@ -11,8 +11,14 @@ class WelcomeAndHelloImageSection extends StatelessWidget {
       flex: 7,
       child: Column(
         children: [
-          Expanded(flex: 3, child: Image.asset(AppAssets.helloImage, fit: BoxFit.contain)),
-          Expanded(flex: 2, child: Lottie.asset(AppAssets.hiLottie, fit: BoxFit.contain)),
+          Expanded(
+            flex: 3,
+            child: Image.asset(AppAssets.helloImage, fit: BoxFit.contain),
+          ),
+          Expanded(
+            flex: 2,
+            child: Lottie.asset(AppAssets.hiLottie, fit: BoxFit.contain),
+          ),
         ],
       ),
     );

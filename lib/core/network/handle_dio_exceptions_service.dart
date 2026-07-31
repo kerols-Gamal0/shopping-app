@@ -1,34 +1,34 @@
 import 'package:dio/dio.dart';
 
 abstract final class HandleDioExceptionsService {
-  static Never handle(DioException e) {
+  static String handle(DioException e) {
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
-        throw 'Connection timeout';
+        return 'Connection timeout';
 
       case DioExceptionType.sendTimeout:
-        throw 'Send timeout';
+        return 'Send timeout';
 
       case DioExceptionType.receiveTimeout:
-        throw 'Receive timeout';
+        return 'Receive timeout';
 
       case DioExceptionType.badCertificate:
-        throw 'Bad SSL certificate';
+        return 'Bad SSL certificate';
 
       case DioExceptionType.cancel:
-        throw 'Request cancelled';
+        return 'Request cancelled';
 
       case DioExceptionType.connectionError:
-        throw 'No internet connection';
+        return 'No internet connection';
 
       case DioExceptionType.unknown:
-        throw e.message ?? 'Unknown error';
+        return e.message ?? 'Unknown error';
 
       case DioExceptionType.transformTimeout:
-        throw 'Request processing timed out';
-        
+        return 'Request processing timed out';
+
       case DioExceptionType.badResponse:
-        throw _handleStatusCode(e.response);
+        return _handleStatusCode(e.response);
     }
   }
 

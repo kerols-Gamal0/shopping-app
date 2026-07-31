@@ -6,5 +6,5 @@ class MarkHelloAsVisitedUseCase {
   const MarkHelloAsVisitedUseCase(this._repo);
   final HelloRepoInterface _repo;
 
-  Future<void>  invoke() => _repo.markHelloAsVisited();
+  Future<void> invoke() => _repo.markHelloAsVisited();
 }

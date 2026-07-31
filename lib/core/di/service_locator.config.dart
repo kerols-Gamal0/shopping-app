@@ -61,6 +61,18 @@ import '../../features/onboarding/domain/use_case/save_onboarding_seen_usecase.d
     as _i848;
 import '../../features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart'
     as _i917;
+import '../../features/search/data/data_source/search_products_by_category_remote_data_source_impl.dart'
+    as _i536;
+import '../../features/search/data/repo/search_products_by_category_repo_impl.dart'
+    as _i548;
+import '../../features/search/domain/repo/search_products_by_category_data_source_interface.dart'
+    as _i802;
+import '../../features/search/domain/repo/search_products_by_category_repo_interface.dart'
+    as _i347;
+import '../../features/search/domain/use_case/search_products_by_category_use_case.dart'
+    as _i279;
+import '../../features/search/presentation/view_model/bloc/search_products_by_category_bloc.dart'
+    as _i830;
 import '../network/dio_module.dart' as _i614;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -95,6 +107,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i273.HomeDataSourceInterface>(
       () => _i576.HomeDataSourceRemoteImpl(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i802.SearchProductsByCategoryDataSourceInterface>(
+      () => _i536.SearchProductsByCategoryRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.factory<_i398.OnboardingRepoInterface>(
       () => _i371.OnboardingRepoImp(
         onboardingDataSourceInterface: gh<_i4.OnboardingDataSourceInterface>(),
@@ -118,6 +133,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1027.HomeRepoInterface>(
       () => _i1024.HomeRepoImpl(gh<_i273.HomeDataSourceInterface>()),
     );
+    gh.lazySingleton<_i347.SearchProductsByCategoryRepoInterface>(
+      () => _i548.SearchProductsByCategoryRepoImpl(
+        gh<_i802.SearchProductsByCategoryDataSourceInterface>(),
+      ),
+    );
     gh.factory<_i608.IsOnboardingSeenUseCase>(
       () => _i608.IsOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
     );
@@ -135,6 +155,16 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i917.OnboardingCubit(
         gh<_i848.SaveOnboardingSeenUseCase>(),
         gh<_i608.IsOnboardingSeenUseCase>(),
+      ),
+    );
+    gh.factory<_i279.SearchProductsByCategoryUseCase>(
+      () => _i279.SearchProductsByCategoryUseCase(
+        gh<_i347.SearchProductsByCategoryRepoInterface>(),
+      ),
+    );
+    gh.factory<_i830.SearchProductsByCategoryBloc>(
+      () => _i830.SearchProductsByCategoryBloc(
+        gh<_i279.SearchProductsByCategoryUseCase>(),
       ),
     );
     gh.factory<_i915.ProductsCubit>(

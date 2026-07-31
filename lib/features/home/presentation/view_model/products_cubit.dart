@@ -9,7 +9,8 @@ part 'products_intent.dart';
 
 @injectable
 class ProductsCubit extends PaginatedCubit<ProductItemEntity> {
-  ProductsCubit(this._getProductsUseCase) : super(pageSize: ApiConstants.pageLimit);
+  ProductsCubit(this._getProductsUseCase)
+    : super(pageSize: ApiConstants.pageLimit);
 
   final GetProductsUseCase _getProductsUseCase;
 

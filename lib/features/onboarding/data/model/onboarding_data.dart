@@ -9,7 +9,6 @@ final List<OnboardingDataModel> onboardingList = [
   OnboardingDataModel(
     image: 'assets/onboarding/onboarding_2.png',
     title: 'Latest out fit',
-    description:
-        'Express your self through the art of the fashionism',
+    description: 'Express your self through the art of the fashionism',
   ),
 ];

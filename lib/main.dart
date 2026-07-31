@@ -10,7 +10,8 @@ import 'package:shopping_app/shopping_app.dart';
 void main() async {
   // Todo: split at util-fun ->
   WidgetsFlutterBinding.ensureInitialized();
-  ErrorWidget.builder = (FlutterErrorDetails details) => UnderMaintenanceScreen();
+  ErrorWidget.builder = (FlutterErrorDetails details) =>
+      UnderMaintenanceScreen();
   await SharedPref.init();
   await configureDependencies();
   Bloc.observer = AppBlocObserver();

@@ -12,7 +12,9 @@ class HelloScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(AppSpacing.x2),
-          child: Column(children: [WelcomeAndHelloImageSection(), HelloBtnsSection()]),
+          child: Column(
+            children: [WelcomeAndHelloImageSection(), HelloBtnsSection()],
+          ),
         ),
       ),
     );
