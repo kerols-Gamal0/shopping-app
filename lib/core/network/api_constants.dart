@@ -17,11 +17,11 @@ abstract class ApiConstants {
   static const String getFavorite = "/user/getFavorite";
   static const String addFavorite = "/user/addFavorite";
   static const String deleteFavorite = "/user/deleteFavorite";
-  static const int pageLimit = 20;
-  static const String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNjEyZGYwOTc2ZTlmYzNhMmFlNGFlYSIsImlhdCI6MTc4NTMyNTAxMywiZXhwIjoxNzg3OTE3MDEzfQ.rRA1cKwq94dsq4BUapDB5ydS2-5gwqi8xbYFZJr5TgE";
+  static const int pageLimit = 10;
   static String productByCategory(String categorySlug) =>
       "/home/products/category/$categorySlug";
-
   static String productDetails(String id) => "/home/products/$id";
+
+  static const String token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ZDJhYzJmY2JhYjk5MWY1NWU4NGQ5MiIsImlhdCI6MTc4NTMzMDA0NywiZXhwIjoxNzg3OTIyMDQ3fQ.Q69NkVQI4Sl6X2bCOfaCMfCLcR-Kl6pmHawFpFDdxNw";
 }

@@ -56,17 +56,17 @@ abstract final class AppStyles {
   );
 
   static final BoxDecoration productCardDecoration = BoxDecoration(
-    color: AppColors.backgroundV2,
+    color: AppColors.background,
     borderRadius: BorderRadius.circular(18),
     border: Border.all(
-      color: AppColors.backgroundV2,
+      color: AppColors.background,
       width: 1.5,
       style: BorderStyle.solid,
     ),
     boxShadow: [kBlackShadowSmall],
   );
   static const BoxDecoration productImageDecoration = BoxDecoration(
-    color: AppColors.backgroundV2,
+    color: AppColors.background,
     borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
   );
   static final BoxDecoration discountBadgeDecoration = BoxDecoration(
@@ -102,7 +102,7 @@ abstract final class AppStyles {
     color: AppColors.background,
     borderRadius: BorderRadius.circular(18),
     border: Border.all(
-      color: AppColors.backgroundV2,
+      color: AppColors.background,
       width: 1.5,
       style: BorderStyle.solid,
     ),
@@ -112,7 +112,7 @@ abstract final class AppStyles {
     crossAxisCount: 2,
     crossAxisSpacing: AppSpacing.x2,
     mainAxisSpacing: AppSpacing.x2,
-    childAspectRatio: .65,
+    childAspectRatio: .55,
   );
 
   static BoxDecoration customCardBoxDecoration = BoxDecoration(

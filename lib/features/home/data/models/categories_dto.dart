@@ -5,9 +5,7 @@ part 'categories_dto.g.dart';
 
 @JsonSerializable()
 class CategoriesDto {
-  const CategoriesDto({
-    this.list,
-  });
+  const CategoriesDto({this.list});
 
   final List<CategoryDto>? list;
 
@@ -19,12 +17,7 @@ class CategoriesDto {
 
 @JsonSerializable()
 class CategoryDto {
-  const CategoryDto({
-    this.slug,
-    this.name,
-    this.url,
-    this.image,
-  });
+  const CategoryDto({this.slug, this.name, this.url, this.image});
 
   final String? slug;
   final String? name;
@@ -37,9 +30,6 @@ class CategoryDto {
   Map<String, dynamic> toJson() => _$CategoryDtoToJson(this);
 
   CategoryEntity toEntity() {
-    return CategoryEntity(
-      name: name ?? '',
-      slug: slug ?? '',
-    );
+    return CategoryEntity(name: name ?? '', slug: slug ?? '');
   }
 }

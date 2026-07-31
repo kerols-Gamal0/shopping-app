@@ -30,6 +30,7 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
       return UserProfileModel.fromJson(response.data);
     } on DioException catch (e) {
       HandleDioExceptionsService.handle(e);
+      rethrow;
     }
   }
 
@@ -44,6 +45,7 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
       return response.data['image'] ?? response.data['message'] ?? '';
     } on DioException catch (e) {
       HandleDioExceptionsService.handle(e);
+      rethrow;
     }
   }
 
@@ -68,6 +70,7 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
       await _dio.post(ApiConstants.editUserData, data: data);
     } on DioException catch (e) {
       HandleDioExceptionsService.handle(e);
+      rethrow;
     }
   }
 }

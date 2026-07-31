@@ -6,29 +6,25 @@ import 'package:shopping_app/core/common/model/product_item/product_item_entity.
 class ProductsWidget extends StatelessWidget {
   final List<ProductItemEntity> products;
 
-  const ProductsWidget({
-    super.key,
-    required this.products,
-  });
+  const ProductsWidget({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
     if (products.isEmpty) {
-      return const Center(
-        child: Text("No Products Found"),
-      );
+      return const Center(child: Text("No Products Found"));
     }
 
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: AppSpacing.horizontalX2,
+
       itemCount: products.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: AppSpacing.x2,
         crossAxisSpacing: AppSpacing.x2,
-          childAspectRatio: 0.52
+        childAspectRatio: 0.52,
       ),
       itemBuilder: (_, index) {
         return ProductCard(
