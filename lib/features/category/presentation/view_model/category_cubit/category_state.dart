@@ -13,7 +13,7 @@ class CategoryState extends Equatable {
   const CategoryState({
     this.categoryState = const BaseLoadingState(),
     this.skip = 0,
-    this.limit = 5,
+    this.limit = 6,
     this.hasMore = true,
     this.isLoadingMore = false,
     this.paginationError,

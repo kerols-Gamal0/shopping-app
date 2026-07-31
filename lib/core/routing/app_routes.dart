@@ -15,4 +15,6 @@ abstract class AppRoutes {
   static const String productDetailsRoute = "/product-details";
   static const String launcherRoute = "/launcher";
   static const String productByCategoryRoute = "/product-by-category";
+  static const String searchProductsByCategoryRoute =
+      "/search-products-by-category";
 }

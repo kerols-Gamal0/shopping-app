@@ -12,7 +12,12 @@ class _ShimmerWrapper extends StatelessWidget {
   final bool isShow;
   final Color? color;
 
-  const _ShimmerWrapper({super.key, required this.child, required this.isShow, this.color});
+  const _ShimmerWrapper({
+    super.key,
+    required this.child,
+    required this.isShow,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +25,13 @@ class _ShimmerWrapper extends StatelessWidget {
 
     return Shimmer.fromColors(
       baseColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: .05),
-      highlightColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: .1),
-      child: Container(color: color ?? Theme.of(context).colorScheme.surface, child: child),
+      highlightColor: Theme.of(
+        context,
+      ).colorScheme.onSurface.withValues(alpha: .1),
+      child: Container(
+        color: color ?? Theme.of(context).colorScheme.surface,
+        child: child,
+      ),
     );
   }
 }

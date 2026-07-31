@@ -14,7 +14,7 @@ class CategoryDataSourceImp implements CategoryDataSourceInterface {
   Future<List<ProductItemDto>> getProductsByCategory(
     String categoryName, {
     int skip = 0,
-    int limit = 5,
+    int limit = 6,
   }) async {
     final response = await dio.get(
       ApiConstants.productByCategory(categoryName),

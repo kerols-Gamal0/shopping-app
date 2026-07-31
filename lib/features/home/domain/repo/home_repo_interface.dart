@@ -10,5 +10,5 @@ abstract interface class HomeRepoInterface {
   });
    Future<ResultApi<ProductItemEntity>> getProductById({
     required int productId,
-  });
+  })
 }

@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:injectable/injectable.dart';
+import 'package:shopping_app/core/common/base_state/base_state.dart';
+import 'package:shopping_app/core/constants/app_strings.dart';
+import 'package:shopping_app/core/network/result_api.dart';
+import 'package:shopping_app/features/account/domain/entities/user_entity.dart';
+import 'package:shopping_app/features/account/domain/use_cases/edit_user_data_usecase.dart';
+import 'package:shopping_app/features/account/domain/use_cases/get_user_data_usecase.dart';
+import 'package:shopping_app/features/account/presentation/view_model/account_intent.dart';
+
+part 'account_state.dart';
+
+@injectable
+class AccountCubit extends Cubit<AccountState> {
+  final GetUserDataUseCase _getUserDataUseCase;
+  final EditUserDataUseCase _editUserDataUseCase;
+
+  AccountCubit(this._getUserDataUseCase, this._editUserDataUseCase)
+    : super(AccountInitial());
+
+  UserEntity? userEntity;
+  String? selectedImagePath;
+  final ImagePicker _picker = ImagePicker();
+
+  bool isPasswordObscured = true;
+
+  void doIntent(AccountIntent intent, {Map<String, String>? updatedData}) {
+    if (intent is GetUserDataIntent) {
+      getUserData();
+    } else if (intent is PickImageIntent) {
+      pickImage();
+    } else if (intent is EditUserDataIntent) {
+      if (updatedData != null) {
+        editUserData(
+          name: updatedData['name'] ?? '',
+          phone: updatedData['phone'] ?? '',
+          address: updatedData['address'] ?? '',
+        );
+      }
+    } else if (intent is TogglePasswordVisibilityIntent) {
+      isPasswordObscured = !isPasswordObscured;
+      emit(AccountImageSelectedState(selectedImagePath ?? ''));
+    }
+  }
+
+  Future<void> getUserData() async {
+    emit(AccountDataState(BaseLoadingState()));
+
+    final result = await _getUserDataUseCase();
+
+    if (result is Success<UserEntity>) {
+      userEntity = result.data;
+      emit(AccountDataState(BaseSuccessState(data: userEntity)));
+    } else if (result is Error<UserEntity>) {
+      emit(
+        AccountDataState(BaseFailureState(errorMessage: result.messageError)),
+      );
+    } else {
+      emit(
+        AccountDataState(
+          BaseFailureState(errorMessage: AppStrings.unknownError),
+        ),
+      );
+    }
+  }
+
+  Future<void> pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      selectedImagePath = image.path;
+      emit(AccountImageSelectedState(image.path));
+    }
+  }
+
+  Future<void> editUserData({
+    required String name,
+    required String phone,
+    required String address,
+  }) async {
+    emit(AccountDataState(BaseLoadingState()));
+
+    final result = await _editUserDataUseCase(
+      name: name,
+      phone: phone,
+      address: address,
+      imagePath: selectedImagePath,
+    );
+
+    if (result is Success<void>) {
+      await getUserData();
+    } else if (result is Error<void>) {
+      emit(
+        AccountDataState(BaseFailureState(errorMessage: result.messageError)),
+      );
+    } else {
+      emit(
+        AccountDataState(
+          BaseFailureState(errorMessage: AppStrings.unknownError),
+        ),
+      );
+    }
+  }
+}

@@ -129,11 +129,7 @@ class ProductItemDto {
 
 @JsonSerializable()
 class DimensionsDto {
-  const DimensionsDto({
-    this.width,
-    this.height,
-    this.depth,
-  });
+  const DimensionsDto({this.width, this.height, this.depth});
 
   @JsonKey(fromJson: ProductItemDto._toDouble)
   final double? width;
@@ -150,10 +146,10 @@ class DimensionsDto {
   Map<String, dynamic> toJson() => _$DimensionsDtoToJson(this);
 
   DimensionsEntity toEntity() => DimensionsEntity(
-        width: width ?? 0,
-        height: height ?? 0,
-        depth: depth ?? 0,
-      );
+    width: width ?? 0,
+    height: height ?? 0,
+    depth: depth ?? 0,
+  );
 }
 
 @JsonSerializable()
@@ -186,22 +182,17 @@ class ReviewDto {
   Map<String, dynamic> toJson() => _$ReviewDtoToJson(this);
 
   ReviewEntity toEntity() => ReviewEntity(
-        rating: rating ?? 0,
-        comment: comment ?? '',
-        date: date ?? '',
-        reviewerName: reviewerName ?? '',
-        reviewerEmail: reviewerEmail ?? '',
-      );
+    rating: rating ?? 0,
+    comment: comment ?? '',
+    date: date ?? '',
+    reviewerName: reviewerName ?? '',
+    reviewerEmail: reviewerEmail ?? '',
+  );
 }
 
 @JsonSerializable()
 class MetaDto {
-  const MetaDto({
-    this.createdAt,
-    this.updatedAt,
-    this.barcode,
-    this.qrCode,
-  });
+  const MetaDto({this.createdAt, this.updatedAt, this.barcode, this.qrCode});
 
   @JsonKey(fromJson: ProductItemDto._toString)
   final String? createdAt;

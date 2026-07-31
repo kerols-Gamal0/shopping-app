@@ -75,7 +75,6 @@ class ProductCard extends StatelessWidget {
             ],
           ),
 
-          // Price and Discount Row
           Row(
             children: [
               Expanded(

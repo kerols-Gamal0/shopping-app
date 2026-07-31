@@ -12,7 +12,6 @@ class OnboardingDataSourceImp implements OnboardingDataSourceInterface {
   }
 
   @override
-
   bool isOnboardingSeen() {
     return SharedPref.getBool(StorageKey.isOnboardingSeen);
   }
