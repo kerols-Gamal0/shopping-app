@@ -19,7 +19,7 @@ class SharedPref {
     await prefs.setString(key, value);
   }
 
-  static String getString(String key) {
-    return prefs.getString(key) ?? '';
+  static String? getString(String key) {
+    return prefs.getString(key);
   }
 }

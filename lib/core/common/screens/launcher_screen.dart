@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
+import 'package:shopping_app/core/storage_helper/shared_pref.dart';
+import 'package:shopping_app/core/storage_helper/storage_key.dart';
 import 'package:shopping_app/features/hello/presentation/view_model/hello_cubit.dart';
 import 'package:shopping_app/features/hello/presentation/view_model/hello_intent.dart';
 import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart';
@@ -53,7 +55,9 @@ class _LauncherScreenState extends State<LauncherScreen> {
           ? AppRoutes.onboardingRoute
           : !_hasVisitedHello!
           ? AppRoutes.helloRoute
-          : AppRoutes.appSection, // TODO: check token
+          : SharedPref.getString(StorageKey.token) != null
+          ? AppRoutes.appSection
+          : AppRoutes.loginRoute,
     );
   }
 

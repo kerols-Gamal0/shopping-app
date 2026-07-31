@@ -14,6 +14,15 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
+import '../../features/auth/data/repo/auth_remote_data_source_impl.dart'
+    as _i1034;
+import '../../features/auth/domain/repo/auth_data_source_interface.dart'
+    as _i701;
+import '../../features/auth/domain/repo/auth_repo_interface.dart' as _i389;
+import '../../features/auth/domain/usecases/login_use_case.dart' as _i37;
+import '../../features/auth/domain/usecases/register_use_case.dart' as _i97;
+import '../../features/auth/presentation/view_models/login/login_cubit.dart'
+    as _i196;
 import '../../features/category/data/repo/category_data_source_imp.dart'
     as _i758;
 import '../../features/category/data/repo/category_repo_imp.dart' as _i610;
@@ -76,6 +85,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i575.CategoryDataSourceInterface>(
       () => _i758.CategoryDataSourceImp(gh<_i361.Dio>()),
     );
+    gh.factory<_i701.AuthDataSourceInterface>(
+      () => _i1034.AuthRemoteDataSourceImpl(gh<_i361.Dio>()),
+    );
     gh.factory<_i889.CategoryRepoInterface>(
       () => _i610.CategoryRepoImp(gh<_i575.CategoryDataSourceInterface>()),
     );
@@ -103,6 +115,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i662.CategoryCubit>(
       () => _i662.CategoryCubit(gh<_i1029.GetCategoryProductsUseCase>()),
     );
+    gh.factory<_i37.LoginUseCase>(
+      () => _i37.LoginUseCase(gh<_i389.AuthRepoInterface>()),
+    );
+    gh.factory<_i97.RegisterUseCase>(
+      () => _i97.RegisterUseCase(gh<_i389.AuthRepoInterface>()),
+    );
     gh.factory<_i603.HasVisitedHelloUseCase>(
       () => _i603.HasVisitedHelloUseCase(gh<_i907.HelloRepoInterface>()),
     );
@@ -124,6 +142,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i848.SaveOnboardingSeenUseCase>(
       () =>
           _i848.SaveOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
+    );
+    gh.factory<_i196.LoginCubit>(
+      () => _i196.LoginCubit(gh<_i37.LoginUseCase>()),
     );
     gh.factory<_i315.GetCategoriesUseCase>(
       () => _i315.GetCategoriesUseCase(gh<_i1027.HomeRepoInterface>()),
