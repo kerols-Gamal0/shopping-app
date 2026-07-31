@@ -194,13 +194,14 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i848.SaveOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
     );
+    gh.lazySingleton<_i684.AccountRepoInterface>(
+      () => _i781.AccountRepoImpl(gh<_i831.AccountRemoteDataSource>()),
+    );
     gh.factory<_i74.GetProductByIdUseCase>(
       () => _i74.GetProductByIdUseCase(gh<_i1027.HomeRepoInterface>()),
     );
     gh.factory<_i205.ProductDetailsCubit>(
       () => _i205.ProductDetailsCubit(gh<_i74.GetProductByIdUseCase>()),
-    gh.lazySingleton<_i684.AccountRepoInterface>(
-      () => _i781.AccountRepoImpl(gh<_i831.AccountRemoteDataSource>()),
     );
     gh.factory<_i588.EditUserDataUseCase>(
       () => _i588.EditUserDataUseCase(gh<_i684.AccountRepoInterface>()),
