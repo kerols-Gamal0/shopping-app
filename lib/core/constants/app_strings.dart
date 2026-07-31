@@ -35,4 +35,20 @@ abstract final class AppStrings {
   static const String accountPhone = 'Phone';
   static const String accountAddress = 'Address';
   static const String accountSubmit = 'Submit';
+  static const String lostInSpaceTitle = "Lost in Space!";
+  static const String lostInSpaceDesc =
+      "The page you are looking for seems to be missing. Please go back or visit the homepage.";
+  static const String backToHome = "Back to home";
+
+  static const String underMaintenanceTitle = "Under Maintenance!";
+  static const String underMaintenanceDesc =
+      "We are currently performing scheduled maintenance. Please check back later. Thank you for your patience.";
+
+  static const String cartTitle = 'My Cart';
+  static const String cartEmptyState = 'Your cart is empty.';
+  static const String cartShippingFee = 'Shipping fee';
+  static const String cartSubTotal = 'Sub total';
+  static const String cartTotal = 'Total';
+  static const String cartCheckout = 'Checkout';
+  static const String cartCheckoutMessage = 'Checkout feature coming soon!';
 }

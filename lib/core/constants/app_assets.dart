@@ -22,4 +22,5 @@ abstract final class AppAssets {
   static const onBoarding2 = "assets/onboarding/onboarding_2.png";
   static const addToCartPlaceholder = "assets/placeholder/add_to_cart.gif";
   static const homeScreenPlaceHolder = "assets/placeholder/ecommerce.gif";
+  static const emptyCart = 'assets/images/empty_cart.png';
 }

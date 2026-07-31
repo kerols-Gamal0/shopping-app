@@ -21,6 +21,10 @@ abstract final class AppColors {
   static const error = Color(0xFFFF5A5F);
   static const info = Color(0xFF3B82F6);
 
+  static const cartScreenBackground = Color(0xFFF8F9FA);
+  static const cartSummaryBackground = Colors.white;
+  static const cartDividerColor = Color(0xFFE5E7EB);
+
   static const onPrimary = Colors.white;
   static const onSurface = heading;
   static const dotColor = Color(0xffAAA198);

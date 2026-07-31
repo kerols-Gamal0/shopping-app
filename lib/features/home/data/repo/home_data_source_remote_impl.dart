@@ -55,7 +55,7 @@ class HomeDataSourceRemoteImpl implements HomeDataSourceInterface {
       }
 
       final List<dynamic> data = response.data?['list'] as List<dynamic>? ?? [];
-      log('Products Count: ${data.length}');
+
       final products = data
           .map((json) => ProductItemDto.fromJson(json as Map<String, dynamic>))
           .toList();

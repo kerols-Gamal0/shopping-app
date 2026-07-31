@@ -13,7 +13,28 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/account/data/repo/account_data_source_imp.dart' as _i831;
+import '../../features/account/data/repo/account_repo_imp.dart' as _i781;
+import '../../features/account/domain/repo/account_repo_interface.dart'
+    as _i684;
+import '../../features/account/domain/use_cases/edit_user_data_usecase.dart'
+    as _i588;
+import '../../features/account/domain/use_cases/get_user_data_usecase.dart'
+    as _i140;
+import '../../features/account/presentation/view_model/account_cubit.dart'
+    as _i803;
 import '../../features/app_section/view_model/app_section_cubit.dart' as _i437;
+import '../../features/cart/data/repo/cart_data_source_imp.dart' as _i615;
+import '../../features/cart/data/repo/cart_repo_impl.dart' as _i234;
+import '../../features/cart/domain/repo/cart_data_source_interface.dart'
+    as _i1034;
+import '../../features/cart/domain/repo/cart_repo_interface.dart' as _i76;
+import '../../features/cart/domain/use_cases/add_to_cart_use_case.dart'
+    as _i252;
+import '../../features/cart/domain/use_cases/delete_cart_item_use_case.dart'
+    as _i570;
+import '../../features/cart/domain/use_cases/get_cart_use_case.dart' as _i176;
+import '../../features/cart/presentation/view_model/cart_cubit.dart' as _i818;
 import '../../features/category/data/repo/category_data_source_imp.dart'
     as _i758;
 import '../../features/category/data/repo/category_repo_imp.dart' as _i610;
@@ -91,14 +112,32 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i889.CategoryRepoInterface>(
       () => _i610.CategoryRepoImp(gh<_i575.CategoryDataSourceInterface>()),
     );
+    gh.factory<_i76.CartRepoInterface>(
+      () => _i234.CartRepoImpl(gh<_i1034.CartRemoteDataSource>()),
+    );
     gh.factory<_i289.HelloDataSourceInterface>(
       () => _i474.HelloDataSourceImp(),
     );
     gh.factory<_i907.HelloRepoInterface>(
       () => _i138.HelloRepoImp(gh<_i289.HelloDataSourceInterface>()),
     );
+    gh.factory<_i818.CartCubit>(
+      () => _i818.CartCubit(gh<_i76.CartRepoInterface>()),
+    );
     gh.factory<_i4.OnboardingDataSourceInterface>(
       () => _i180.OnboardingDataSourceImp(),
+    );
+    gh.factory<_i252.AddToCartUseCase>(
+      () => _i252.AddToCartUseCase(gh<_i76.CartRepoInterface>()),
+    );
+    gh.factory<_i570.DeleteCartItemUseCase>(
+      () => _i570.DeleteCartItemUseCase(gh<_i76.CartRepoInterface>()),
+    );
+    gh.factory<_i176.GetCartUseCase>(
+      () => _i176.GetCartUseCase(gh<_i76.CartRepoInterface>()),
+    );
+    gh.factory<_i615.CartRemoteDataSource>(
+      () => _i615.CartRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.factory<_i1029.GetCategoryProductsUseCase>(
       () =>
@@ -106,6 +145,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i273.HomeDataSourceInterface>(
       () => _i576.HomeDataSourceRemoteImpl(gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i831.AccountRemoteDataSource>(
+      () => _i831.AccountRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i802.SearchProductsByCategoryDataSourceInterface>(
       () => _i536.SearchProductsByCategoryRemoteDataSourceImpl(gh<_i361.Dio>()),
@@ -145,6 +187,15 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i848.SaveOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
     );
+    gh.lazySingleton<_i684.AccountRepoInterface>(
+      () => _i781.AccountRepoImpl(gh<_i831.AccountRemoteDataSource>()),
+    );
+    gh.factory<_i588.EditUserDataUseCase>(
+      () => _i588.EditUserDataUseCase(gh<_i684.AccountRepoInterface>()),
+    );
+    gh.factory<_i140.GetUserDataUseCase>(
+      () => _i140.GetUserDataUseCase(gh<_i684.AccountRepoInterface>()),
+    );
     gh.factory<_i315.GetCategoriesUseCase>(
       () => _i315.GetCategoriesUseCase(gh<_i1027.HomeRepoInterface>()),
     );
@@ -172,6 +223,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i550.CategoriesCubit>(
       () => _i550.CategoriesCubit(gh<_i315.GetCategoriesUseCase>()),
+    );
+    gh.factory<_i803.AccountCubit>(
+      () => _i803.AccountCubit(
+        gh<_i140.GetUserDataUseCase>(),
+        gh<_i588.EditUserDataUseCase>(),
+      ),
     );
     return this;
   }
