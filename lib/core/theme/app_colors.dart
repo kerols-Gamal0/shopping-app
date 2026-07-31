@@ -28,4 +28,6 @@ abstract final class AppColors {
   static const onPrimary = Colors.white;
   static const onSurface = heading;
   static const dotColor = Color(0xffAAA198);
+  static const reviewerBgColor = Color(0xffE4E4E4);
+  static const reviewerAvatar = Color(0xFF555555);
 }

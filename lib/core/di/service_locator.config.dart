@@ -64,6 +64,8 @@ import '../../features/home/domain/repo/home_data_source_interface.dart'
 import '../../features/home/domain/repo/home_repo_interface.dart' as _i1027;
 import '../../features/home/domain/use_case/get_categories_usecase.dart'
     as _i315;
+import '../../features/home/domain/use_case/get_product_by_id_usecase.dart'
+    as _i74;
 import '../../features/home/domain/use_case/get_products_usecase.dart' as _i111;
 import '../../features/home/presentation/view_model/categories_cubit.dart'
     as _i550;
@@ -82,6 +84,10 @@ import '../../features/onboarding/domain/use_case/save_onboarding_seen_usecase.d
     as _i848;
 import '../../features/onboarding/presentation/view_model/cubit/onboarding_cubit.dart'
     as _i917;
+import '../../features/product_details_screen/presentation/view_model/cubit/product_details_cubit.dart'
+    as _i205;
+import '../../features/product_details_screen/presentation/view_model/cubit/product_slider_cubit.dart'
+    as _i542;
 import '../../features/search/data/data_source/search_products_by_category_remote_data_source_impl.dart'
     as _i536;
 import '../../features/search/data/repo/search_products_by_category_repo_impl.dart'
@@ -104,6 +110,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
+    gh.factory<_i542.ProductSliderCubit>(() => _i542.ProductSliderCubit());
     gh.lazySingleton<_i361.Dio>(() => dioModule.provideDio());
     gh.lazySingleton<_i437.AppSectionCubit>(() => _i437.AppSectionCubit());
     gh.factory<_i575.CategoryDataSourceInterface>(
@@ -187,6 +194,11 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i848.SaveOnboardingSeenUseCase(gh<_i398.OnboardingRepoInterface>()),
     );
+    gh.factory<_i74.GetProductByIdUseCase>(
+      () => _i74.GetProductByIdUseCase(gh<_i1027.HomeRepoInterface>()),
+    );
+    gh.factory<_i205.ProductDetailsCubit>(
+      () => _i205.ProductDetailsCubit(gh<_i74.GetProductByIdUseCase>()),
     gh.lazySingleton<_i684.AccountRepoInterface>(
       () => _i781.AccountRepoImpl(gh<_i831.AccountRemoteDataSource>()),
     );

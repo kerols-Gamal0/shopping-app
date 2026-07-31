@@ -42,4 +42,17 @@ class HomeRepoImpl implements HomeRepoInterface {
         return Error(result.messageError);
     }
   }
+  
+  @override
+  Future<ResultApi<ProductItemEntity>> getProductById({required int productId}) async {
+     final result = await _homeDataSource.getProductById(productId: productId);
+
+    switch (result) {
+      case Success<ProductItemDto>():
+        return Success(result.data.toEntity());
+
+      case Error<ProductItemDto>():
+        return Error(result.messageError);
+    }
+  }
 }

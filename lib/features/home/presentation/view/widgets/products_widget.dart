@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
+import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_intent.dart';
 
@@ -47,6 +48,13 @@ class ProductsWidget extends StatelessWidget {
             );
           },
           onFavorite: () {},
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.productDetailsRoute,
+              arguments: products[index].id,
+            );
+          },
         );
       },
     );

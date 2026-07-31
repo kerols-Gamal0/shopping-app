@@ -68,4 +68,32 @@ class HomeDataSourceRemoteImpl implements HomeDataSourceInterface {
       return Error(e.toString());
     }
   }
+
+  @override
+  Future<ResultApi<ProductItemDto>> getProductById({required int productId}) async {
+    try {
+      final response = await _dio.get(
+        ApiConstants.productDetails(productId.toString()),
+      );
+
+    if (response.statusCode != 200) {
+      return Error(
+        'Failed to load product. Status code: ${response.statusCode}',
+      );
+    }
+
+    final product = ProductItemDto.fromJson(response.data!);
+
+    return Success(product);
+  } on DioException catch (e) {
+    return Error(HandleDioExceptionsService.handle(e));
+  } catch (e, stackTrace) {
+    log(
+      'Get Product By Id Error',
+      error: e,
+      stackTrace: stackTrace,
+    );
+    return Error(e.toString());
+  }
+}
 }

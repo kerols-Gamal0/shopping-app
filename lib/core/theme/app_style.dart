@@ -150,4 +150,19 @@ abstract final class AppStyles {
       stops: [0.0, 0.45, 1.0],
     ),
   );
+  static BoxDecoration favInProductDetailsDecoration = const BoxDecoration(
+    color: Colors.white,
+    shape: BoxShape.circle,
+    boxShadow: [
+      BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 2)),
+    ],
+  );
+  static BoxDecoration decorationImageSlider = BoxDecoration(
+    color: const Color(0xFFF7F7F8),
+    borderRadius: BorderRadius.circular(AppSpacing.x3),
+  );
+  static BoxDecoration customHeaderDecoration = BoxDecoration(
+    color: const Color(0xffFFE9E2),
+    borderRadius: BorderRadius.circular(10),
+  );
 }
