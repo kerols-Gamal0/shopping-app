@@ -1,29 +1,43 @@
-import 'package:shopping_app/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:dio/dio.dart';
+import 'package:shopping_app/core/network/handle_dio_exceptions_service.dart';
+import 'package:shopping_app/core/network/result_api.dart';
+import 'package:shopping_app/core/storage_helper/shared_pref.dart';
+import 'package:shopping_app/core/storage_helper/storage_key.dart';
 import 'package:shopping_app/features/auth/data/models/login_request_body.dart';
 import 'package:shopping_app/features/auth/data/models/register_request_body.dart';
-import 'package:shopping_app/features/auth/domain/params/login_params.dart';
-import 'package:shopping_app/features/auth/domain/params/register_params.dart';
-import 'package:shopping_app/features/auth/domain/repo/auth_repo.dart';
+import 'package:shopping_app/features/auth/domain/entities/user_entity.dart';
+import 'package:shopping_app/features/auth/domain/repo/auth_data_source_interface.dart';
+import 'package:shopping_app/features/auth/domain/repo/auth_repo_interface.dart';
 
-class AuthRepoImpl implements AuthRepo {
+class AuthRepoImpl implements AuthRepoInterface {
   const AuthRepoImpl(this._dataSource);
-  final AuthRemoteDataSource _dataSource;
+  final AuthDataSourceInterface _dataSource;
 
   @override
-  Future<void> register(RegisterParams params) async {
-    await _dataSource.register(
-      RegisterRequestBody(
-        name: params.name,
-        phone: params.phone,
-        email: params.email,
-        password: params.password,
-        confirmPassword: params.confirmPassword,
-      ),
-    );
+  Future<ResultApi<UserEntity>> login(LoginRequestBody body) async {
+    try {
+      final loginResponseDto = await _dataSource.login(body);
+      final loginResponseEntity = loginResponseDto.toEntity();
+      SharedPref.prefs.setString(StorageKey.token, loginResponseEntity.token);
+      return Success(loginResponseEntity);
+    } on DioException catch (e) {
+      final String error = HandleDioExceptionsService.handle(e);
+      return Error(error.toString());
+    } catch (error) {
+      return Error(error.toString());
+    }
   }
 
   @override
-  Future<void> login(LoginParams params) async {
-    await _dataSource.login(LoginRequestBody(email: params.email, password: params.password));
+  Future<ResultApi<void>> register(RegisterRequestBody body) async {
+    try {
+      await _dataSource.register(body);
+      return Success(null);
+    } on DioException catch (e) {
+      final String error = HandleDioExceptionsService.handle(e);
+      return Error(error.toString());
+    } catch (error) {
+      return Error(error.toString());
+    }
   }
 }

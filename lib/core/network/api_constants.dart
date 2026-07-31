@@ -1,7 +1,7 @@
 abstract class ApiConstants {
   static const String baseUrl = "https://supermarket-dan1.onrender.com/api/v1";
-  static const String signUp = "/auth/signUp";
-  static const String signIn = "/auth/signIn";
+  static const String register = "/auth/register";
+  static const String login = "/auth/login";
   static const String resetPassCode = "/auth/resetPassCode";
   static const String activeResetPass = "/auth/activeResetPass";
   static const String resetPassword = "/auth/resetPassword";
@@ -23,4 +23,6 @@ abstract class ApiConstants {
       "/home/products/category/$categorySlug";
 
   static String productDetails(String id) => "/home/products/$id";
+
+
 }

@@ -14,4 +14,12 @@ class SharedPref {
   static bool getBool(String key) {
     return prefs.getBool(key) ?? false;
   }
+
+  static Future<void> saveString(String key, String value) async {
+    await prefs.setString(key, value);
+  }
+
+  static String getString(String key) {
+    return prefs.getString(key) ?? '';
+  }
 }

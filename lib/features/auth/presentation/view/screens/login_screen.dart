@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     text: "Don't have an account? ",
                     actionText: "Sign Up",
                     onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.registerRoute);
+                      // Navigator.pushNamed(context, AppRoutes.registerRoute);
                     },
                   ),
                 ),

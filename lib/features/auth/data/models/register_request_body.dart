@@ -18,9 +18,7 @@ class RegisterRequestBody {
   final String password;
   final String confirmPassword;
 
-  factory RegisterRequestBody.fromJson(Map<String, dynamic> json) =>
-      _$RegisterRequestBodyFromJson(json);
-
+ 
   Map<String, dynamic> toJson() => _$RegisterRequestBodyToJson(this);
 
   RegisterRequestBody copyWith({

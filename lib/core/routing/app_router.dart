@@ -4,6 +4,8 @@ import 'package:shopping_app/core/common/screens/error_404_screen.dart';
 import 'package:shopping_app/core/common/screens/launcher_screen.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
+import 'package:shopping_app/features/auth/presentation/view_models/login/login_cubit.dart';
+import 'package:shopping_app/features/auth/presentation/view_models/login/login_intent.dart';
 import 'package:shopping_app/features/category/presentation/view/category_screen.dart';
 import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_cubit.dart';
 import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_intent.dart';
@@ -68,7 +70,12 @@ class AppRouter {
           ),
         );
       case AppRoutes.loginRoute:
-        return MaterialPageRoute(builder: (context) => LoginScreen());
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => serviceLocator<LoginCubit>(),
+            child: LoginScreen(),
+          ),
+        );
       case AppRoutes.registerRoute:
         return MaterialPageRoute(builder: (context) => RegisterScreen());
 
