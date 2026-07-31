@@ -5,6 +5,6 @@ abstract interface class CategoryRepoInterface {
   Future<ResultApi<List<ProductItemEntity>>> getProductsByCategory(
     String categoryName, {
     int skip = 0,
-    int limit = 5,
+    int limit = 6,
   });
 }

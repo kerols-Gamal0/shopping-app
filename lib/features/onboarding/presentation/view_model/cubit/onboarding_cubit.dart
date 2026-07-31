@@ -10,7 +10,8 @@ import 'package:shopping_app/features/onboarding/presentation/view_model/cubit/o
 class OnboardingCubit extends Cubit<OnboardingState> {
   final SaveOnboardingSeenUseCase saveOnboardingSeenUseCase;
   final IsOnboardingSeenUseCase isOnboardingSeenUseCase;
-  OnboardingCubit(this.saveOnboardingSeenUseCase, this.isOnboardingSeenUseCase) : super(OnboardingInitial());
+  OnboardingCubit(this.saveOnboardingSeenUseCase, this.isOnboardingSeenUseCase)
+    : super(OnboardingInitial());
   int currentIndex = 0;
 
   void _changePage(int index) {

@@ -8,7 +8,8 @@ part 'hello_state.dart';
 
 @injectable
 class HelloCubit extends Cubit<HelloState> {
-  HelloCubit(this._hasVisitedHelloUseCase, this._markHelloAsVisitedUseCase) : super(HelloInitial());
+  HelloCubit(this._hasVisitedHelloUseCase, this._markHelloAsVisitedUseCase)
+    : super(HelloInitial());
 
   final HasVisitedHelloUseCase _hasVisitedHelloUseCase;
   final MarkHelloAsVisitedUseCase _markHelloAsVisitedUseCase;
@@ -27,7 +28,6 @@ class HelloCubit extends Cubit<HelloState> {
     emit(HelloLoading());
     await _markHelloAsVisitedUseCase.invoke();
     emit(HelloMarkedAsVisited());
-    
   }
 
   void _hasVisitedHello() {

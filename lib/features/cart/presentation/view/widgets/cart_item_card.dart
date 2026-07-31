@@ -40,7 +40,7 @@ class CartItemCard extends StatelessWidget {
               height: 80,
               fit: BoxFit.cover,
               placeholder: (context, url) =>
-                  Container(color: AppColors.backgroundV2),
+                  Container(color: AppColors.background),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
@@ -93,7 +93,7 @@ class CartItemCard extends StatelessWidget {
                     Container(
                       padding: AppSpacing.horizontalVerticalX2,
                       decoration: BoxDecoration(
-                        color: AppColors.backgroundV2,
+                        color: AppColors.background,
                         borderRadius: BorderRadius.circular(AppSpacing.x1),
                       ),
                       child: Row(

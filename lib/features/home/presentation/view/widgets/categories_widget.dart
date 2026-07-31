@@ -27,10 +27,8 @@ class CategoriesWidget extends StatelessWidget {
               minimumSize: Size.zero,
               padding: AppSpacing.horizontalVerticalX2,
             ),
-            onPressed: () => onCategoryTap(
-              categories[index].name,
-              categories[index].slug,
-            ),
+            onPressed: () =>
+                onCategoryTap(categories[index].name, categories[index].slug),
             child: Text(categories[index].name),
           );
         },

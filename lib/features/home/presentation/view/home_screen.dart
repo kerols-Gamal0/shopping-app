@@ -22,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 200) {
         context.read<ProductsCubit>().fetchNextPage();
       }
     });
@@ -42,7 +43,13 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _scrollController,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [HeaderSection(), CategoriesSection(), verticalSpace(AppSpacing.x3), ProductsSection()],
+            children: [
+              HeaderSection(),
+
+              CategoriesSection(),
+              verticalSpace(AppSpacing.x3),
+              ProductsSection(),
+            ],
           ),
         ),
       ),

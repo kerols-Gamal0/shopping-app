@@ -15,22 +15,14 @@ class _AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(
-        boxShadow: [shadow],
-      ),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        child: child,
-      ),
+      decoration: BoxDecoration(boxShadow: [shadow]),
+      child: ElevatedButton(onPressed: onPressed, child: child),
     );
   }
 }
+
 class PrimaryBtn extends StatelessWidget {
-  const PrimaryBtn({
-    super.key,
-    required this.onPressed,
-    required this.child,
-  });
+  const PrimaryBtn({super.key, required this.onPressed, required this.child});
 
   final VoidCallback? onPressed;
   final Widget child;
@@ -49,11 +41,7 @@ class PrimaryBtn extends StatelessWidget {
 }
 
 class SecondaryBtn extends StatelessWidget {
-  const SecondaryBtn({
-    super.key,
-    required this.onPressed,
-    required this.child,
-  });
+  const SecondaryBtn({super.key, required this.onPressed, required this.child});
 
   final VoidCallback? onPressed;
   final Widget child;
@@ -70,12 +58,9 @@ class SecondaryBtn extends StatelessWidget {
     );
   }
 }
+
 class DefaultBtn extends StatelessWidget {
-  const DefaultBtn({
-    super.key,
-    required this.onPressed,
-    required this.child,
-  });
+  const DefaultBtn({super.key, required this.onPressed, required this.child});
 
   final VoidCallback? onPressed;
   final Widget child;

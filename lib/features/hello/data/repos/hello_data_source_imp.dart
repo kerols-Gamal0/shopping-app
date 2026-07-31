@@ -6,7 +6,7 @@ import 'package:shopping_app/features/hello/domain/repo/hello_data_source_interf
 @Injectable(as: HelloDataSourceInterface)
 class HelloDataSourceImp implements HelloDataSourceInterface {
   @override
-  bool hasVisitedHello()  {
+  bool hasVisitedHello() {
     return SharedPref.getBool(StorageKey.hasVisitedHello);
   }
 

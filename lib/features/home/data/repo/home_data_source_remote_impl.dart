@@ -20,13 +20,8 @@ class HomeDataSourceRemoteImpl implements HomeDataSourceInterface {
   Future<ResultApi<CategoriesDto>> getCategories() async {
     try {
       final response = await _dio.get(ApiConstants.allCategories);
-
-      if (response.statusCode == 200) {
-        var categories = CategoriesDto.fromJson(response.data);
-        return Success(categories);
-      }
-
-      return Error("Failed to load categories: Status ${response.statusCode}");
+      var categories = CategoriesDto.fromJson(response.data);
+      return Success(categories);
     } on DioException catch (e) {
       return Error(HandleDioExceptionsService.handle(e));
     } catch (e) {
@@ -60,8 +55,6 @@ class HomeDataSourceRemoteImpl implements HomeDataSourceInterface {
       }
 
       final List<dynamic> data = response.data?['list'] as List<dynamic>? ?? [];
-
-      log('Products Count: ${data.length}');
 
       final products = data
           .map((json) => ProductItemDto.fromJson(json as Map<String, dynamic>))

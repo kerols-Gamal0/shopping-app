@@ -35,7 +35,11 @@ class ProductCardShimmer extends StatelessWidget {
             verticalSpace(AppSpacing.x2),
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Container(height: 38, width: double.infinity, color: AppColors.surface).withShimmer(),
+              child: Container(
+                height: 38,
+                width: double.infinity,
+                color: AppColors.surface,
+              ).withShimmer(),
             ),
           ],
         ),
@@ -44,6 +48,10 @@ class ProductCardShimmer extends StatelessWidget {
   }
 
   Widget _line({double width = double.infinity, double height = 12}) {
-    return Container(width: width, height: height, color: AppColors.surface).withShimmer();
+    return Container(
+      width: width,
+      height: height,
+      color: AppColors.surface,
+    ).withShimmer();
   }
 }

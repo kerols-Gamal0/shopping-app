@@ -15,7 +15,7 @@ class CategoryRepoImp implements CategoryRepoInterface {
   Future<ResultApi<List<ProductItemEntity>>> getProductsByCategory(
     String categoryName, {
     int skip = 0,
-    int limit = 5,
+    int limit = 6,
   }) async {
     try {
       final List<ProductItemDto?> dtos = await dataSource.getProductsByCategory(
@@ -24,10 +24,7 @@ class CategoryRepoImp implements CategoryRepoInterface {
         limit: limit,
       );
 
-      final entities = dtos
-          .where((dto) => dto != null)
-          .map((dto) => dto!.toEntity())
-          .toList();
+      final entities = dtos.map((dto) => dto!.toEntity()).toList();
       return Success(entities);
     } catch (e) {
       return Error(e.toString());

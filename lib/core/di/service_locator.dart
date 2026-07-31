@@ -5,7 +5,11 @@ import 'service_locator.config.dart';
 
 final GetIt serviceLocator = GetIt.instance;
 
-@InjectableInit(initializerName: 'init', preferRelativeImports: true, asExtension: true)
+@InjectableInit(
+  initializerName: 'init',
+  preferRelativeImports: true,
+  asExtension: true,
+)
 Future<void> configureDependencies() async {
   serviceLocator.init();
 }
