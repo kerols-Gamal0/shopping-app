@@ -41,7 +41,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: AppColors.accountScreenBackground,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text(
           AppStrings.accountTitle,

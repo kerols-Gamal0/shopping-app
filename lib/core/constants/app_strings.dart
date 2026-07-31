@@ -23,5 +23,16 @@ abstract final class AppStrings {
   static const String noProductsAvailable = 'No products available';
   static const String startTypingToSearchProducts =
       'Start typing to search for products.';
-      static const String searchProductsHint = 'Search for your products';
+  static const String searchProductsHint = 'Search for your products';
+  static const String unknownError =
+      'An unknown error occurred. Please try again later.';
+  static const String accountTitle = 'My Account';
+  static const String accountSuccessMessage = 'Account updated successfully';
+  static const String accountErrorMessage = 'Failed to update account';
+  static const String accountTryAgain = 'Please try again later';
+  static const String accountName = 'Name';
+  static const String accountEmail = 'Email';
+  static const String accountPhone = 'Phone';
+  static const String accountAddress = 'Address';
+  static const String accountSubmit = 'Submit';
 }
