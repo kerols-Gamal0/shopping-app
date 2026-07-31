@@ -14,9 +14,13 @@ class HeaderSection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: .spaceBetween,
         children: [
-          Text(AppStrings.homeGreeting, style: Theme.of(context).textTheme.headlineMedium),
+          Text(
+            AppStrings.homeGreeting,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
           IconButton(
-            onPressed: () => context.pushNamed(AppRoutes.searchProductsByCategoryRoute),
+            onPressed: () =>
+                context.pushNamed(AppRoutes.searchProductsByCategoryRoute),
             icon: Icon(Icons.search),
           ),
         ],

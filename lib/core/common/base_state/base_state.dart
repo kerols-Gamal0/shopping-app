@@ -9,6 +9,7 @@ class BaseInitialState<T> extends BaseState<T> {
 class BaseLoadingState<T> extends BaseState<T> {
   const BaseLoadingState();
 }
+
 class BaseLoadMoreState<T> extends BaseState<T> {
   const BaseLoadMoreState();
 }

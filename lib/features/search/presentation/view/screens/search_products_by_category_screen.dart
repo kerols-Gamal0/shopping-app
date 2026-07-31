@@ -7,7 +7,10 @@ import 'package:shopping_app/features/search/presentation/view/widgets/search_fi
 import 'package:shopping_app/features/search/presentation/view_model/bloc/search_products_by_category_bloc.dart';
 
 class SearchProductsByCategoryScreen extends StatelessWidget {
-  const SearchProductsByCategoryScreen({super.key, this.category = 'smartphones'});
+  const SearchProductsByCategoryScreen({
+    super.key,
+    this.category = 'smartphones',
+  });
 
   final String category;
 
@@ -16,35 +19,43 @@ class SearchProductsByCategoryScreen extends StatelessWidget {
     final searchController = TextEditingController();
 
     SearchProductsByCategoryRequestBody body() =>
-        SearchProductsByCategoryRequestBody(search: searchController.text.trim());
+        SearchProductsByCategoryRequestBody(
+          search: searchController.text.trim(),
+        );
 
     return Scaffold(
       appBar: AppBar(),
-      body: BlocBuilder<SearchProductsByCategoryBloc, SearchProductsByCategoryState>(
-        builder: (context, state) {
-          final bloc = context.read<SearchProductsByCategoryBloc>();
+      body:
+          BlocBuilder<
+            SearchProductsByCategoryBloc,
+            SearchProductsByCategoryState
+          >(
+            builder: (context, state) {
+              final bloc = context.read<SearchProductsByCategoryBloc>();
 
-          return Padding(
-            padding: AppSpacing.allX1,
-            child: Column(
-              children: [
-                SearchField(
-                  controller: searchController,
-                  onChanged: (value) {
-                    bloc.add(SearchQueryChanged(body().copyWith(search: value)));
-                  },
+              return Padding(
+                padding: AppSpacing.allX1,
+                child: Column(
+                  children: [
+                    SearchField(
+                      controller: searchController,
+                      onChanged: (value) {
+                        bloc.add(
+                          SearchQueryChanged(body().copyWith(search: value)),
+                        );
+                      },
+                    ),
+
+                    verticalSpace(AppSpacing.x2),
+
+                    Expanded(
+                      child: SearchBody(state: state, bloc: bloc, body: body),
+                    ),
+                  ],
                 ),
-
-                const SizedBox(height: 16),
-
-                Expanded(
-                  child: SearchBody(state: state, bloc: bloc, body: body),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
     );
   }
 }

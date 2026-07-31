@@ -7,12 +7,15 @@ import 'package:shopping_app/features/search/domain/repo/search_products_by_cate
 import 'package:shopping_app/features/search/domain/repo/search_products_by_category_repo_interface.dart';
 
 @LazySingleton(as: SearchProductsByCategoryRepoInterface)
-class SearchProductsByCategoryRepoImpl implements SearchProductsByCategoryRepoInterface {
+class SearchProductsByCategoryRepoImpl
+    implements SearchProductsByCategoryRepoInterface {
   const SearchProductsByCategoryRepoImpl(this._dataSource);
   final SearchProductsByCategoryDataSourceInterface _dataSource;
 
   @override
-  Future<ResultApi<List<ProductItemEntity>>> searchProductsByCategory(body) async {
+  Future<ResultApi<List<ProductItemEntity>>> searchProductsByCategory(
+    body,
+  ) async {
     try {
       final dataDto = await _dataSource.searchProductsByCategory(body);
       final dataEntities = dataDto.map((e) => e.toEntity()).toList();

@@ -43,30 +43,43 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        context.read<OnboardingCubit>().intent(IntentFinishOnboarding());
-                        Navigator.pushReplacementNamed(context, AppRoutes.helloRoute);
+                        context.read<OnboardingCubit>().intent(
+                          IntentFinishOnboarding(),
+                        );
+                        Navigator.pushReplacementNamed(
+                          context,
+                          AppRoutes.helloRoute,
+                        );
                       },
                       child: Text(
                         AppStrings.skip,
-                        style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(context).primaryColor,
-                        ),
+                        style: AppTheme.lightTheme.textTheme.bodyMedium
+                            ?.copyWith(color: Theme.of(context).primaryColor),
                       ),
                     ),
                   ).fadeInRight(delay: const Duration(milliseconds: 100)),
 
                   Expanded(
                     child: PageView.builder(
-                      onPageChanged: (value) =>
-                          context.read<OnboardingCubit>().intent(IntentOnboardingPageChanged(value)),
+                      onPageChanged: (value) => context
+                          .read<OnboardingCubit>()
+                          .intent(IntentOnboardingPageChanged(value)),
                       controller: _pageController,
                       itemCount: onboardingList.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: AppSpacing.x3, vertical: AppSpacing.x2),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppSpacing.x3,
+                            vertical: AppSpacing.x2,
+                          ),
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.asset(onboardingList[index].image, fit: BoxFit.cover),
+                            borderRadius: BorderRadius.circular(
+                              AppSpacing.radiusLg,
+                            ),
+                            child: Image.asset(
+                              onboardingList[index].image,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ).zoomIn(duration: const Duration(milliseconds: 700));
                       },
@@ -76,7 +89,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   BlocBuilder<OnboardingCubit, OnboardingState>(
                     builder: (context, state) {
                       final cubit = context.read<OnboardingCubit>();
-                      final currentIndex = state is OnboardingPageChanged ? state.index : cubit.currentIndex;
+                      final currentIndex = state is OnboardingPageChanged
+                          ? state.index
+                          : cubit.currentIndex;
 
                       return Column(
                         children: [
@@ -92,10 +107,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ).fadeIn(),
                           verticalSpace(AppSpacing.x3),
 
-                          Text(onboardingList[currentIndex].title, style: AppTheme.lightTheme.textTheme.headlineLarge),
+                          Text(
+                            onboardingList[currentIndex].title,
+                            style: AppTheme.lightTheme.textTheme.headlineLarge,
+                          ),
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: AppSpacing.x2),
-                            padding: EdgeInsets.symmetric(horizontal: AppSpacing.x4),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: AppSpacing.x2,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppSpacing.x4,
+                            ),
                             child: Text(
                               onboardingList[currentIndex].description,
                               style: AppTheme.lightTheme.textTheme.labelSmall,
@@ -104,14 +126,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           ).fadeInUp(delay: const Duration(milliseconds: 150)),
 
                           Padding(
-                            padding: const EdgeInsets.all(24),
+                            padding: AppSpacing.allX3,
                             child: PrimaryBtn(
                               onPressed: () {
-                                final isLastPage = currentIndex == onboardingList.length - 1;
+                                final isLastPage =
+                                    currentIndex == onboardingList.length - 1;
                                 final cubit = context.read<OnboardingCubit>();
                                 if (isLastPage) {
                                   cubit.intent(IntentFinishOnboarding());
-                                  Navigator.pushReplacementNamed(context, AppRoutes.helloRoute);
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    AppRoutes.helloRoute,
+                                  );
                                   return;
                                 }
 
@@ -120,10 +146,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                   curve: Curves.easeInOut,
                                 );
 
-                                cubit.intent(IntentOnboardingPageChanged(currentIndex + 1));
+                                cubit.intent(
+                                  IntentOnboardingPageChanged(currentIndex + 1),
+                                );
                               },
                               child: Text(
-                                currentIndex == onboardingList.length - 1 ? AppStrings.getStarted : AppStrings.next,
+                                currentIndex == onboardingList.length - 1
+                                    ? AppStrings.getStarted
+                                    : AppStrings.next,
                               ),
                             ),
                           ).bounceIn(delay: const Duration(milliseconds: 300)),

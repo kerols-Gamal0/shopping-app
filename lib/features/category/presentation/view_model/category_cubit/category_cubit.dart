@@ -19,7 +19,6 @@ class CategoryCubit extends Cubit<CategoryState> {
   bool get isLoadingMore => state.isLoadingMore;
   bool get hasMore => state.hasMore;
 
-
   Future<void> processIntent(CategoryIntent categoryIntent) async {
     switch (categoryIntent) {
       case FetchCategoryProductsIntent(

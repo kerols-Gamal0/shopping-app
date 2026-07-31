@@ -6,15 +6,25 @@ import 'package:shopping_app/features/search/domain/repo/search_products_by_cate
 import 'package:shopping_app/core/network/api_constants.dart';
 
 @LazySingleton(as: SearchProductsByCategoryDataSourceInterface)
-class SearchProductsByCategoryRemoteDataSourceImpl implements SearchProductsByCategoryDataSourceInterface {
+class SearchProductsByCategoryRemoteDataSourceImpl
+    implements SearchProductsByCategoryDataSourceInterface {
   const SearchProductsByCategoryRemoteDataSourceImpl(this._dio);
   final Dio _dio;
 
   @override
-  Future<List<ProductItemDto>> searchProductsByCategory(SearchProductsByCategoryRequestBody body) async {
-    final response = await _dio.post(ApiConstants.searchProduct, data: body.toJson());
-    final List dynamicList = response.data is Map ? (response.data['list'] ?? []) : [];
-    final products = dynamicList.map((e) => ProductItemDto.fromJson(e)).toList();
+  Future<List<ProductItemDto>> searchProductsByCategory(
+    SearchProductsByCategoryRequestBody body,
+  ) async {
+    final response = await _dio.post(
+      ApiConstants.searchProduct,
+      data: body.toJson(),
+    );
+    final List dynamicList = response.data is Map
+        ? (response.data['list'] ?? [])
+        : [];
+    final products = dynamicList
+        .map((e) => ProductItemDto.fromJson(e))
+        .toList();
     return products;
   }
 }

@@ -15,9 +15,17 @@ extension PopupExtension on BuildContext {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon ?? Icons.check_circle, color: iconColor ?? Theme.of(context).colorScheme.primary, size: 48),
+            Icon(
+              icon ?? Icons.check_circle,
+              color: iconColor ?? Theme.of(context).colorScheme.primary,
+              size: 48,
+            ),
             const SizedBox(height: 16),
-            Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ],
         ),
         actions: [
@@ -48,9 +56,17 @@ extension PopupExtension on BuildContext {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon ?? Icons.error_outline, color: Theme.of(context).colorScheme.error, size: 48),
+            Icon(
+              icon ?? Icons.error_outline,
+              color: Theme.of(context).colorScheme.error,
+              size: 48,
+            ),
             const SizedBox(height: 16),
-            Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyLarge),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
           ],
         ),
         actions: [
@@ -68,7 +84,10 @@ extension PopupExtension on BuildContext {
     );
   }
 
-  Future<void> showLoadingDialog({String message = 'Loading...', bool barrierDismissible = false}) {
+  Future<void> showLoadingDialog({
+    String message = 'Loading...',
+    bool barrierDismissible = false,
+  }) {
     return showDialog<void>(
       context: this,
       barrierDismissible: barrierDismissible,
@@ -101,12 +120,17 @@ extension PopupExtension on BuildContext {
             title: Text(title),
             content: Text(message),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(context, false), child: Text(cancelText)),
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(cancelText),
+              ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
                 child: Text(
                   confirmText,
-                  style: dangerousAction ? TextStyle(color: Theme.of(context).colorScheme.error) : null,
+                  style: dangerousAction
+                      ? TextStyle(color: Theme.of(context).colorScheme.error)
+                      : null,
                 ),
               ),
             ],
@@ -114,7 +138,6 @@ extension PopupExtension on BuildContext {
         ) ??
         false;
   }
-
 
   void showSnackBar({
     required String message,
@@ -127,7 +150,9 @@ extension PopupExtension on BuildContext {
         content: Text(message),
         duration: duration,
         behavior: SnackBarBehavior.floating,
-        backgroundColor: isError ? Theme.of(this).colorScheme.errorContainer : null,
+        backgroundColor: isError
+            ? Theme.of(this).colorScheme.errorContainer
+            : null,
         action: action,
       ),
     );

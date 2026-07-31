@@ -4,12 +4,14 @@ import 'package:lottie/lottie.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/common/pagination/pagination_state.dart';
 import 'package:shopping_app/core/common/widgets/error_info.dart';
+import 'package:shopping_app/core/common/widgets/loading_more_widget.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
+import 'package:shopping_app/core/extensions/context_extension.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
-import 'package:shopping_app/features/home/presentation/view/widgets/product_card_shimmer.dart';
+import 'package:shopping_app/core/common/widgets/product_card_shimmer.dart';
 import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
 
 class ProductsSection extends StatelessWidget {
@@ -20,19 +22,11 @@ class ProductsSection extends StatelessWidget {
     return BlocBuilder<ProductsCubit, PaginationState<ProductItemEntity>>(
       builder: (context, state) {
         final cubit = context.read<ProductsCubit>();
-
-        if (state.isFirstLoading) {
-          return _buildLoading();
-        }
-
+        if (state.isFirstLoading) return _buildLoading();
         if (state.errorMessage != null && state.items.isEmpty) {
           return _buildError(context, state.errorMessage!, onRetry: cubit.fetchFirstPage);
         }
-
-        if (state.items.isEmpty) {
-          return _buildEmpty();
-        }
-
+        if (state.items.isEmpty) return _buildEmpty(context);
         return Column(
           children: [
             GridView.builder(
@@ -46,14 +40,13 @@ class ProductsSection extends StatelessWidget {
               },
             ),
 
-            if (state.isLoadingMore)
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Center(child: Lottie.asset(AppAssets.loadingLottie, height: 120)),
-              ),
+            if (state.isLoadingMore) LoadingMoreWidget(),
 
             if (state.hasReachedMax)
-              const Padding(padding: EdgeInsets.symmetric(vertical: 16), child: Text('No more products')),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: AppSpacing.x2),
+                child: Text(AppStrings.noMoreProducts),
+              ),
           ],
         );
       },
@@ -71,14 +64,14 @@ class ProductsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildEmpty() {
+  Widget _buildEmpty(BuildContext context) {
     return Center(
       child: Column(
         children: [
-          verticalSpace(96),
-          Image.asset(AppAssets.emptyProduct, height: 96),
-          const SizedBox(height: 16),
-          const Text('No products available'),
+          verticalSpace(AppSpacing.x7),
+          Image.asset(AppAssets.emptyProduct, height: context.height * 0.07),
+          verticalSpace(AppSpacing.x2),
+          const Text(AppStrings.noProductsAvailable),
         ],
       ),
     );

@@ -43,12 +43,12 @@ class AppTheme {
       selectionColor: AppColors.primary.withValues(alpha: 0.3),
       selectionHandleColor: AppColors.primary,
     ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: AppColors.background,
-        isDense: true,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        hintStyle: const TextStyle(color: AppColors.bodyLight, fontSize: 12),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: AppColors.background,
+      isDense: true,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      hintStyle: const TextStyle(color: AppColors.bodyLight, fontSize: 12),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: const BorderSide(color: AppColors.disabled),
@@ -93,18 +93,46 @@ class AppTheme {
       ),
     ),
     textTheme: TextTheme(
-      headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.heading),
+      headlineLarge: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+        color: AppColors.heading,
+      ),
 
-      headlineMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.heading),
-      titleLarge: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold, fontSize: 18),
-      titleSmall: TextStyle(color: Colors.orange, fontWeight: FontWeight.w600, fontSize: 12),
-      titleMedium: TextStyle(fontSize: 14, color: AppColors.bodyLight, fontWeight: FontWeight.w400),
+      headlineMedium: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: AppColors.heading,
+      ),
+      titleLarge: TextStyle(
+        color: AppColors.primary,
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+      ),
+      titleSmall: TextStyle(
+        color: Colors.orange,
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
+      ),
+      titleMedium: TextStyle(
+        fontSize: 14,
+        color: AppColors.bodyLight,
+        fontWeight: FontWeight.w400,
+      ),
       bodyLarge: TextStyle(fontSize: 16, color: AppColors.body),
       bodyMedium: TextStyle(fontSize: 14, color: AppColors.body),
       bodySmall: TextStyle(fontSize: 12, color: AppColors.body),
       labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-      labelMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.background),
-      labelSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: AppColors.body),
+      labelMedium: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: AppColors.background,
+      ),
+      labelSmall: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w400,
+        color: AppColors.body,
+      ),
     ),
 
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
@@ -113,7 +141,10 @@ class AppTheme {
       unselectedItemColor: colorScheme.onSurfaceVariant,
       type: BottomNavigationBarType.fixed,
       selectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-      unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+      unselectedLabelStyle: TextStyle(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+      ),
     ),
   );
 }

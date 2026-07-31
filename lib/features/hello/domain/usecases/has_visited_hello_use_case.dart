@@ -6,5 +6,5 @@ class HasVisitedHelloUseCase {
   const HasVisitedHelloUseCase(this._repo);
   final HelloRepoInterface _repo;
 
-  bool  invoke() => _repo.hasVisitedHello();
+  bool invoke() => _repo.hasVisitedHello();
 }

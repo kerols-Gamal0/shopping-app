@@ -24,9 +24,7 @@ class CategoryRepoImp implements CategoryRepoInterface {
         limit: limit,
       );
 
-      final entities = dtos
-          .map((dto) => dto!.toEntity())
-          .toList();
+      final entities = dtos.map((dto) => dto!.toEntity()).toList();
       return Success(entities);
     } catch (e) {
       return Error(e.toString());

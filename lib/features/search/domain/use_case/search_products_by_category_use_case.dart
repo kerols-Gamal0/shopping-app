@@ -8,7 +8,9 @@ import 'package:shopping_app/features/search/domain/repo/search_products_by_cate
 class SearchProductsByCategoryUseCase {
   const SearchProductsByCategoryUseCase(this._repo);
   final SearchProductsByCategoryRepoInterface _repo;
-  Future<ResultApi<List<ProductItemEntity>>> invoke(SearchProductsByCategoryRequestBody body) async {
+  Future<ResultApi<List<ProductItemEntity>>> invoke(
+    SearchProductsByCategoryRequestBody body,
+  ) async {
     return await _repo.searchProductsByCategory(body);
   }
 }

@@ -11,13 +11,19 @@ class CategoryDataSourceImp implements CategoryDataSourceInterface {
   CategoryDataSourceImp(this.dio);
 
   @override
-  Future<List<ProductItemDto>> getProductsByCategory(String categoryName, {int skip = 0, int limit = 6}) async {
+  Future<List<ProductItemDto>> getProductsByCategory(
+    String categoryName, {
+    int skip = 0,
+    int limit = 6,
+  }) async {
     final response = await dio.get(
       ApiConstants.productByCategory(categoryName),
       queryParameters: {'skip': skip, 'limit': limit},
     );
 
-    final List dynamicList = response.data is Map ? (response.data['list'] ?? []) : [];
+    final List dynamicList = response.data is Map
+        ? (response.data['list'] ?? [])
+        : [];
 
     return dynamicList.map((item) => ProductItemDto.fromJson(item)).toList();
   }

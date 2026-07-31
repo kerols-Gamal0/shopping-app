@@ -15,17 +15,21 @@ abstract class PaginatedCubit<T> extends Cubit<PaginationState<T>> {
       var result = await fetchPage(1);
       switch (result) {
         case Success<List<T>>():
-          emit(state.copyWith(
-            items: result.data,
-            currentPage: 1,
-            isFirstLoading: false,
-            hasReachedMax: result.data.length < pageSize,
-          ));
+          emit(
+            state.copyWith(
+              items: result.data,
+              currentPage: 1,
+              isFirstLoading: false,
+              hasReachedMax: result.data.length < pageSize,
+            ),
+          );
         case Error<List<T>>():
-          emit(state.copyWith(
-            isFirstLoading: false,
-            errorMessage: result.messageError,
-          ));
+          emit(
+            state.copyWith(
+              isFirstLoading: false,
+              errorMessage: result.messageError,
+            ),
+          );
       }
     } catch (e) {
       emit(state.copyWith(isFirstLoading: false, errorMessage: e.toString()));
@@ -42,17 +46,21 @@ abstract class PaginatedCubit<T> extends Cubit<PaginationState<T>> {
       var result = await fetchPage(nextPage);
       switch (result) {
         case Success<List<T>>():
-          emit(state.copyWith(
-            items: [...state.items, ...result.data],
-            currentPage: nextPage,
-            isLoadingMore: false,
-            hasReachedMax: result.data.length < pageSize,
-          ));
+          emit(
+            state.copyWith(
+              items: [...state.items, ...result.data],
+              currentPage: nextPage,
+              isLoadingMore: false,
+              hasReachedMax: result.data.length < pageSize,
+            ),
+          );
         case Error<List<T>>():
-          emit(state.copyWith(
-            isLoadingMore: false,
-            errorMessage: result.messageError,
-          ));
+          emit(
+            state.copyWith(
+              isLoadingMore: false,
+              errorMessage: result.messageError,
+            ),
+          );
       }
     } catch (e) {
       emit(state.copyWith(isLoadingMore: false, errorMessage: e.toString()));

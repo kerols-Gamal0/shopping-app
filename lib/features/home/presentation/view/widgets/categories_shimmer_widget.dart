@@ -30,7 +30,11 @@ class CategoryCardShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Container(width: 96, height: 32, color: AppColors.surface).withShimmer(),
+      child: Container(
+        width: 96,
+        height: 32,
+        color: AppColors.surface,
+      ).withShimmer(),
     );
   }
 }

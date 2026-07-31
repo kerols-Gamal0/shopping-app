@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_app/core/constants/app_strings.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({super.key, 
+  const SearchField({
+    super.key,
     required this.controller,
     required this.onChanged,
   });
@@ -13,9 +15,7 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      decoration: const InputDecoration(
-        hintText: 'Search for your products',
-      ),
+      decoration: const InputDecoration(hintText:AppStrings.searchProductsHint ),
       onChanged: onChanged,
     );
   }

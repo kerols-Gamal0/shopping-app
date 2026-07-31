@@ -15,8 +15,7 @@ class BaseStateBuilder<T> extends StatelessWidget {
   final Widget Function(T data) onSuccess;
   final Widget Function() onLoading;
   final Widget Function(String error) onError;
-   final Widget? loadMoreWidget;
-
+  final Widget? loadMoreWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class BaseStateBuilder<T> extends StatelessWidget {
       BaseSuccessState(data: final data) => onSuccess(data),
       BaseFailureState(errorMessage: final message) => onError(message),
       BaseInitialState() => const SizedBox.shrink(),
-      BaseLoadMoreState()=> loadMoreWidget??const SizedBox.shrink(),
+      BaseLoadMoreState() => loadMoreWidget ?? const SizedBox.shrink(),
     };
   }
 }

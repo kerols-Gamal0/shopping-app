@@ -5,12 +5,14 @@ import 'package:lottie/lottie.dart';
 import 'package:shopping_app/core/common/base_state/base_state_builder.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/common/widgets/error_info.dart';
+import 'package:shopping_app/core/common/widgets/loading_more_widget.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
+import 'package:shopping_app/core/extensions/context_extension.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
-import 'package:shopping_app/features/home/presentation/view/widgets/product_card_shimmer.dart';
+import 'package:shopping_app/core/common/widgets/product_card_shimmer.dart';
 import '../view_model/category_cubit/category_cubit.dart';
 import '../view_model/category_cubit/category_intent.dart';
 
@@ -25,7 +27,6 @@ class CategoryScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(categoryName.toUpperCase(), style: Theme.of(context).textTheme.headlineMedium),
         centerTitle: true,
-       
       ),
       body: BlocBuilder<CategoryCubit, CategoryState>(
         builder: (context, state) {
@@ -84,12 +85,8 @@ class CategoryScreen extends StatelessWidget {
                         },
                       ),
                     ),
-                    if (cubit.isLoadingMore)
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Center(child: Lottie.asset(AppAssets.loadingLottie, height: 142)),
-                      ),
-                    if (!cubit.hasMore) Text("No more data"),
+                    if (cubit.isLoadingMore) LoadingMoreWidget(),
+                    if (!cubit.hasMore) Text(AppStrings.noMoreData),
                   ],
                 ),
               );
@@ -127,3 +124,5 @@ class CategoryScreen extends StatelessWidget {
     );
   }
 }
+
+

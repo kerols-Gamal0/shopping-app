@@ -35,11 +35,21 @@ class SearchProductsByCategoryState extends Equatable {
       limit: limit ?? this.limit,
       hasMore: hasMore ?? this.hasMore,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-      paginationError: clearError ? null : (paginationError ?? this.paginationError),
+      paginationError: clearError
+          ? null
+          : (paginationError ?? this.paginationError),
       allProducts: allProducts ?? this.allProducts,
     );
   }
 
   @override
-  List<Object?> get props => [searchState, skip, limit, hasMore, isLoadingMore, paginationError, allProducts];
+  List<Object?> get props => [
+    searchState,
+    skip,
+    limit,
+    hasMore,
+    isLoadingMore,
+    paginationError,
+    allProducts,
+  ];
 }
