@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/extensions/context_extension.dart';
@@ -18,23 +17,25 @@ class AppErrorWidget extends StatelessWidget {
           children: [
             Image.asset(
               "assets/images/error__.png",
-              // AppAssets.errorIcon, 
-            height: context.height * 0.15),
+              height: context.height * 0.15,
+            ),
             verticalSpace(AppSpacing.x1),
             Text(
               error,
               textAlign: TextAlign.center,
-              style: TextStyle(color: context.colors.onSurfaceVariant.withValues(alpha: 0.6)),
-            ),
-            verticalSpace(AppSpacing.x1),
-          if(onRetry!=null)
-            TextButton(
-              onPressed: onRetry,
-              child: Text(
-                AppStrings.retry.toUpperCase(),
-                style: TextStyle(color: context.colors.primary),
+              style: TextStyle(
+                color: context.colors.onSurfaceVariant.withValues(alpha: 0.6),
               ),
             ),
+            verticalSpace(AppSpacing.x1),
+            if (onRetry != null)
+              TextButton(
+                onPressed: onRetry,
+                child: Text(
+                  AppStrings.retry.toUpperCase(),
+                  style: TextStyle(color: context.colors.primary),
+                ),
+              ),
           ],
         ),
       ),

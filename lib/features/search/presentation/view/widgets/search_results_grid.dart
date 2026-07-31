@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/common/widgets/loading_more_widget.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
-import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
-import 'package:shopping_app/core/extensions/context_extension.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/features/search/data/models/search_products_by_category_request_body.dart';
 import 'package:shopping_app/features/search/presentation/view_model/bloc/search_products_by_category_bloc.dart';

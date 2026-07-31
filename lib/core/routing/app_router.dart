@@ -4,6 +4,9 @@ import 'package:shopping_app/core/common/screens/error_404_screen.dart';
 import 'package:shopping_app/core/common/screens/launcher_screen.dart';
 import 'package:shopping_app/core/di/service_locator.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
+import 'package:shopping_app/features/account/presentation/view/account_screen.dart';
+import 'package:shopping_app/features/account/presentation/view_model/account_cubit.dart';
+import 'package:shopping_app/features/account/presentation/view_model/account_intent.dart';
 import 'package:shopping_app/features/category/presentation/view/category_screen.dart';
 import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_cubit.dart';
 import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_intent.dart';
@@ -11,7 +14,6 @@ import 'package:shopping_app/features/hello/presentation/view/screens/hello_scre
 import 'package:shopping_app/features/auth/login_screen.dart';
 import 'package:shopping_app/features/auth/register_screen.dart';
 import 'package:shopping_app/features/hello/presentation/view_model/hello_cubit.dart';
-import 'package:shopping_app/features/account/presentation/account.dart';
 import 'package:shopping_app/features/app_section/view/app_section_screen.dart';
 import 'package:shopping_app/features/app_section/view_model/app_section_cubit.dart';
 import 'package:shopping_app/features/cart/presentation/cart.dart';
@@ -39,7 +41,13 @@ class AppRouter {
       case AppRoutes.favouriteScreen:
         return MaterialPageRoute(builder: (context) => const FavouriteScreen());
       case AppRoutes.accountScreen:
-        return MaterialPageRoute(builder: (context) => const AccountScreen());
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) =>
+                serviceLocator<AccountCubit>()..doIntent(GetUserDataIntent()),
+            child: AccountScreen(),
+          ),
+        );
       case AppRoutes.onboardingRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider(

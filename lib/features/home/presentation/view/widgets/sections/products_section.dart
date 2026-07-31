@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/common/pagination/pagination_state.dart';
 import 'package:shopping_app/core/common/widgets/error_info.dart';
@@ -24,7 +23,11 @@ class ProductsSection extends StatelessWidget {
         final cubit = context.read<ProductsCubit>();
         if (state.isFirstLoading) return _buildLoading();
         if (state.errorMessage != null && state.items.isEmpty) {
-          return _buildError(context, state.errorMessage!, onRetry: cubit.fetchFirstPage);
+          return _buildError(
+            context,
+            state.errorMessage!,
+            onRetry: cubit.fetchFirstPage,
+          );
         }
         if (state.items.isEmpty) return _buildEmpty(context);
         return Column(
@@ -36,7 +39,11 @@ class ProductsSection extends StatelessWidget {
               itemCount: state.items.length,
               gridDelegate: AppStyles.productsGridDelegate,
               itemBuilder: (_, index) {
-                return ProductCard(product: state.items[index], onAddToCart: () {}, onFavorite: () {});
+                return ProductCard(
+                  product: state.items[index],
+                  onAddToCart: () {},
+                  onFavorite: () {},
+                );
               },
             ),
 
@@ -77,10 +84,19 @@ class ProductsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildError(BuildContext context, String error, {required VoidCallback onRetry}) {
+  Widget _buildError(
+    BuildContext context,
+    String error, {
+    required VoidCallback onRetry,
+  }) {
     return Padding(
       padding: AppSpacing.allX2,
-      child: ErrorInfo(title: AppStrings.errorOccurred, description: error, btnText: AppStrings.retry, press: onRetry),
+      child: ErrorInfo(
+        title: AppStrings.errorOccurred,
+        description: error,
+        btnText: AppStrings.retry,
+        press: onRetry,
+      ),
     );
   }
 }
