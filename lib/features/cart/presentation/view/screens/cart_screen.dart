@@ -6,6 +6,7 @@ import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
+import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/features/cart/domain/entities/cart_entity.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_state.dart';
@@ -34,30 +35,78 @@ class _CartScreenState extends State<CartScreen> {
 
   void _showCheckoutAlert(BuildContext context) {
     final theme = Theme.of(context);
-
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle, color: AppColors.onPrimary),
-            horizontalSpace(AppSpacing.x2),
-            Text(
-              AppStrings.cartCheckoutMessage,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onPrimary,
-              ),
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSpacing.radiusXl),
+          ),
+          child: Padding(
+            padding: AppSpacing.allX3,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: AppSpacing.allX2,
+                  decoration: BoxDecoration(
+                    color: AppColors.success,
+                    shape: BoxShape.circle,
+                    boxShadow: [AppStyles.kBlackShadowSmall],
+                  ),
+                  child: const Icon(
+                    Icons.check,
+                    color: AppColors.onPrimary,
+                    size: 40,
+                  ),
+                ),
+                verticalSpace(AppSpacing.x3),
+                Text(
+                  AppStrings.cartCheckoutSuccessTitle,
+                  style: theme.textTheme.headlineLarge?.copyWith(
+                    color: AppColors.success,
+                  ),
+                ),
+                verticalSpace(AppSpacing.x2),
+                Text(
+                  AppStrings.cartCheckoutSuccessMessage,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: AppColors.heading,
+                  ),
+                ),
+                verticalSpace(AppSpacing.x4),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.success,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.x2,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          AppSpacing.radiusLg,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      AppStrings.ok,
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: AppColors.onPrimary,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        backgroundColor: theme.colorScheme.primary,
-        duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppSpacing.x1),
-        ),
-        margin: const EdgeInsets.all(AppSpacing.x2),
-      ),
+          ),
+        );
+      },
     );
   }
 

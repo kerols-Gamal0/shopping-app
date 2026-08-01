@@ -52,4 +52,8 @@ abstract final class AppStrings {
   static const String cartTotal = 'Total';
   static const String cartCheckout = 'Checkout';
   static const String cartCheckoutMessage = 'Checkout feature coming soon!';
+  static const String cartCheckoutSuccessTitle = 'Success !';
+  static const String cartCheckoutSuccessMessage =
+      'Your payment was successful.\nA receipt for this purchase has\nbeen sent to your email.';
+  static const String ok = 'OK';
 }

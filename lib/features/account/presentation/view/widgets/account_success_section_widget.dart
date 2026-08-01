@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/core/common/widgets/app_btns.dart';
+import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
+import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/features/account/domain/entities/user_entity.dart';
 import 'package:shopping_app/features/account/presentation/view/widgets/profile_image_widget.dart';
 import 'package:shopping_app/features/account/presentation/view_model/account_cubit.dart';
@@ -37,101 +39,111 @@ class AccountSuccessSection extends StatelessWidget {
       addressController.text = data!.address;
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isWide = constraints.maxWidth >= 640;
-        final isCompactHeight = constraints.maxHeight < 620;
-        final horizontalPadding = isWide ? AppSpacing.x4 : AppSpacing.x2;
-        final topSpacing = isCompactHeight ? AppSpacing.x1 : AppSpacing.x3;
-        final imageSpacing = isCompactHeight ? AppSpacing.x3 : AppSpacing.x5;
-        final fieldSpacing = isCompactHeight ? AppSpacing.x1 : AppSpacing.x2;
-        final buttonSpacing = isCompactHeight ? AppSpacing.x3 : AppSpacing.x4;
-
-        return CustomScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: SafeArea(
-                top: false,
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 560),
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        horizontalPadding,
-                        topSpacing,
-                        horizontalPadding,
-                        AppSpacing.x3,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          verticalSpace(topSpacing),
-                          ProfileImageWidget(cubit: cubit, userEntity: data),
-                          verticalSpace(imageSpacing),
-                          _buildField(
-                            context,
-                            controller: nameController,
-                            label: AppStrings.accountName,
-                            icon: Icons.person_outline,
-                          ),
-                          verticalSpace(fieldSpacing),
-                          _buildField(
-                            context,
-                            controller: emailController,
-                            label: AppStrings.accountEmail,
-                            icon: Icons.email_outlined,
-                            keyboardType: TextInputType.emailAddress,
-                            readOnly: true,
-                          ),
-                          verticalSpace(fieldSpacing),
-                          _buildField(
-                            context,
-                            controller: phoneController,
-                            label: AppStrings.accountPhone,
-                            icon: Icons.phone_outlined,
-                            keyboardType: TextInputType.phone,
-                          ),
-                          verticalSpace(fieldSpacing),
-                          _buildField(
-                            context,
-                            controller: addressController,
-                            label: AppStrings.accountAddress,
-                            icon: Icons.location_on_outlined,
-                          ),
-                          const Spacer(),
-                          verticalSpace(buttonSpacing),
-                          SizedBox(
-                            height: 52,
-                            child: PrimaryBtn(
-                              onPressed: () => cubit.doIntent(
-                                EditUserDataIntent(),
-                                updatedData: {
-                                  'name': nameController.text.trim(),
-                                  'phone': phoneController.text.trim(),
-                                  'address': addressController.text.trim(),
-                                },
-                              ),
-                              child: Text(
-                                AppStrings.accountSubmit,
-                                style: theme.textTheme.labelLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.onPrimary,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  height: 220,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [AppColors.primary, AppColors.primaryLight],
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                    ),
+                    image: const DecorationImage(
+                      image: AssetImage(AppAssets.appIcon),
+                      fit: BoxFit.contain,
+                      opacity: 0.6,
                     ),
                   ),
                 ),
+                Positioned(
+                  bottom: -50,
+                  child: Container(
+                    padding: AppSpacing.allX1 / 2,
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      shape: BoxShape.circle,
+                      boxShadow: [AppStyles.kBlackShadowSmall],
+                    ),
+                    child: ProfileImageWidget(cubit: cubit, userEntity: data),
+                  ),
+                ),
+              ],
+            ),
+            verticalSpace(75),
+
+            Padding(
+              padding: AppSpacing.horizontalX3,
+              child: Column(
+                children: [
+                  _buildField(
+                    context,
+                    label: AppStrings.accountName,
+                    controller: nameController,
+                  ),
+                  _buildField(
+                    context,
+                    label: AppStrings.accountEmail,
+                    controller: emailController,
+                    readOnly: true,
+                    isPass: false,
+                  ),
+                  _buildField(
+                    context,
+                    label: AppStrings.accountPhone,
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                  ),
+                  _buildField(
+                    context,
+                    label: AppStrings.accountAddress,
+                    controller: addressController,
+                  ),
+                  verticalSpace(AppSpacing.x1),
+                  _buildListTile("Payment Details", () {}),
+                  _buildListTile("Order history", () {}),
+                  verticalSpace(AppSpacing.x3),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: PrimaryBtn(
+                      onPressed: () => cubit.doIntent(
+                        EditUserDataIntent(),
+                        updatedData: {
+                          'name': nameController.text.trim(),
+                          'phone': phoneController.text.trim(),
+                          'address': addressController.text.trim(),
+                        },
+                      ),
+                      child: Text(
+                        AppStrings.accountSubmit,
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.onPrimary,
+                        ),
+                      ),
+                    ),
+                  ),
+                  verticalSpace(AppSpacing.x2),
+                ],
               ),
             ),
+            verticalSpace(AppSpacing.x4),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -139,33 +151,65 @@ class AccountSuccessSection extends StatelessWidget {
     BuildContext context, {
     required TextEditingController controller,
     required String label,
-    required IconData icon,
     TextInputType keyboardType = TextInputType.text,
     bool readOnly = false,
+    bool isPass = false,
   }) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    final inputDecorationTheme = theme.inputDecorationTheme;
-
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      readOnly: readOnly,
-      style: theme.textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: theme.textTheme.bodyMedium?.copyWith(
-          color: colorScheme.onSurfaceVariant,
-        ),
-        prefixIcon: Icon(icon, color: colorScheme.primary),
-        filled: inputDecorationTheme.filled,
-        fillColor: inputDecorationTheme.fillColor,
-        contentPadding: AppSpacing.horizontalVerticalX2,
-        border: inputDecorationTheme.border,
-        enabledBorder: inputDecorationTheme.enabledBorder,
-        focusedBorder: inputDecorationTheme.focusedBorder,
+    return Padding(
+      padding: AppSpacing.verticalX1,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(color: AppColors.heading, fontSize: 16),
+          ),
+          verticalSpace(AppSpacing.x1 / 2 + 1),
+          TextField(
+            controller: controller,
+            keyboardType: keyboardType,
+            readOnly: readOnly,
+            obscureText: isPass,
+            style: const TextStyle(
+              color: AppColors.heading,
+              fontWeight: FontWeight.w600,
+            ),
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.x2,
+                vertical: AppSpacing.x2,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                borderSide: const BorderSide(color: AppColors.border),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(AppSpacing.radiusLg),
+                borderSide: BorderSide(color: AppColors.primary),
+              ),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildListTile(String title, VoidCallback onTap) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      title: Text(
+        title,
+        style: const TextStyle(color: AppColors.heading, fontSize: 15),
+      ),
+      trailing: const Icon(
+        Icons.arrow_forward_ios,
+        size: 14,
+        color: AppColors.heading,
+      ),
+      onTap: onTap,
     );
   }
 }
