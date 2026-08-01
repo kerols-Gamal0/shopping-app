@@ -175,7 +175,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i802.SearchProductsByCategoryDataSourceInterface>(),
       ),
     );
-    gh.factory<_i818.CartCubit>(
+    gh.lazySingleton<_i818.CartCubit>(
       () => _i818.CartCubit(gh<_i76.CartRepoInterface>()),
     );
     gh.factory<_i608.IsOnboardingSeenUseCase>(

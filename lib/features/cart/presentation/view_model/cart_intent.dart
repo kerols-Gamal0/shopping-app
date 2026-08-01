@@ -7,8 +7,17 @@ class GetCartEvent extends CartIntent {
 }
 
 class AddToCartEvent extends CartIntent {
-  const AddToCartEvent({required this.productId});
+  const AddToCartEvent({
+    required this.productId,
+    this.title,
+    this.price,
+    this.thumbnail,
+  });
+
   final String productId;
+  final String? title;
+  final double? price;
+  final String? thumbnail;
 }
 
 class DeleteCartItemEvent extends CartIntent {

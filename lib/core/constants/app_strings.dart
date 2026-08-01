@@ -12,6 +12,7 @@ abstract final class AppStrings {
   static const String retry = 'Retry';
   static const String errorOccurred = 'An unexpected error occurred';
   static const String addToCart = 'Add to Cart';
+  static const String addedToCart = 'Added to cart successfully';
 
   static const String homeGreeting = "Hi !\nLet's Start Your Day";
   static const String next = 'Next';

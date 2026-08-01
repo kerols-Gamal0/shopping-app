@@ -9,8 +9,11 @@ import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/extensions/context_extension.dart';
+import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/core/common/widgets/product_card_shimmer.dart';
+import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
+import 'package:shopping_app/features/cart/presentation/view_model/cart_intent.dart';
 import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
 
 class ProductsSection extends StatelessWidget {
@@ -23,7 +26,11 @@ class ProductsSection extends StatelessWidget {
         final cubit = context.read<ProductsCubit>();
         if (state.isFirstLoading) return _buildLoading();
         if (state.errorMessage != null && state.items.isEmpty) {
-          return _buildError(context, state.errorMessage!, onRetry: cubit.fetchFirstPage);
+          return _buildError(
+            context,
+            state.errorMessage!,
+            onRetry: cubit.fetchFirstPage,
+          );
         }
         if (state.items.isEmpty) return _buildEmpty(context);
         return Column(
@@ -35,7 +42,37 @@ class ProductsSection extends StatelessWidget {
               itemCount: state.items.length,
               gridDelegate: AppStyles.productsGridDelegate,
               itemBuilder: (_, index) {
-                return ProductCard(product: state.items[index], onAddToCart: () {}, onFavorite: () {});
+                final product = state.items[index];
+                return ProductCard(
+                  product: product,
+                  onAddToCart: () {
+                    context.read<CartCubit>().doIntent(
+                      AddToCartEvent(
+                        productId: product.id.toString(),
+                        title: product.title,
+                        price: product.price,
+                        thumbnail: product.thumbnail,
+                      ),
+                    );
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(
+                          content: Text(AppStrings.addedToCart),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                  },
+                  onFavorite: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutes.productDetailsRoute,
+                      arguments: product.id,
+                    );
+                  },
+                );
               },
             ),
 
@@ -76,10 +113,19 @@ class ProductsSection extends StatelessWidget {
     );
   }
 
-  Widget _buildError(BuildContext context, String error, {required VoidCallback onRetry}) {
+  Widget _buildError(
+    BuildContext context,
+    String error, {
+    required VoidCallback onRetry,
+  }) {
     return Padding(
       padding: AppSpacing.allX2,
-      child: ErrorInfo(title: AppStrings.errorOccurred, description: error, btnText: AppStrings.retry, press: onRetry),
+      child: ErrorInfo(
+        title: AppStrings.errorOccurred,
+        description: error,
+        btnText: AppStrings.retry,
+        press: onRetry,
+      ),
     );
   }
 }

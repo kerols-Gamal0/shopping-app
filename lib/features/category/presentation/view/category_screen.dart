@@ -12,6 +12,8 @@ import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/core/common/widgets/product_card_shimmer.dart';
+import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
+import 'package:shopping_app/features/cart/presentation/view_model/cart_intent.dart';
 import '../view_model/category_cubit/category_cubit.dart';
 import '../view_model/category_cubit/category_intent.dart';
 
@@ -96,15 +98,34 @@ class CategoryScreen extends StatelessWidget {
                         gridDelegate: AppStyles.productsGridDelegate,
                         itemCount: products.length,
                         itemBuilder: (context, index) {
+                          final product = products[index];
                           return ProductCard(
-                            product: products[index],
+                            product: product,
                             onTap: () => Navigator.pushNamed(
                               context,
                               AppRoutes.productDetailsRoute,
-                              arguments: products[index].id,
+                              arguments: product.id,
                             ),
                             onFavorite: () {},
-                            onAddToCart: () {},
+                            onAddToCart: () {
+                              context.read<CartCubit>().doIntent(
+                                AddToCartEvent(
+                                  productId: product.id.toString(),
+                                  title: product.title,
+                                  price: product.price,
+                                  thumbnail: product.thumbnail,
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(
+                                  const SnackBar(
+                                    content: Text(AppStrings.addedToCart),
+                                    backgroundColor: Colors.green,
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                            },
                           );
                         },
                       ),

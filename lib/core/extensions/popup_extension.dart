@@ -91,8 +91,8 @@ extension PopupExtension on BuildContext {
     return showDialog<void>(
       context: this,
       barrierDismissible: barrierDismissible,
-      builder: (context) => WillPopScope(
-        onWillPop: () async => false,
+      builder: (context) => PopScope(
+        canPop: false,
         child: AlertDialog(
           content: Row(
             mainAxisSize: MainAxisSize.min,

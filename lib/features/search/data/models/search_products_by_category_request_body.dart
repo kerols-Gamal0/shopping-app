@@ -10,6 +10,10 @@ class SearchProductsByCategoryRequestBody {
     this.limit = 10,
   });
 
+  factory SearchProductsByCategoryRequestBody.fromJson(
+    Map<String, dynamic> json,
+  ) => _$SearchProductsByCategoryRequestBodyFromJson(json);
+
   final String search;
   final int skip;
   final int limit;

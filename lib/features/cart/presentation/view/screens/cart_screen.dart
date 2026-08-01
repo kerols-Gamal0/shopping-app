@@ -21,10 +21,15 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  bool _didLoad = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<CartCubit>().doIntent(const GetCartEvent());
+    if (!_didLoad) {
+      _didLoad = true;
+      context.read<CartCubit>().doIntent(const GetCartEvent());
+    }
   }
 
   void _showCheckoutAlert(BuildContext context) {
@@ -71,6 +76,7 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       backgroundColor: AppColors.cartScreenBackground,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           AppStrings.cartTitle,
           style: theme.textTheme.titleLarge?.copyWith(

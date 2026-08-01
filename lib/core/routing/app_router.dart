@@ -35,18 +35,16 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => MultiBlocProvider(
             providers: [
-              BlocProvider(
-                create: (context) => serviceLocator<AppSectionCubit>(),
-              ),
-              BlocProvider(create: (context) => serviceLocator<CartCubit>()),
+              BlocProvider.value(value: serviceLocator<AppSectionCubit>()),
+              BlocProvider.value(value: serviceLocator<CartCubit>()),
             ],
             child: AppSectionScreen(),
           ),
         );
       case AppRoutes.cartScreen:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) => serviceLocator<CartCubit>(),
+          builder: (context) => BlocProvider.value(
+            value: serviceLocator<CartCubit>(),
             child: CartScreen(),
           ),
         );
@@ -96,7 +94,10 @@ class AppRouter {
       case AppRoutes.productDetailsRoute:
         final productId = settings.arguments as int;
         return MaterialPageRoute(
-          builder: (context) => ProductDetailsScreen(productId: productId),
+          builder: (context) => BlocProvider.value(
+            value: serviceLocator<CartCubit>(),
+            child: ProductDetailsScreen(productId: productId),
+          ),
         );
 
       case AppRoutes.productByCategoryRoute:
@@ -110,7 +111,7 @@ class AppRouter {
                     FetchCategoryProductsIntent(categoryName: categoryName),
                   ),
               ),
-              BlocProvider(create: (context) => serviceLocator<CartCubit>()),
+              BlocProvider.value(value: serviceLocator<CartCubit>()),
             ],
             child: CategoryScreen(categoryName: categoryName),
           ),
@@ -118,9 +119,15 @@ class AppRouter {
 
       case AppRoutes.searchProductsByCategoryRoute:
         return MaterialPageRoute(
-          builder: (context) => BlocProvider(
-            create: (context) =>
-                serviceLocator<SearchProductsByCategoryBloc>()..add(Start()),
+          builder: (context) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) =>
+                    serviceLocator<SearchProductsByCategoryBloc>()
+                      ..add(Start()),
+              ),
+              BlocProvider.value(value: serviceLocator<CartCubit>()),
+            ],
             child: SearchProductsByCategoryScreen(),
           ),
         );
