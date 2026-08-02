@@ -7,14 +7,15 @@ import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/features/account/presentation/view/account_screen.dart';
 import 'package:shopping_app/features/account/presentation/view_model/account_cubit.dart';
 import 'package:shopping_app/features/account/presentation/view_model/account_intent.dart';
+import 'package:shopping_app/features/auth/presentation/view/login_screen.dart';
+import 'package:shopping_app/features/auth/presentation/view/register_screen.dart';
 import 'package:shopping_app/features/cart/presentation/view/screens/cart_screen.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
 import 'package:shopping_app/features/category/presentation/view/category_screen.dart';
 import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_cubit.dart';
 import 'package:shopping_app/features/category/presentation/view_model/category_cubit/category_intent.dart';
 import 'package:shopping_app/features/hello/presentation/view/screens/hello_screen.dart';
-import 'package:shopping_app/features/auth/login_screen.dart';
-import 'package:shopping_app/features/auth/register_screen.dart';
+
 import 'package:shopping_app/features/hello/presentation/view_model/hello_cubit.dart';
 import 'package:shopping_app/features/app_section/view/app_section_screen.dart';
 import 'package:shopping_app/features/app_section/view_model/app_section_cubit.dart';
