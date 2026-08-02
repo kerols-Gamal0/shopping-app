@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
