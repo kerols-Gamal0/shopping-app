@@ -8,10 +8,10 @@ import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
 import 'package:shopping_app/features/cart/domain/entities/cart_entity.dart';
+import 'package:shopping_app/features/cart/presentation/view/widgets/cart_item_card.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_state.dart';
 import 'package:shopping_app/features/cart/presentation/view_model/cart_intent.dart';
-import 'package:shopping_app/features/cart/presentation/view/widgets/cart_item_card.dart';
 import 'package:shopping_app/features/cart/presentation/view/widgets/cart_item_shimmer.dart';
 
 class CartScreen extends StatefulWidget {
@@ -192,6 +192,7 @@ class _CartScreenState extends State<CartScreen> {
             itemBuilder: (context, index) {
               final item = cartItems[index];
               return CartItemCard(
+                key: ValueKey('cart-item-${item.id}'),
                 imageUrl: item.thumbnail,
                 title: item.title,
                 price: 'EGP ${item.price}',

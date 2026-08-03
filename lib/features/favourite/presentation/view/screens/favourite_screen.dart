@@ -5,10 +5,14 @@ import 'package:shopping_app/core/common/base_state/base_state_builder.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
+import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/network/result_api.dart';
+import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
+import 'package:shopping_app/features/cart/presentation/view_model/cart_intent.dart';
 import 'package:shopping_app/features/favourite/presentation/view/widgets/favourite_empty.dart';
 import 'package:shopping_app/features/favourite/presentation/view/widgets/favourite_shimmer_widget.dart';
 import 'package:shopping_app/features/favourite/presentation/view_model/favourite_cubit.dart';
+import 'package:shopping_app/features/product_details_screen/presentation/view/product_details_screen.dart';
 
 class FavouriteScreen extends StatelessWidget {
   const FavouriteScreen({super.key});
@@ -71,7 +75,27 @@ class FavouriteScreen extends StatelessWidget {
                     final product = products[index];
                     return ProductCard(
                       product: product,
-                      onAddToCart: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ProductDetailsScreen(productId: product.id),
+                          ),
+                        );
+                      },
+                      onAddToCart: () {
+                        context.read<CartCubit>().doIntent(
+                          AddToCartEvent(
+                            productId: product.id.toString(),
+                            title: product.title,
+                            price: product.price,
+                            thumbnail: product.thumbnail,
+                          ),
+                        );
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(const SnackBar(content: Text(AppStrings.addedToCart)));
+                      },
                       onFavorite: () => _handleFavouriteTap(context, product.id),
                     );
                   },

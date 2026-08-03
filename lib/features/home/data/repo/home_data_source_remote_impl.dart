@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shopping_app/core/common/model/pagination_query_params.dart';
@@ -76,24 +75,24 @@ class HomeDataSourceRemoteImpl implements HomeDataSourceInterface {
         ApiConstants.productDetails(productId.toString()),
       );
 
-    if (response.statusCode != 200) {
-      return Error(
-        'Failed to load product. Status code: ${response.statusCode}',
+      if (response.statusCode != 200) {
+        return Error(
+          'Failed to load product. Status code: ${response.statusCode}',
+        );
+      }
+
+      final product = ProductItemDto.fromJson(response.data!);
+
+      return Success(product);
+    } on DioException catch (e) {
+      return Error(HandleDioExceptionsService.handle(e));
+    } catch (e, stackTrace) {
+      log(
+        'Get Product By Id Error',
+        error: e,
+        stackTrace: stackTrace,
       );
+      return Error(e.toString());
     }
-
-    final product = ProductItemDto.fromJson(response.data!);
-
-    return Success(product);
-  } on DioException catch (e) {
-    return Error(HandleDioExceptionsService.handle(e));
-  } catch (e, stackTrace) {
-    log(
-      'Get Product By Id Error',
-      error: e,
-      stackTrace: stackTrace,
-    );
-    return Error(e.toString());
   }
-}
 }

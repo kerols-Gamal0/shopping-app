@@ -44,7 +44,7 @@ class FavouriteDataSourceImpl implements FavouriteDataSourceInterface {
     try {
       final response = await _dio.post(
         ApiConstants.addFavorite,
-        data: {'productId': productId},
+        data: {'productId': productId.toString()},
       );
 
       if (response.statusCode == 200) {

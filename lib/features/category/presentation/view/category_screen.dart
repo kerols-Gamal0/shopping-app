@@ -6,13 +6,16 @@ import 'package:shopping_app/core/common/model/product_item/product_item_entity.
 import 'package:shopping_app/core/common/pagination/pagination_state.dart';
 import 'package:shopping_app/core/common/widgets/error_info.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
+import 'package:shopping_app/core/common/widgets/product_card_shimmer.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
 import 'package:shopping_app/core/constants/app_strings.dart';
 import 'package:shopping_app/core/network/result_api.dart';
 import 'package:shopping_app/core/theme/app_colors.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
-import 'package:shopping_app/features/home/presentation/view/widgets/product_card_shimmer.dart';
+import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
+import 'package:shopping_app/features/cart/presentation/view_model/cart_intent.dart';
+import 'package:shopping_app/features/product_details_screen/presentation/view/product_details_screen.dart';
 import '../view_model/category_cubit/category_cubit.dart';
 
 class CategoryScreen extends StatefulWidget {
@@ -134,6 +137,27 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         final product = state.items[index];
                         return ProductCard(
                           product: product,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ProductDetailsScreen(productId: product.id),
+                              ),
+                            );
+                          },
+                          onAddToCart: () {
+                            context.read<CartCubit>().doIntent(
+                              AddToCartEvent(
+                                productId: product.id.toString(),
+                                title: product.title,
+                                price: product.price,
+                                thumbnail: product.thumbnail,
+                              ),
+                            );
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(const SnackBar(content: Text(AppStrings.addedToCart)));
+                          },
                           onFavorite: () async {
                             final result = await cubit.toggleFavorite(product.id);
                             if (!context.mounted) return;
@@ -168,7 +192,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       padding: EdgeInsets.symmetric(vertical: AppSpacing.x2),
                       child: Shimmer.fromColors(
                         baseColor: AppColors.disabled,
-                        highlightColor: AppColors.backgroundV2,
+                        highlightColor: AppColors.background,
                         child: Container(
                           height: 60,
                           width: double.infinity,

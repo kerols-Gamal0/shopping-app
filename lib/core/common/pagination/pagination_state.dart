@@ -27,6 +27,7 @@ class PaginationState<T> {
     bool? isLoadingMore,
     bool? hasReachedMax,
     String? errorMessage,
+    bool clearError = false,
   }) {
     return PaginationState<T>(
       items: items ?? this.items,
@@ -34,7 +35,7 @@ class PaginationState<T> {
       isFirstLoading: isFirstLoading ?? this.isFirstLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-      errorMessage: errorMessage,
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
     );
   }
 }

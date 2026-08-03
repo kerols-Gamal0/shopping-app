@@ -28,7 +28,7 @@ class CartItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      key: ValueKey('slidable-$title-$price'),
+      key: key,
       endActionPane: ActionPane(
         motion: const DrawerMotion(),
         extentRatio: 0.28,

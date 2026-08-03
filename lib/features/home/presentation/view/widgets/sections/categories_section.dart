@@ -19,7 +19,7 @@ class CategoriesSection extends StatelessWidget {
       builder: (context, state) {
         return BaseStateBuilder<List<CategoryEntity>>(
           state: state,
-          onLoading: () => _buildOnLoadingWidget(),
+          onLoading: () => const CategoriesShimmer(),
           onError: (error) => _buildOnFailureWidget(error, context),
           onSuccess: (categories) => _buildOnSuccessWidget(
             categories: categories,
@@ -27,7 +27,7 @@ class CategoriesSection extends StatelessWidget {
               Navigator.of(
                 context,
               ).pushNamed(AppRoutes.productByCategoryRoute, arguments: slug);
-            }, // Todo: Add nav
+            },
           ),
         );
       },
@@ -90,15 +90,4 @@ class CategoriesSection extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildOnLoadingWidget({int itemCount = 6}) => SizedBox(
-    height: 40,
-    child: ListView.separated(
-      scrollDirection: Axis.horizontal,
-      padding: AppSpacing.horizontalX2,
-      itemCount: itemCount,
-      separatorBuilder: (_, _) => horizontalSpace(AppSpacing.x1),
-      itemBuilder: (_, _) => const CategoryCardShimmer(),
-    ),
-  );
 }
