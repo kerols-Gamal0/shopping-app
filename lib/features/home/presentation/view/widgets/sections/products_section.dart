@@ -1,19 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/common/pagination/pagination_state.dart';
-import 'package:shopping_app/core/common/widgets/error_info.dart';
-import 'package:shopping_app/core/common/widgets/loading_more_widget.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_assets.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
-import 'package:shopping_app/core/constants/app_strings.dart';
-import 'package:shopping_app/core/extensions/context_extension.dart';
-import 'package:shopping_app/core/routing/app_routes.dart';
 import 'package:shopping_app/core/theme/app_style.dart';
-import 'package:shopping_app/core/common/widgets/product_card_shimmer.dart';
-import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
-import 'package:shopping_app/features/cart/presentation/view_model/cart_intent.dart';
+import 'package:shopping_app/features/home/presentation/view/widgets/product_card_shimmer.dart';
 import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
 
 class ProductsSection extends StatelessWidget {
@@ -23,108 +17,69 @@ class ProductsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductsCubit, PaginationState<ProductItemEntity>>(
       builder: (context, state) {
-        final cubit = context.read<ProductsCubit>();
-        if (state.isFirstLoading) return _buildLoading();
-        if (state.errorMessage != null && state.items.isEmpty) {
-          return _buildError(
-            context,
-            state.errorMessage!,
-            onRetry: cubit.fetchFirstPage,
-          );
-        }
-        if (state.items.isEmpty) return _buildEmpty(context);
-        return Column(
-          children: [
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: AppSpacing.horizontalX2,
-              itemCount: state.items.length,
-              gridDelegate: AppStyles.productsGridDelegate,
-              itemBuilder: (_, index) {
-                final product = state.items[index];
-                return ProductCard(
-                  product: product,
-                  onAddToCart: () {
-                    context.read<CartCubit>().doIntent(
-                      AddToCartEvent(
-                        productId: product.id.toString(),
-                        title: product.title,
-                        price: product.price,
-                        thumbnail: product.thumbnail,
-                      ),
-                    );
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(
-                        const SnackBar(
-                          content: Text(AppStrings.addedToCart),
-                          backgroundColor: Colors.green,
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                  },
-                  onFavorite: () {},
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutes.productDetailsRoute,
-                      arguments: product.id,
-                    );
-                  },
-                );
-              },
-            ),
-
-            if (state.isLoadingMore) LoadingMoreWidget(),
-
-            if (state.hasReachedMax)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: AppSpacing.x2),
-                child: Text(AppStrings.noMoreProducts),
-              ),
-          ],
-        );
+        if (state.isFirstLoading) return _buildOnLoadingWidget();
+        if (state.errorMessage != null && state.items.isEmpty) return _buildOnFailureWidget(state, context);
+        return _buildOnSuccessWidget(state, products: state.items);
       },
     );
   }
 
-  Widget _buildLoading({int itemCount = 8}) {
+  // Widget _buildOnLoadingWidget() => const ProductsShimmerWidget();
+  Widget _buildOnLoadingWidget({int itemCount = 8}) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: AppSpacing.horizontalX2,
       itemCount: itemCount,
       gridDelegate: AppStyles.productsGridDelegate,
-      itemBuilder: (_, _) => const ProductCardShimmer(),
+      itemBuilder: (_, _) => ProductCardShimmer(),
     );
   }
 
-  Widget _buildEmpty(BuildContext context) {
+  Widget _buildOnSuccessWidget(PaginationState<ProductItemEntity> state, {required List<ProductItemEntity> products}) {
+    if (state.isLoadingMore) {
+      return const Padding(
+        padding: AppSpacing.allX2,
+        child: Center(child: CupertinoActivityIndicator()),
+      );
+    }
+    if (products.isEmpty) {
+      return Center(
+        child: Column(
+          children: [verticalSpace(96), Image.asset(AppAssets.emptyProduct, height: 96), Text("No products available in this category right now.")],
+        ),
+      );
+    }
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: AppSpacing.horizontalX2,
+      itemCount: products.length,
+      gridDelegate: AppStyles.productsGridDelegate,
+      itemBuilder: (_, index) {
+        return ProductCard(product: products[index], onAddToCart: () {}, onFavorite: () {});
+      },
+    );
+  }
+
+  Widget _buildOnFailureWidget(PaginationState<ProductItemEntity> state, BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          verticalSpace(AppSpacing.x7),
-          Image.asset(AppAssets.emptyProduct, height: context.height * 0.07),
-          verticalSpace(AppSpacing.x2),
-          const Text(AppStrings.noProductsAvailable),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildError(
-    BuildContext context,
-    String error, {
-    required VoidCallback onRetry,
-  }) {
-    return Padding(
-      padding: AppSpacing.allX2,
-      child: ErrorInfo(
-        title: AppStrings.errorOccurred,
-        description: error,
-        btnText: AppStrings.retry,
-        press: onRetry,
+      child: Padding(
+        padding: AppSpacing.allX2,
+        child: Column(
+          crossAxisAlignment: .center,
+          mainAxisAlignment: .center,
+          children: [
+            verticalSpace(96),
+            Image.asset(AppAssets.errorIcon, height: 96),
+            Text(
+              state.errorMessage!,
+              textAlign: .center,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ],
+        ),
       ),
     );
   }

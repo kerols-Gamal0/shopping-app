@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
 import 'package:shopping_app/core/common/widgets/product_card.dart';
 import 'package:shopping_app/core/constants/app_spacing.dart';
-import 'package:shopping_app/core/constants/app_strings.dart';
-import 'package:shopping_app/core/common/model/product_item/product_item_entity.dart';
-import 'package:shopping_app/core/routing/app_routes.dart';
-import 'package:shopping_app/features/cart/presentation/view_model/cart_cubit.dart';
-import 'package:shopping_app/features/cart/presentation/view_model/cart_intent.dart';
+import 'package:shopping_app/core/network/result_api.dart';
+import 'package:shopping_app/features/home/presentation/view_model/products_cubit.dart';
 
 class ProductsWidget extends StatelessWidget {
   final List<ProductItemEntity> products;
@@ -23,7 +21,6 @@ class ProductsWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: AppSpacing.horizontalX2,
-
       itemCount: products.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -32,35 +29,28 @@ class ProductsWidget extends StatelessWidget {
         childAspectRatio: 0.52,
       ),
       itemBuilder: (_, index) {
+        final product = products[index];
         return ProductCard(
-          product: products[index],
-          onAddToCart: () {
-            final product = products[index];
-            context.read<CartCubit>().doIntent(
-              AddToCartEvent(
-                productId: product.id.toString(),
-                title: product.title,
-                price: product.price,
-                thumbnail: product.thumbnail,
-              ),
-            );
-
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text(AppStrings.addedToCart),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 3),
-              ),
-            );
-          },
-          onFavorite: () {},
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              AppRoutes.productDetailsRoute,
-              arguments: products[index].id,
-            );
+          product: product,
+          onAddToCart: () {},
+          onFavorite: () async {
+            final cubit = context.read<ProductsCubit>();
+            final result = await cubit.toggleFavorite(product.id);
+            if (!context.mounted) return;
+            switch (result) {
+              case Success<bool>():
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      result.data ? "Added to favourites" : "Removed from favourites",
+                    ),
+                  ),
+                );
+              case Error<bool>():
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(result.messageError)),
+                );
+            }
           },
         );
       },

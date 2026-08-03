@@ -38,6 +38,7 @@ abstract class PaginatedCubit<T> extends Cubit<PaginationState<T>> {
 
   void fetchNextPage() async {
     if (state.isLoadingMore || state.hasReachedMax) return;
+    print("Fetch Next Page -> page ${state.currentPage + 1}");
 
     emit(state.copyWith(isLoadingMore: true));
     try {
@@ -62,6 +63,7 @@ abstract class PaginatedCubit<T> extends Cubit<PaginationState<T>> {
           );
       }
     } catch (e) {
+      print("fetchNextPage EXCEPTION: $e");
       emit(state.copyWith(isLoadingMore: false, errorMessage: e.toString()));
     }
   }
