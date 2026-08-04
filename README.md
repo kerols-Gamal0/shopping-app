@@ -1,4 +1,4 @@
-# 🛍️ Shopping App — NTI Graduation Project
+# 🛍️ Shopping App 
 
 A production-grade **Flutter e-commerce application** built with **Clean Architecture**, **Bloc state management**, and a **RESTful supermarket API**. Features full authentication, product browsing, search, a persistent cart with EGP pricing, favourites, and a complete user profile.
 
